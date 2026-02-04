@@ -1,0 +1,55 @@
+{
+  "appBar": {
+    "home": "Home",
+    "documents": "Documents"
+  },
+  "home": {
+    "empty": {
+      "title": "No recent documents",
+      "message": "Scan receipts and documents by tapping the button below"
+    },
+    "scanned_documents_amount_title": "Totally scanned:",
+    "scan_document_btn": "Scan document",
+    "documents_title": "Recent documents",
+    "view_all_btn": "View all >",
+    "document_recognision_error": "No recognizable document detected. Please try again with a clearer image."
+  },
+  "documents": {
+    "empty": {
+      "title": "No documents"
+    },
+    "document_card": {
+      "date_label": "Scan date:"
+    }
+  },
+  "document_details": {
+    "title": "Document details",
+    "summary_title": "Summary",
+    "view_document_btn": "View original document",
+    "delete_document_btn": "Delete document",
+    "items": {
+      "document_type": "Document type",
+      "merchant": "Merchant",
+      "date": "Date",
+      "total": "Totally spent",
+      "expiration_date": "Expiration date"
+    }
+  },
+  "scan_document": {
+    "title": "Scan document"
+  },
+  "document_types": {
+    "idDocument": "Id document",
+    "receipt": "Receipt",
+    "unknown": "Unknown document"
+  },
+  "places": {
+    "restaurant": "Restaurant",
+    "cafe": "Cafe",
+    "hotel": "Hotel",
+    "bar": "Bar",
+    "pub": "Pub",
+    "store": "Store",
+    "market": "Market"
+  }
+}
