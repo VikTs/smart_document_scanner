@@ -1,7 +1,9 @@
+import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
+import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
@@ -120,7 +122,7 @@ class _AddDocumentButton extends StatelessWidget {
               children: [
                 _AddOptionTile(
                   icon: Icons.document_scanner,
-                  title: "Scan document",
+                  title: "home.scan_document_btn".tr(),
                   onTap: () {
                     Navigator.pop(context);
                     _scanDocument(context);
@@ -128,7 +130,7 @@ class _AddDocumentButton extends StatelessWidget {
                 ),
                 _AddOptionTile(
                   icon: Icons.upload_file,
-                  title: "Upload file",
+                  title: "home.upload_file_btn".tr(),
                   onTap: () {
                     Navigator.pop(context);
                     _uploadFile(context);
@@ -149,15 +151,10 @@ class _AddDocumentButton extends StatelessWidget {
     );
 
     if (imagePath == null) return;
-    final file = await imageToBytes(imagePath);
+    final bytes = await imageToBytes(imagePath);
     final recognizedText = await recognizeText(imagePath);
 
-    final document = Document(
-      id: const Uuid().v1(),
-      createdAt: DateTime.now(),
-      file: file,
-      name: "DocScanner.jpg",
-    );
+    final document = await generateDocument(bytes);
 
     if (recognizedText.blocks.isEmpty) {
       AppSnackbar.warning(context, "home.document_recognision_error".tr());
@@ -166,24 +163,51 @@ class _AddDocumentButton extends StatelessWidget {
     context.read<DocumentsBloc>().add(SaveScannedDocument(document: document));
   }
 
-  Future<void> _uploadFile(BuildContext context) async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf', 'doc', 'docx'],
-      withData: true,
-    );
+  Future<DocumentData> generateDocument(
+    Uint8List bytes, {
+    String extension = 'jpg',
+    String? documentName,
+  }) async {
+    final documentId = const Uuid().v1();
+    final List<DocumentFile> files;
 
-    if (result == null) return;
+    if (extension == "pdf") {
+      files = await pdfToPages(documentId, bytes);
+    } else {
+      final fileData = DocumentFile(
+        id: const Uuid().v1(),
+        documentId: documentId,
+        bytes: bytes,
+        pageNumber: 1,
+        type: extension == 'pdf' ? 1 : 0,
+      );
+      files = [fileData];
+    }
 
-    final bytes = result.files.single.bytes;
-    if (bytes == null) return;
-
-    final document = Document(
-      id: const Uuid().v1(),
+    final document = DocumentData(
+      id: documentId,
       createdAt: DateTime.now(),
-      file: bytes,
-      name: result.names[0] ?? "DocScanner",
+      files: files,
+      name: documentName ?? "DocScanner.$extension",
     );
+
+    return document;
+  }
+
+  Future<void> _uploadFile(BuildContext context) async {
+    final result = await uploadFile();
+    final bytes = result?.files.single.bytes;
+    final extension = result?.names[0]?.split('.').last ?? 'jpg';
+
+    if (result == null || bytes == null) return;
+
+    final document = await generateDocument(
+      bytes,
+      extension: extension,
+      documentName: result.names[0],
+    );
+
+    if (!context.mounted) return;
 
     context.read<DocumentsBloc>().add(SaveScannedDocument(document: document));
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_documents_scanner/core/themes/theme.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 import 'package:smart_documents_scanner/data/repository/documents_repository.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
@@ -39,8 +40,9 @@ class MainApp extends StatelessWidget {
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
       home: BlocProvider(
-        create: (_) =>
-            DocumentsBloc(DocumentsRepository(appDatabase))..add(LoadDocuments()),
+        create: (_) => DocumentsBloc(
+          DocumentsRepository(appDatabase, DocumentFileRepository(appDatabase)),
+        )..add(LoadDocuments()),
         child: const TabBarWidget(),
       ),
     );

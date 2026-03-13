@@ -1,6 +1,6 @@
-import 'dart:typed_data';
 
 import 'package:equatable/equatable.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 
 abstract class DocumentsEvent extends Equatable {
@@ -19,14 +19,7 @@ class ClearDocument extends DocumentsEvent {
 }
 
 class SaveScannedDocument extends DocumentsEvent {
-  final Document document;
+  final DocumentData document;
 
   SaveScannedDocument({required this.document});
-}
-
-class UpdateDocument extends DocumentsEvent {
-  final String id;
-  final Uint8List? file;
-
-  UpdateDocument(this.id, {this.file});
 }

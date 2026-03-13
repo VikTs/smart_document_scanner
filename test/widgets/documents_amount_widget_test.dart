@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/widgets/documents_amount_widget.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -13,8 +14,32 @@ void main() {
     tester,
   ) async {
     final documents = [
-      Document(id: '1', file: kTransparentImage, name: "", createdAt: DateTime.now()),
-      Document(id: '2', file: kTransparentImage, name: "", createdAt: DateTime.now()),
+      DocumentData(
+        id: '1',
+        files: [
+          DocumentFile(
+            id: "1",
+            documentId: "1",
+            bytes: kTransparentImage,
+            type: 0,
+          ),
+        ],
+        name: "",
+        createdAt: DateTime.now(),
+      ),
+      DocumentData(
+        id: '2',
+        files: [
+          DocumentFile(
+            id: "2",
+            documentId: "2",
+            bytes: kTransparentImage,
+            type: 0,
+          ),
+        ],
+        name: "",
+        createdAt: DateTime.now(),
+      ),
     ];
 
     await tester.pumpWidget(

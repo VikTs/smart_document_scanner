@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:smart_documents_scanner/data/db/app_database.dart';
+
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/widgets/document_card_widget.dart';
 import 'package:smart_documents_scanner/widgets/empty_widget.dart';
 
 class DocumentsWidget extends StatelessWidget {
-  final List<Document> documents;
+  final List<DocumentData> documents;
   final String? title;
   final GestureTapCallback? onViewAllTap;
   final bool shrinkWrap;

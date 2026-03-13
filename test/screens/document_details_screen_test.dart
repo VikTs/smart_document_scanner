@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
@@ -25,7 +26,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late DocumentsBloc documentsBloc;
-  late Document testDocument;
+  late DocumentData testDocument;
 
   setUpAll(() async {
     registerFallbackValue(FakeDocumentsEvent());
@@ -40,10 +41,17 @@ void main() {
 
     when(() => documentsBloc.state).thenReturn(DocumentsInitial());
 
-    testDocument = Document(
+    testDocument = DocumentData(
       id: 'doc_1',
       name: "doc_name",
-      file: kTransparentImage,
+      files: [
+        DocumentFile(
+          id: "2",
+          documentId: "2",
+          bytes: kTransparentImage,
+          type: 0,
+        ),
+      ],
       createdAt: DateTime(2026, 2, 4),
     );
   });
@@ -61,11 +69,17 @@ void main() {
 
   testWidgets('Displays document details screen correctly', (tester) async {
     await tester.pumpWidget(
-      _wrap(DocumentDetailsScreen(document: testDocument, onDelete: (BuildContext p1, String p2) {  }, onShare: (Uint8List p1) {  }, onAddFile: (BuildContext p1) {  },)),
+      _wrap(
+        DocumentDetailsScreen(
+          document: testDocument,
+          onDelete: (BuildContext p1, String p2) {},
+          onShare: (Uint8List p1) {},
+        ),
+      ),
     );
 
     await tester.pumpAndSettle();
 
-    expect(find.byIcon(Icons.delete), findsOneWidget);
+    expect(find.byIcon(Icons.delete_outline), findsOneWidget);
   });
 }
