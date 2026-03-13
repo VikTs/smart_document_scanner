@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/models/document_type.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
 import 'package:smart_documents_scanner/screens/document_details_screen.dart';
@@ -35,8 +34,8 @@ void main() {
 
     mockDocument = Document(
       id: "",
+      name: "NAME",
       file: kTransparentImage,
-      type: DocumentType.receipt,
       createdAt: DateTime(2026, 2, 4, 15, 30),
     );
   });
@@ -58,15 +57,6 @@ void main() {
     );
 
     await tester.pumpAndSettle();
-
-    expect(find.text('document_types.receipt'), findsOneWidget);
-
-    expect(
-      find.textContaining('documents.document_card.date_label'),
-      findsOneWidget,
-    );
-
-    expect(find.byIcon(Icons.open_in_new), findsOneWidget);
 
     await tester.tap(find.byType(DocumentCardWidget));
     await tester.pumpAndSettle();

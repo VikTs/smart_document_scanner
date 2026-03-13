@@ -9,6 +9,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
   DocumentsBloc(this.repository) : super(DocumentsInitial()) {
     on<LoadDocuments>(_onLoadDocuments);
     on<SaveScannedDocument>(_onSaveScannedDocument);
+    on<UpdateDocument>(_onUpdateDocument);
     on<ClearDocuments>(_onClearDocuments);
     on<ClearDocument>(_onClearDocument);
   }
@@ -53,6 +54,14 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     Emitter<DocumentsState> emit,
   ) async {
     await repository.clearDocument(event.id);
+    add(LoadDocuments());
+  }
+
+  Future<void> _onUpdateDocument(
+    UpdateDocument event,
+    Emitter<DocumentsState> emit,
+  ) async {
+    await repository.updateDocument(event.id, file: event.file);
     add(LoadDocuments());
   }
 }

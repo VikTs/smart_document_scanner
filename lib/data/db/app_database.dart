@@ -3,8 +3,6 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import 'package:smart_documents_scanner/data/db/converters/document_type_converter.dart';
-import 'package:smart_documents_scanner/models/document_type.dart';
 
 import 'tables/documents_table.dart';
 

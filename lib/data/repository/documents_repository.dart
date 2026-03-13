@@ -15,9 +15,16 @@ class DocumentsRepository {
   }
 
   Future<void> addDocument(Document document) async {
-    await db
-        .into(db.documents)
-        .insert(document);
+    await db.into(db.documents).insert(document);
+  }
+
+  Future<void> updateDocument(String id, {Uint8List? file, String? name}) async {
+    await (db.update(db.documents)..where((t) => t.id.equals(id))).write(
+      DocumentsCompanion(
+        file: file != null ? Value(file) : const Value.absent(),
+        name: name != null ? Value(name) : const Value.absent(),
+      ),
+    );
   }
 
   Future<void> clearDocuments() async {

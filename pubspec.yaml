@@ -23,6 +23,8 @@ dependencies:
   sqlite3_flutter_libs: 0.5.28
   permission_handler: 12.0.1
   share_plus: 12.0.1
+  file_picker: 10.3.10
+  pdfx: ^2.6.0
 
 dev_dependencies:
   flutter_test:

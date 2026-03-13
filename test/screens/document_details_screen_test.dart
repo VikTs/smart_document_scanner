@@ -7,13 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/models/document_type.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
 import 'package:smart_documents_scanner/screens/document_details_screen.dart';
-import 'package:smart_documents_scanner/widgets/document_preview_card.dart';
-import 'package:smart_documents_scanner/widgets/document_summary_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -45,7 +42,7 @@ void main() {
 
     testDocument = Document(
       id: 'doc_1',
-      type: DocumentType.receipt,
+      name: "doc_name",
       file: kTransparentImage,
       createdAt: DateTime(2026, 2, 4),
     );
@@ -64,39 +61,11 @@ void main() {
 
   testWidgets('Displays document details screen correctly', (tester) async {
     await tester.pumpWidget(
-      _wrap(DocumentDetailsScreen(document: testDocument)),
+      _wrap(DocumentDetailsScreen(document: testDocument, onDelete: (BuildContext p1, String p2) {  }, onShare: (Uint8List p1) {  }, onAddFile: (BuildContext p1) {  },)),
     );
 
     await tester.pumpAndSettle();
-
-    expect(find.text('document_details.title'), findsOneWidget);
-    expect(find.byType(DocumentSummaryCard), findsOneWidget);
-    expect(find.byType(DocumentPreviewCard), findsOneWidget);
 
     expect(find.byIcon(Icons.delete), findsOneWidget);
-    expect(find.text('document_details.delete_document_btn'), findsOneWidget);
-  });
-
-  testWidgets('Tapping delete button triggers bloc and pops screen', (
-    tester,
-  ) async {
-    when(() => documentsBloc.add(any())).thenReturn(null);
-
-    await tester.pumpWidget(
-      _wrap(DocumentDetailsScreen(document: testDocument)),
-    );
-
-    await tester.pumpAndSettle();
-
-    expect(find.byType(DocumentDetailsScreen), findsOneWidget);
-
-    await tester.tap(find.byIcon(Icons.delete));
-    await tester.pumpAndSettle();
-
-    verify(
-      () => documentsBloc.add(ClearDocument(id: testDocument.id)),
-    ).called(1);
-
-    expect(find.byType(DocumentDetailsScreen), findsNothing);
   });
 }

@@ -54,7 +54,7 @@ void main() {
 
     await tester.pumpWidget(makeTestableWidget(const HomeScreen()));
     expect(find.byType(EmptyWidget), findsOneWidget);
-    final scanButton = find.text('home.scan_document_btn'.tr());
+    final scanButton = find.text('home.add_document_btn'.tr());
     expect(scanButton, findsOneWidget);
   });
 

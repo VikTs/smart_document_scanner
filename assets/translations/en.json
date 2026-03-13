@@ -9,7 +9,7 @@
       "message": "Scan documents by tapping the button below"
     },
     "scanned_documents_amount_title": "Totally scanned:",
-    "scan_document_btn": "Scan document",
+    "add_document_btn": "Add document",
     "documents_title": "Recent documents",
     "view_all_btn": "View all >",
     "document_recognision_error": "No recognizable document detected. Please try again with a clearer image."
@@ -27,9 +27,6 @@
     },
     "empty": {
       "title": "No documents"
-    },
-    "document_card": {
-      "date_label": "Scan date:"
     }
   },
   "document_details": {

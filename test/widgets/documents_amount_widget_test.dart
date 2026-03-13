@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/models/document_type.dart';
 import 'package:smart_documents_scanner/widgets/documents_amount_widget.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -10,17 +9,17 @@ extension FakeTr on String {
 }
 
 void main() {
-  testWidgets('DocumentsAmountWidget displays correct count and label', (tester) async {
+  testWidgets('DocumentsAmountWidget displays correct count and label', (
+    tester,
+  ) async {
     final documents = [
-      Document(id: '1', file: kTransparentImage, type: DocumentType.unknown, createdAt: DateTime.now()),
-      Document(id: '2', file: kTransparentImage, type: DocumentType.unknown, createdAt: DateTime.now()),
+      Document(id: '1', file: kTransparentImage, name: "", createdAt: DateTime.now()),
+      Document(id: '2', file: kTransparentImage, name: "", createdAt: DateTime.now()),
     ];
 
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(
-          body: DocumentsAmountWidget(documents: documents),
-        ),
+        home: Scaffold(body: DocumentsAmountWidget(documents: documents)),
       ),
     );
 
