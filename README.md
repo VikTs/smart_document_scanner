@@ -5,17 +5,22 @@
 
 Mobile application for scanning and storing the documents. 
 
+Supported formats: 
+- images (jpg, jpeg, png)
+- pdf (small size files)
+
 # Features
 - Scan an image or uploap it from the gallery 
 - View a list of the scanned documents
-- Open the full screen document
+- View the document page by page
+- Share the document (only for images)
 
 # Technologies
 - Flutter for UI
 - State Management: Bloc
 - Database: Drift (local storage)
 - Localization: easy_localization (translations in assets/translations)
-- Text recognision: google_mlkit_text_recognition (text extractors in core/extractors)
+- Text recognision: google_mlkit_text_recognition
 
 # Getting started
 ## Prerequisites

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:ui';
 import 'package:pdfx/pdfx.dart' as pdfx;
+import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart' as sfpdf;
 import 'package:uuid/uuid.dart';
 
@@ -10,8 +11,6 @@ Uint8List pagesToPdf(List<DocumentFile> pages) {
   final outputPdf = sfpdf.PdfDocument();
 
   for (final page in pages) {
-    if (page.type != 1) continue;
-
     final pdfPage = outputPdf.pages.add();
 
     final image = sfpdf.PdfBitmap(page.bytes);
@@ -23,7 +22,7 @@ Uint8List pagesToPdf(List<DocumentFile> pages) {
 
   final bytes = outputPdf.saveSync();
   outputPdf.dispose();
-  return Uint8List.fromList(bytes);   
+  return Uint8List.fromList(bytes);
 }
 
 Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
@@ -46,7 +45,7 @@ Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
           id: const Uuid().v1(),
           documentId: documentId,
           bytes: bytes,
-          type: 1,
+          type: DocumentFileType.pdf,
           pageNumber: i,
         ),
       );
@@ -57,4 +56,22 @@ Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
 
   await pdfDoc.close();
   return pages;
+}
+
+DocumentFileType getTypeFromExtension(String extension) {
+  switch (extension) {
+    case "pdf":
+      return DocumentFileType.pdf;
+    default:
+      return DocumentFileType.image;
+  }
+}
+
+ String getExtensionFromType(DocumentFileType type) {
+  switch (type) {
+    case DocumentFileType.pdf:
+      return "pdf";
+    default:
+      return "jpg";
+  }
 }

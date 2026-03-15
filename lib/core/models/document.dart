@@ -1,7 +1,5 @@
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 
-enum DocumentFileType { image, pdf }
-
 class DocumentData {
   final String id;
   final String name;
