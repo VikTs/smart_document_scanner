@@ -1,34 +1,17 @@
 import 'dart:typed_data';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/utils/date_utils.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
-import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/document_details_screen.dart';
-import 'package:smart_documents_scanner/screens/scan_camera_screen.dart';
 
 class DocumentCardWidget extends StatelessWidget {
-  final Document document;
+  final DocumentData document;
   const DocumentCardWidget({super.key, required this.document});
-
-  void onAddFile(BuildContext context) async {
-    final imagePath = await Navigator.push<String>(
-      context,
-      MaterialPageRoute(builder: (_) => const ScanCameraScreen()),
-    );
-
-    if (imagePath != null) {
-      final file = await imageToBytes(imagePath);
-
-      context.read<DocumentsBloc>().add(
-        UpdateDocument(document.id, file: file),
-      );
-    }
-  }
 
   void onDelete(BuildContext context, String documentId) {
     context.read<DocumentsBloc>().add(ClearDocument(id: documentId));
@@ -53,11 +36,6 @@ class DocumentCardWidget extends StatelessWidget {
       case 'pdf':
         icon = Icons.picture_as_pdf;
         color = Colors.red;
-        break;
-      case 'doc':
-      case 'docx':
-        icon = Icons.description;
-        color = Colors.blue;
         break;
       default:
         icon = Icons.insert_drive_file;
@@ -84,7 +62,6 @@ class DocumentCardWidget extends StatelessWidget {
             value: context.read<DocumentsBloc>(),
             child: DocumentDetailsScreen(
               document: document,
-              onAddFile: onAddFile,
               onDelete: onDelete,
               onShare: onShare,
             ),
@@ -98,7 +75,7 @@ class DocumentCardWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           child: Row(
             children: [
-              _buildFilePreview(document.file, document.name),
+              _buildFilePreview(document.files[0].bytes, document.name),
               const SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
 
 class DocumentsAmountWidget extends StatelessWidget {
-  final List<Document> documents;
+  final List<DocumentData> documents;
   const DocumentsAmountWidget({super.key, required this.documents});
 
   @override

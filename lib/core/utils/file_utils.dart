@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -18,4 +18,12 @@ Future<void> shareFile(
   final tempFile = File('${dir.path}/$fileName.$extension');
   await tempFile.writeAsBytes(documentBytes);
   await Share.shareXFiles([XFile(tempFile.path)]);
+}
+
+Future<FilePickerResult?> uploadFile() async {
+  return await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+    withData: true,
+  );
 }

@@ -1,23 +1,21 @@
 import 'dart:typed_data';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_documents_scanner/core/models/document_file.dart';
+
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 
 class DocumentDetailsScreen extends StatefulWidget {
-  final Document document;
+  final DocumentData document;
   final void Function(BuildContext, String) onDelete;
   final void Function(Uint8List) onShare;
-  final void Function(BuildContext) onAddFile;
 
   const DocumentDetailsScreen({
     super.key,
     required this.document,
     required this.onDelete,
     required this.onShare,
-    required this.onAddFile,
   });
 
   @override
@@ -27,35 +25,16 @@ class DocumentDetailsScreen extends StatefulWidget {
 class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
   final PageController _pageController = PageController();
   int currentIndex = 0;
-  List<DocumentFile> documentFiles = [];
 
   @override
   void initState() {
     super.initState();
-    _loadDocumentFiles();
-  }
-
-  Future<void> _loadDocumentFiles() async {
-    if (widget.document.name.toLowerCase().endsWith('.pdf')) {
-      final pages = await pdfToPages(widget.document.file);
-      setState(() {
-        documentFiles = pages;
-      });
-    } else {
-      setState(() {
-        documentFiles = [
-          DocumentFile(
-            bytes: widget.document.file,
-            name: widget.document.name,
-            type: DocumentFileType.image,
-          ),
-        ];
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    List<DocumentFile> documentFiles = widget.document.files;
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.document.name), leading: BackButton()),
       body: documentFiles.isEmpty
@@ -89,7 +68,6 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                       curve: Curves.easeInOut,
                     );
                   },
-                  onAddFile: () => widget.onAddFile(context),
                 ),
               ],
             ),
@@ -106,13 +84,11 @@ class _FilesThumbnails extends StatelessWidget {
   final List<DocumentFile> files;
   final int currentIndex;
   final Function(int) onTap;
-  final VoidCallback onAddFile;
 
   const _FilesThumbnails({
     required this.files,
     required this.currentIndex,
     required this.onTap,
-    required this.onAddFile,
   });
 
   @override
@@ -144,7 +120,9 @@ class _FilesThumbnails extends StatelessWidget {
                 ),
               ),
               clipBehavior: Clip.antiAlias,
-              child: file.type == DocumentFileType.image
+              child:
+                  file.type ==
+                      0 // IMAGE
                   ? Image.memory(file.bytes, fit: BoxFit.cover)
                   : Container(
                       color: Colors.grey[200],
@@ -170,7 +148,7 @@ class _FilesThumbnails extends StatelessWidget {
 }
 
 class _DocumentActions extends StatelessWidget {
-  final Document document;
+  final DocumentData document;
   final void Function(BuildContext, String) onDelete;
   final void Function(Uint8List) onShare;
 
@@ -183,6 +161,7 @@ class _DocumentActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.secondary;
+    final files = pagesToPdf(document.files);
 
     return SafeArea(
       child: Padding(
@@ -190,17 +169,22 @@ class _DocumentActions extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _ActionItem(
-              icon: Icons.share_outlined,
-              label: "document_details.share_document_btn".tr(),
-              color: color,
-              onTap: () => onShare(document.file),
+            Expanded(
+              child: _ActionItem(
+                icon: Icons.share_outlined,
+                label: "document_details.share_document_btn".tr(),
+                color: color,
+                onTap: () => onShare(files),
+              ),
             ),
-            _ActionItem(
-              icon: Icons.delete_outline,
-              label: "document_details.delete_document_btn".tr(),
-              color: color,
-              onTap: () => onDelete(context, document.id),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _ActionItem(
+                icon: Icons.delete_outline,
+                label: "document_details.delete_document_btn".tr(),
+                color: color,
+                onTap: () => onDelete(context, document.id),
+              ),
             ),
           ],
         ),

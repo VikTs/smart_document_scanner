@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
@@ -13,16 +14,16 @@ import 'package:transparent_image/transparent_image.dart';
 
 class MockDocumentsBloc extends Mock implements DocumentsBloc {
   @override
-  Stream<DocumentsState> get stream => const Stream.empty(); 
+  Stream<DocumentsState> get stream => const Stream.empty();
   @override
-  DocumentsState get state => DocumentsInitial(); 
+  DocumentsState get state => DocumentsInitial();
 }
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late DocumentsBloc mockBloc;
-  late Document mockDocument;
+  late DocumentData mockDocument;
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
@@ -32,16 +33,24 @@ void main() {
   setUp(() {
     mockBloc = MockDocumentsBloc();
 
-    mockDocument = Document(
+    mockDocument = DocumentData(
       id: "",
       name: "NAME",
-      file: kTransparentImage,
+      files: [
+        DocumentFile(
+          id: "2",
+          documentId: "2",
+          bytes: kTransparentImage,
+          type: 0,
+        ),
+      ],
       createdAt: DateTime(2026, 2, 4, 15, 30),
     );
   });
 
-  testWidgets('DocumentCardWidget displays content and navigates on tap',
-      (tester) async {
+  testWidgets('DocumentCardWidget displays content and navigates on tap', (
+    tester,
+  ) async {
     await tester.pumpWidget(
       EasyLocalization(
         supportedLocales: [Locale('en')],

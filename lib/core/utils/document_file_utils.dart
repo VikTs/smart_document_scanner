@@ -1,11 +1,33 @@
-
 import 'dart:typed_data';
+import 'dart:ui';
+import 'package:pdfx/pdfx.dart' as pdfx;
+import 'package:syncfusion_flutter_pdf/pdf.dart' as sfpdf;
+import 'package:uuid/uuid.dart';
 
-import 'package:pdfx/pdfx.dart';
-import 'package:smart_documents_scanner/core/models/document_file.dart';
+import 'package:smart_documents_scanner/data/db/app_database.dart';
 
-Future<List<DocumentFile>> pdfToPages(Uint8List data) async {
-  final pdfDoc = await PdfDocument.openData(data);
+Uint8List pagesToPdf(List<DocumentFile> pages) {
+  final outputPdf = sfpdf.PdfDocument();
+
+  for (final page in pages) {
+    if (page.type != 1) continue;
+
+    final pdfPage = outputPdf.pages.add();
+
+    final image = sfpdf.PdfBitmap(page.bytes);
+    pdfPage.graphics.drawImage(
+      image,
+      Rect.fromLTWH(0, 0, pdfPage.size.width, pdfPage.size.height),
+    );
+  }
+
+  final bytes = outputPdf.saveSync();
+  outputPdf.dispose();
+  return Uint8List.fromList(bytes);   
+}
+
+Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
+  final pdfDoc = await pdfx.PdfDocument.openData(data);
   final pages = <DocumentFile>[];
 
   for (var i = 1; i <= pdfDoc.pagesCount; i++) {
@@ -14,17 +36,17 @@ Future<List<DocumentFile>> pdfToPages(Uint8List data) async {
     final pageImage = await page.render(
       width: page.width,
       height: page.height,
-      format: PdfPageImageFormat.png,
+      format: pdfx.PdfPageImageFormat.png,
     );
 
     final bytes = pageImage?.bytes;
-
     if (bytes != null) {
       pages.add(
         DocumentFile(
+          id: const Uuid().v1(),
+          documentId: documentId,
           bytes: bytes,
-          name: 'page_$i.png',
-          type: DocumentFileType.pdf,
+          type: 1,
           pageNumber: i,
         ),
       );

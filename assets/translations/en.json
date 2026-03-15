@@ -10,6 +10,8 @@
     },
     "scanned_documents_amount_title": "Totally scanned:",
     "add_document_btn": "Add document",
+    "scan_document_btn": "Scan document",
+    "upload_file_btn": "Upload file",
     "documents_title": "Recent documents",
     "view_all_btn": "View all >",
     "document_recognision_error": "No recognizable document detected. Please try again with a clearer image."
