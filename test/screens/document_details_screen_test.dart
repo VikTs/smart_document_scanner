@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
@@ -49,7 +48,7 @@ void main() {
           id: "2",
           documentId: "2",
           bytes: kTransparentImage,
-          type: 0,
+          type: DocumentFileType.image,
         ),
       ],
       createdAt: DateTime(2026, 2, 4),
@@ -73,7 +72,7 @@ void main() {
         DocumentDetailsScreen(
           document: testDocument,
           onDelete: (BuildContext p1, String p2) {},
-          onShare: (Uint8List p1) {},
+          onShare: (List<DocumentFile> p1) {},
         ),
       ),
     );

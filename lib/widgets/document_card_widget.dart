@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/utils/date_utils.dart';
+import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
+import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/document_details_screen.dart';
@@ -18,8 +21,17 @@ class DocumentCardWidget extends StatelessWidget {
     Navigator.pop(context);
   }
 
-  onShare(Uint8List documentBytes) {
-    shareFile(documentBytes, "jpg");
+  void onShare(List<DocumentFile> documentFiles) {
+    final type = documentFiles[0].type;
+    final extension = getExtensionFromType(type);
+    final Uint8List mergedFile;
+
+    if (type == DocumentFileType.pdf) {
+      mergedFile = pagesToPdf(documentFiles);
+    } else {
+      mergedFile = documentFiles[0].bytes;
+    }
+    shareFile(mergedFile, extension);
   }
 
   Widget _buildFilePreview(Uint8List file, String? name) {

@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                     DocumentsAmountWidget(documents: state.documents),
                     const SizedBox(height: 12),
                     DocumentsWidget(
-                      documents: state.documents.take(4).toList(),
+                      documents: state.documents.take(3).toList(),
                       title: "home.documents_title".tr(),
                       onViewAllTap: () {
                         TabBarWidget.of(context)?.goToTab(1);
@@ -91,15 +91,34 @@ class HomeEmptyWidget extends StatelessWidget {
   }
 }
 
-class _AddDocumentButton extends StatelessWidget {
+class _AddDocumentButton extends StatefulWidget {
   const _AddDocumentButton({super.key});
+
+  @override
+  State<_AddDocumentButton> createState() => _AddDocumentButtonState();
+}
+
+class _AddDocumentButtonState extends State<_AddDocumentButton> {
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return FilledButton.icon(
-      onPressed: () => _showAddOptions(context),
-      icon: const Icon(Icons.add),
-      label: Text('home.add_document_btn'.tr(), style: TextStyle(fontSize: 16)),
+      onPressed: _isLoading ? null : () => _showAddOptions(context),
+      icon: _isLoading
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            )
+          : const Icon(Icons.add),
+      label: Text(
+        _isLoading ? 'home.loading'.tr() : 'home.add_document_btn'.tr(),
+        style: const TextStyle(fontSize: 16),
+      ),
       style: FilledButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -123,17 +142,17 @@ class _AddDocumentButton extends StatelessWidget {
                 _AddOptionTile(
                   icon: Icons.document_scanner,
                   title: "home.scan_document_btn".tr(),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
-                    _scanDocument(context);
+                    await _performAction(_scanDocument);
                   },
                 ),
                 _AddOptionTile(
                   icon: Icons.upload_file,
                   title: "home.upload_file_btn".tr(),
-                  onTap: () {
+                  onTap: () async {
                     Navigator.pop(context);
-                    _uploadFile(context);
+                    await _performAction(_uploadFile);
                   },
                 ),
               ],
@@ -142,6 +161,17 @@ class _AddDocumentButton extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> _performAction(
+    Future<void> Function(BuildContext) action,
+  ) async {
+    setState(() => _isLoading = true);
+    try {
+      await action(context);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   Future<void> _scanDocument(BuildContext context) async {
@@ -170,7 +200,6 @@ class _AddDocumentButton extends StatelessWidget {
   }) async {
     final documentId = const Uuid().v1();
     final List<DocumentFile> files;
-
     if (extension == "pdf") {
       files = await pdfToPages(documentId, bytes);
     } else {
@@ -179,18 +208,16 @@ class _AddDocumentButton extends StatelessWidget {
         documentId: documentId,
         bytes: bytes,
         pageNumber: 1,
-        type: extension == 'pdf' ? 1 : 0,
+        type: getTypeFromExtension(extension),
       );
       files = [fileData];
     }
-
     final document = DocumentData(
       id: documentId,
       createdAt: DateTime.now(),
       files: files,
       name: documentName ?? "DocScanner.$extension",
     );
-
     return document;
   }
 
