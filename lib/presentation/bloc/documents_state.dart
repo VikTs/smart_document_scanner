@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
 
 abstract class DocumentsState extends Equatable {
   @override
@@ -11,7 +11,7 @@ class DocumentsInitial extends DocumentsState {}
 class DocumentsLoading extends DocumentsState {}
 
 class DocumentsLoaded extends DocumentsState {
-  final List<Document> documents;
+  final List<DocumentData> documents;
 
   DocumentsLoaded(this.documents);
 

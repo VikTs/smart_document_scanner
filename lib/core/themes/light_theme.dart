@@ -6,7 +6,7 @@ final ThemeData lightTheme = ThemeData(
   colorScheme: const ColorScheme.light(
     primary: Color(0xFF2F6BFF),
     onPrimary: Colors.white,
-    secondary: Color(0xFF22C55E),
+    secondary: Color(0xFF111827),
     onSecondary: Colors.white,
     surface: Colors.white,
     onSurface: Color(0xFF111827),

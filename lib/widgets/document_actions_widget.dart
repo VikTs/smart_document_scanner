@@ -1,84 +1,104 @@
-import 'dart:typed_data';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
-import 'package:smart_documents_scanner/core/utils/file_utils.dart';
+import 'package:flutter/services.dart';
+
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
+import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 
 class DocumentActions extends StatelessWidget {
-  final Document document;
+  final DocumentData document;
+  final void Function(BuildContext, String) onDelete;
+  final void Function(List<DocumentFile>) onShare;
+  final VoidCallback onRecognize;
 
-  const DocumentActions({super.key, required this.document});
-
-  Future<void> _shareDocument(
-    BuildContext context,
-    Uint8List documentBytes,
-  ) async {
-    try {
-      shareFile(documentBytes, "jpg");
-    } catch (e) {
-      AppSnackbar.warning(context, "Failed to share document".tr());
-    }
-  }
-
-  void _deleteDocument(BuildContext context) {
-    context.read<DocumentsBloc>().add(ClearDocument(id: document.id));
-    Navigator.pop(context);
-  }
+  const DocumentActions({
+    required this.document,
+    required this.onDelete,
+    required this.onShare,
+    required this.onRecognize,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final color = Theme.of(context).colorScheme.secondary;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      child: Row(
-        children: [
-          Expanded(
-            child: FilledButton.icon(
-              onPressed: () {
-                _shareDocument(context, document.file);
-              },
-              icon: Icon(Icons.share, color: colorScheme.onPrimary),
-              label: Text(
-                'document_details.share_document_btn'.tr(),
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                backgroundColor: colorScheme.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            if (document.files[0].type == DocumentFileType.image)
+              Expanded(
+                child: _ActionItem(
+                  icon: Icons.share_outlined,
+                  label: "document_details.share_document_btn".tr(),
+                  color: color,
+                  onTap: () => onShare(document.files),
                 ),
               ),
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: FilledButton.icon(
-              onPressed: () {
-                _deleteDocument(context);
-              },
-              icon: Icon(Icons.delete, color: colorScheme.onError),
-              label: Text(
-                'document_details.delete_document_btn'.tr(),
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                backgroundColor: colorScheme.errorContainer,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+            const SizedBox(width: 12),
+            if (document.files[0].type == DocumentFileType.image)
+              Expanded(
+                child: _ActionItem(
+                  icon: Icons.text_snippet_outlined,
+                  label: "document_details.recognize_document_btn".tr(),
+                  color: color,
+                  onTap: onRecognize,
                 ),
               ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _ActionItem(
+                icon: Icons.delete_outline,
+                label: "document_details.delete_document_btn".tr(),
+                color: color,
+                onTap: () => onDelete(context, document.id),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ActionItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _ActionItem({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 22, color: color),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                color: color,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

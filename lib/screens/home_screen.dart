@@ -1,7 +1,10 @@
+import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:smart_documents_scanner/core/extractors/extractors.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
+import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
+import 'package:uuid/uuid.dart';
 
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
 import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
@@ -15,7 +18,6 @@ import 'package:smart_documents_scanner/widgets/documents_amount_widget.dart';
 import 'package:smart_documents_scanner/widgets/documents_widget.dart';
 import 'package:smart_documents_scanner/widgets/empty_widget.dart';
 import 'package:smart_documents_scanner/widgets/tab_bar_widget.dart';
-import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -47,7 +49,7 @@ class HomeScreen extends StatelessWidget {
                     DocumentsAmountWidget(documents: state.documents),
                     const SizedBox(height: 12),
                     DocumentsWidget(
-                      documents: state.documents.take(4).toList(),
+                      documents: state.documents.take(3).toList(),
                       title: "home.documents_title".tr(),
                       onViewAllTap: () {
                         TabBarWidget.of(context)?.goToTab(1);
@@ -55,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                       shrinkWrap: true,
                     ),
                     const SizedBox(height: 12),
-                    const _ScanDocumentButton(),
+                    const _AddDocumentButton(),
                   ],
                 ),
               ),
@@ -83,60 +85,38 @@ class HomeEmptyWidget extends StatelessWidget {
         imagePath: 'assets/images/document_scanner.png',
         title: "home.empty.title".tr(),
         message: "home.empty.message".tr(),
-        footer: const _ScanDocumentButton(),
+        footer: const _AddDocumentButton(),
       ),
     );
   }
 }
 
-class _ScanDocumentButton extends StatelessWidget {
-  const _ScanDocumentButton({super.key});
+class _AddDocumentButton extends StatefulWidget {
+  const _AddDocumentButton({super.key});
+
+  @override
+  State<_AddDocumentButton> createState() => _AddDocumentButtonState();
+}
+
+class _AddDocumentButtonState extends State<_AddDocumentButton> {
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return FilledButton.icon(
-      onPressed: () async {
-        final imagePath = await Navigator.push<String>(
-          context,
-          MaterialPageRoute(builder: (_) => const ScanCameraScreen()),
-        );
-
-        if (imagePath != null) {
-          final file = await imageToBytes(imagePath);
-          final recognizedText = await recognizeText(imagePath);
-          final lines = recognizedText.blocks
-              .expand((block) => block.lines)
-              .map((line) => line.text)
-              .toList();
-
-          final document = Document(
-            id: Uuid().v1(),
-            type: classifyDocument(lines),
-            documentDate: extractDocumentDate(lines),
-            createdAt: DateTime.now(),
-            file: file,
-
-            expirationDate: extractExpirationDate(lines),
-            placeType: extractPlaceType(lines),
-            totalAmount: extractTotalAmount(lines),
-            currency: extractCurrency(lines),
-          );
-
-          if (recognizedText.blocks.isEmpty) {
-            AppSnackbar.warning(
-              context,
-              "home.document_recognision_error".tr(),
-            );
-          }
-
-          context.read<DocumentsBloc>().add(
-            SaveScannedDocument(document: document),
-          );
-        }
-      },
-      icon: const Icon(Icons.document_scanner),
+      onPressed: _isLoading ? null : () => _showAddOptions(context),
+      icon: _isLoading
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            )
+          : const Icon(Icons.add),
       label: Text(
-        'home.scan_document_btn'.tr(),
+        _isLoading ? 'home.loading'.tr() : 'home.add_document_btn'.tr(),
         style: const TextStyle(fontSize: 16),
       ),
       style: FilledButton.styleFrom(
@@ -144,5 +124,148 @@ class _ScanDocumentButton extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
+  }
+
+  void _showAddOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _AddOptionTile(
+                  icon: Icons.document_scanner,
+                  title: "home.scan_document_btn".tr(),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _performAction(_scanDocument);
+                  },
+                ),
+                _AddOptionTile(
+                  icon: Icons.upload_file,
+                  title: "home.upload_file_btn".tr(),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _performAction(_uploadFile);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _performAction(
+    Future<void> Function(BuildContext) action,
+  ) async {
+    setState(() => _isLoading = true);
+    try {
+      await action(context);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _scanDocument(BuildContext context) async {
+    final imagePath = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(builder: (_) => const ScanCameraScreen()),
+    );
+
+    if (imagePath == null) return;
+
+    final bytes = await imageToBytes(imagePath);
+    final recognizedText = await recognizeText(imagePath: imagePath);
+    final document = await generateDocument(bytes);
+
+    if (recognizedText.blocks.isEmpty) {
+      AppSnackbar.warning(context, "home.document_recognision_error".tr());
+    }
+
+    if (document != null) {
+      context.read<DocumentsBloc>().add(
+        SaveScannedDocument(document: document),
+      );
+    }
+  }
+
+  Future<DocumentData?> generateDocument(
+    Uint8List bytes, {
+    String extension = 'jpg',
+    String? documentName,
+  }) async {
+    final documentId = const Uuid().v1();
+    try {
+      final List<DocumentFile> files;
+      if (extension == "pdf") {
+        files = await pdfToPages(documentId, bytes);
+      } else {
+        final fileData = DocumentFile(
+          id: const Uuid().v1(),
+          documentId: documentId,
+          bytes: bytes,
+          pageNumber: 1,
+          type: getTypeFromExtension(extension),
+        );
+        files = [fileData];
+      }
+      final document = DocumentData(
+        id: documentId,
+        createdAt: DateTime.now(),
+        files: files,
+        name: documentName ?? "DocScanner.$extension",
+      );
+      return document;
+    } catch (e) {
+      AppSnackbar.error(context, e.toString());
+    }
+    return null;
+  }
+
+  Future<void> _uploadFile(BuildContext context) async {
+    final result = await uploadFile();
+    final bytes = result?.files.single.bytes;
+    final extension = result?.names[0]?.split('.').last ?? 'jpg';
+
+    if (result == null || bytes == null) return;
+
+    final document = await generateDocument(
+      bytes,
+      extension: extension,
+      documentName: result.names[0],
+    );
+
+    if (!context.mounted) return;
+
+    if (document != null) {
+      context.read<DocumentsBloc>().add(
+        SaveScannedDocument(document: document),
+      );
+    }
+  }
+}
+
+class _AddOptionTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final VoidCallback onTap;
+
+  const _AddOptionTile({
+    required this.icon,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(leading: Icon(icon), title: Text(title), onTap: onTap);
   }
 }

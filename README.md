@@ -3,26 +3,26 @@
 ![Flutter](https://img.shields.io/badge/Flutter-3.38-blue)
 ![Dart](https://img.shields.io/badge/Dart-3.10-blue)
 
-Mobile application for scanning and storing the documents. Uses AI for recognizing the text from the document.
+Mobile application for scanning and storing the documents. 
 
-**Supported document types**: receipts, ID documents.
-
-**Limitations**: only images are supported; documents must be in English.
+Supported formats: 
+- images (jpg, jpeg, png)
+- pdf (max size - 5 pages)
 
 # Features
-- Scan an image or uploap it from the gallery 
+- Scan a document or uploap it from the device 
 - View a list of the scanned documents
-- View the document details parsed with AI
-- Open the full screen document
-
-**Coming soon**: share/print documents, multi-delete, PDF support, biometrics/password
+- Recognize a text from the image (only latin letters and numbers):
+  - Copy the text by tapping the highlighted sections
+- Share the image file 
+- Minimal support for PDF: upload/delete/view
 
 # Technologies
 - Flutter for UI
 - State Management: Bloc
 - Database: Drift (local storage)
 - Localization: easy_localization (translations in assets/translations)
-- Text recognision: google_mlkit_text_recognition (text extractors in core/extractors)
+- Text recognision: google_mlkit_text_recognition
 
 # Getting started
 ## Prerequisites

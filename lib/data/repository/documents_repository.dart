@@ -1,23 +1,46 @@
 import 'package:drift/drift.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 
 class DocumentsRepository {
   final AppDatabase db;
+  final DocumentFileRepository documentFileRepository;
 
-  DocumentsRepository(this.db);
+  DocumentsRepository(this.db, this.documentFileRepository);
 
-  Future<List<Document>> getDocuments() async {
-    final rows = await (db.select(
+  Future<List<DocumentData>> getDocuments() async {
+    final documents = await (db.select(
       db.documents,
     )..orderBy([(t) => OrderingTerm.desc(t.createdAt)])).get();
 
-    return rows;
+    final result = <DocumentData>[];
+
+    for (final doc in documents) {
+      final files = await documentFileRepository.getDocumentFiles(doc.id);
+
+      result.add(
+        DocumentData(
+          id: doc.id,
+          name: doc.name,
+          createdAt: doc.createdAt,
+          files: files,
+        ),
+      );
+    }
+
+    return result;
   }
 
-  Future<void> addDocument(Document document) async {
-    await db
-        .into(db.documents)
-        .insert(document);
+  Future<void> addDocument(DocumentData document) async {
+    final dbDocument = Document(
+      id: document.id,
+      name: document.name,
+      createdAt: document.createdAt,
+    );
+
+    await db.into(db.documents).insert(dbDocument);
+    await documentFileRepository.addDocumentFiles(document.files);
   }
 
   Future<void> clearDocuments() async {
