@@ -181,44 +181,53 @@ class _AddDocumentButtonState extends State<_AddDocumentButton> {
     );
 
     if (imagePath == null) return;
-    final bytes = await imageToBytes(imagePath);
-    final recognizedText = await recognizeText(imagePath);
 
+    final bytes = await imageToBytes(imagePath);
+    final recognizedText = await recognizeText(imagePath: imagePath);
     final document = await generateDocument(bytes);
 
     if (recognizedText.blocks.isEmpty) {
       AppSnackbar.warning(context, "home.document_recognision_error".tr());
     }
 
-    context.read<DocumentsBloc>().add(SaveScannedDocument(document: document));
+    if (document != null) {
+      context.read<DocumentsBloc>().add(
+        SaveScannedDocument(document: document),
+      );
+    }
   }
 
-  Future<DocumentData> generateDocument(
+  Future<DocumentData?> generateDocument(
     Uint8List bytes, {
     String extension = 'jpg',
     String? documentName,
   }) async {
     final documentId = const Uuid().v1();
-    final List<DocumentFile> files;
-    if (extension == "pdf") {
-      files = await pdfToPages(documentId, bytes);
-    } else {
-      final fileData = DocumentFile(
-        id: const Uuid().v1(),
-        documentId: documentId,
-        bytes: bytes,
-        pageNumber: 1,
-        type: getTypeFromExtension(extension),
+    try {
+      final List<DocumentFile> files;
+      if (extension == "pdf") {
+        files = await pdfToPages(documentId, bytes);
+      } else {
+        final fileData = DocumentFile(
+          id: const Uuid().v1(),
+          documentId: documentId,
+          bytes: bytes,
+          pageNumber: 1,
+          type: getTypeFromExtension(extension),
+        );
+        files = [fileData];
+      }
+      final document = DocumentData(
+        id: documentId,
+        createdAt: DateTime.now(),
+        files: files,
+        name: documentName ?? "DocScanner.$extension",
       );
-      files = [fileData];
+      return document;
+    } catch (e) {
+      AppSnackbar.error(context, e.toString());
     }
-    final document = DocumentData(
-      id: documentId,
-      createdAt: DateTime.now(),
-      files: files,
-      name: documentName ?? "DocScanner.$extension",
-    );
-    return document;
+    return null;
   }
 
   Future<void> _uploadFile(BuildContext context) async {
@@ -236,7 +245,11 @@ class _AddDocumentButtonState extends State<_AddDocumentButton> {
 
     if (!context.mounted) return;
 
-    context.read<DocumentsBloc>().add(SaveScannedDocument(document: document));
+    if (document != null) {
+      context.read<DocumentsBloc>().add(
+        SaveScannedDocument(document: document),
+      );
+    }
   }
 }
 

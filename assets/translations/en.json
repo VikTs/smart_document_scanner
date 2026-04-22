@@ -15,7 +15,8 @@
     "upload_file_btn": "Upload file",
     "documents_title": "Recent documents",
     "view_all_btn": "View all >",
-    "document_recognision_error": "No recognizable document detected. Please try again with a clearer image."
+    "document_recognision_error": "No recognizable document detected. Please try again with a clearer image.",
+    "document_max_size_error": "Pages count shouldn't be more than 5"
   },
   "documents": {
     "sort": {
@@ -36,38 +37,17 @@
     "title": "Document details",
     "summary_title": "Summary",
     "view_document_btn": "View original document",
+    "recognize_document_btn": "Recognize",
     "delete_document_btn": "Delete",
     "share_document_btn": "Share",
     "unknown_document_banner_title": "Unknown document type",
     "unknown_document_banner_message": "Document could not be recognized — it may be blurry or unclear",
-    "items": {
-      "document_type": "Document type",
-      "merchant": "Merchant",
-      "date": "Date",
-      "total": "Totally spent",
-      "expiration_date": "Expiration date"
-    }
-  },
-  "document_view": {
-    "title": "Document view"
+    "text_copied_message": "Text copied",
+    "tap_to_copy_label": "Tap highlighted text to copy"
   },
   "scan_document": {
     "title": "Scan document",
     "camera_permission_error": "Camera permission denied",
     "grant_permission_btn": "Grant permission"
-  },
-  "document_types": {
-    "idDocument": "Id document",
-    "receipt": "Receipt",
-    "unknown": "Unknown document"
-  },
-  "places": {
-    "restaurant": "Restaurant",
-    "cafe": "Cafe",
-    "hotel": "Hotel",
-    "bar": "Bar",
-    "pub": "Pub",
-    "store": "Store",
-    "market": "Market"
   }
 }

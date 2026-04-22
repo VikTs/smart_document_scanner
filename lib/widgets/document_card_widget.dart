@@ -24,13 +24,7 @@ class DocumentCardWidget extends StatelessWidget {
   void onShare(List<DocumentFile> documentFiles) {
     final type = documentFiles[0].type;
     final extension = getExtensionFromType(type);
-    final Uint8List mergedFile;
-
-    if (type == DocumentFileType.pdf) {
-      mergedFile = pagesToPdf(documentFiles);
-    } else {
-      mergedFile = documentFiles[0].bytes;
-    }
+    final Uint8List mergedFile = documentFiles[0].bytes;
     shareFile(mergedFile, extension);
   }
 

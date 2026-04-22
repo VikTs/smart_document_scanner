@@ -7,13 +7,15 @@ Mobile application for scanning and storing the documents.
 
 Supported formats: 
 - images (jpg, jpeg, png)
-- pdf (small size files)
+- pdf (max size - 5 pages)
 
 # Features
-- Scan an image or uploap it from the gallery 
+- Scan a document or uploap it from the device 
 - View a list of the scanned documents
-- View the document page by page
-- Share the document (only for images)
+- Recognize a text from the image (only latin letters and numbers):
+  - Copy the text by tapping the highlighted sections
+- Share the image file 
+- Minimal support for PDF: upload/delete/view
 
 # Technologies
 - Flutter for UI

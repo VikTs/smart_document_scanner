@@ -24,7 +24,6 @@ class AppSnackbar {
     Duration duration = const Duration(seconds: 5),
   }) {
     final overlay = Overlay.of(context);
-    if (overlay == null) return;
 
     late OverlayEntry overlayEntry;
 

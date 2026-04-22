@@ -21,10 +21,23 @@ class FakeDocumentsEvent extends Fake implements DocumentsEvent {}
 
 class FakeDocumentsState extends Fake implements DocumentsState {}
 
+class _FakeAssetLoader extends AssetLoader {
+  @override
+  Future<Map<String, dynamic>> load(String path, Locale locale) async {
+    return {
+      "document_details": {
+        "share_document_btn": "Share",
+        "recognize_document_btn": "Recognize",
+        "delete_document_btn": "Delete",
+      }
+    };
+  }
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late DocumentsBloc documentsBloc;
+  late MockDocumentsBloc documentsBloc;
   late DocumentData testDocument;
 
   setUpAll(() async {
@@ -38,7 +51,11 @@ void main() {
   setUp(() {
     documentsBloc = MockDocumentsBloc();
 
-    when(() => documentsBloc.state).thenReturn(DocumentsInitial());
+    whenListen(
+      documentsBloc,
+      Stream.value(DocumentsInitial()),
+      initialState: DocumentsInitial(),
+    );
 
     testDocument = DocumentData(
       id: 'doc_1',
@@ -60,8 +77,12 @@ void main() {
       supportedLocales: const [Locale('en')],
       fallbackLocale: const Locale('en'),
       path: 'assets/translations',
+      assetLoader: _FakeAssetLoader(),
       child: MaterialApp(
-        home: BlocProvider.value(value: documentsBloc, child: child),
+        home: BlocProvider.value(
+          value: documentsBloc,
+          child: child,
+        ),
       ),
     );
   }
@@ -71,13 +92,14 @@ void main() {
       _wrap(
         DocumentDetailsScreen(
           document: testDocument,
-          onDelete: (BuildContext p1, String p2) {},
-          onShare: (List<DocumentFile> p1) {},
+          onDelete: (context, id) {},
+          onShare: (files) {},
         ),
       ),
     );
 
-    await tester.pumpAndSettle();
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
 
     expect(find.byIcon(Icons.delete_outline), findsOneWidget);
   });

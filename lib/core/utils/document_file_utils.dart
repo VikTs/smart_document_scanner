@@ -27,6 +27,9 @@ Uint8List pagesToPdf(List<DocumentFile> pages) {
 
 Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
   final pdfDoc = await pdfx.PdfDocument.openData(data);
+  if (pdfDoc.pagesCount > 5) {
+    throw Exception("home.document_max_size_error");
+  }
   final pages = <DocumentFile>[];
 
   for (var i = 1; i <= pdfDoc.pagesCount; i++) {
@@ -67,7 +70,7 @@ DocumentFileType getTypeFromExtension(String extension) {
   }
 }
 
- String getExtensionFromType(DocumentFileType type) {
+String getExtensionFromType(DocumentFileType type) {
   switch (type) {
     case DocumentFileType.pdf:
       return "pdf";
