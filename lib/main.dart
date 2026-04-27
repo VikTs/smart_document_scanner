@@ -7,7 +7,7 @@ import 'package:smart_documents_scanner/data/repository/document_file_repository
 import 'package:smart_documents_scanner/data/repository/documents_repository.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
-import 'package:smart_documents_scanner/widgets/tab_bar_widget.dart';
+import 'package:smart_documents_scanner/shared/tab_bar_widget.dart';
 
 late final AppDatabase appDatabase;
 
