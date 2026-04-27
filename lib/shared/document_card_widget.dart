@@ -17,7 +17,6 @@ class DocumentCardWidget extends StatelessWidget {
 
   void onDelete(BuildContext context, String documentId) {
     context.read<DocumentsBloc>().add(ClearDocument(id: documentId));
-    Navigator.pop(context);
   }
 
   void onShare(List<DocumentFile> documentFiles) {

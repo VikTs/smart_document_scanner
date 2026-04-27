@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +7,9 @@ import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
+import 'package:smart_documents_scanner/screens/chat/document_chat_screen.dart';
+import 'package:smart_documents_scanner/screens/document_details/delete_confirmation_sheet.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
 import 'package:smart_documents_scanner/screens/document_details/ocr_overlay_widget.dart';
 
@@ -39,6 +41,25 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
 
   Map<int, List<RecognizedTextBox>> ocrData = {};
   Map<int, Size> imageSizes = {};
+
+  void _showDeleteConfirmation(BuildContext context, String documentId) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) {
+        return DeleteConfirmationSheet(
+          onCancel: () => Navigator.pop(context),
+          onConfirm: () {
+            Navigator.pop(context);
+            widget.onDelete(context, documentId);
+            Navigator.pop(context);
+          },
+        );
+      },
+    );
+  }
 
   @override
   void didChangeDependencies() {
@@ -231,6 +252,25 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                   },
                 ),
 
+                if (widget.document.files[0].type == DocumentFileType.image)
+                  Positioned(
+                    bottom: 20,
+                    right: 20,
+                    child: FloatingActionButton(
+                      shape: const CircleBorder(),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                DocumentChatScreen(document: widget.document),
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.chat),
+                    ),
+                  ),
+
                 if (showOcr && !isOcrLoading)
                   Positioned(
                     left: 16,
@@ -280,7 +320,7 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
             ),
       bottomNavigationBar: DocumentActions(
         document: widget.document,
-        onDelete: widget.onDelete,
+        onDelete: _showDeleteConfirmation,
         onShare: widget.onShare,
         onRecognize: _handleRecognize,
       ),

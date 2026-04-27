@@ -8,6 +8,7 @@ import 'package:smart_documents_scanner/data/repository/documents_repository.dar
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/shared/tab_bar_widget.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 late final AppDatabase appDatabase;
 
@@ -16,6 +17,8 @@ void main() async {
 
   await EasyLocalization.ensureInitialized();
   appDatabase = AppDatabase();
+
+  await dotenv.load(fileName: ".env");
 
   runApp(
     EasyLocalization(
