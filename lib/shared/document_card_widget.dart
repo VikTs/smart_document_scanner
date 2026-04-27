@@ -7,10 +7,9 @@ import 'package:smart_documents_scanner/core/utils/date_utils.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
-import 'package:smart_documents_scanner/screens/document_details_screen.dart';
+import 'package:smart_documents_scanner/screens/document_details/document_details_screen.dart';
 
 class DocumentCardWidget extends StatelessWidget {
   final DocumentData document;

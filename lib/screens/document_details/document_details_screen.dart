@@ -8,8 +8,8 @@ import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/widgets/document_actions_widget.dart';
-import 'package:smart_documents_scanner/widgets/ocr_overlay_widget.dart';
+import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
+import 'package:smart_documents_scanner/screens/document_details/ocr_overlay_widget.dart';
 
 class DocumentDetailsScreen extends StatefulWidget {
   final DocumentData document;

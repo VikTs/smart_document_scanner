@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
-import 'package:smart_documents_scanner/widgets/documents_amount_widget.dart';
+import 'package:smart_documents_scanner/screens/home/documents_amount_widget.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 extension FakeTr on String {

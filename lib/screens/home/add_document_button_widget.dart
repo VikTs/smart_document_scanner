@@ -1,104 +1,27 @@
-import 'dart:typed_data';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:smart_documents_scanner/core/models/document.dart';
-import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:typed_data';
 
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
 import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
+import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
-import 'package:smart_documents_scanner/screens/scan_camera_screen.dart';
-import 'package:smart_documents_scanner/widgets/documents_amount_widget.dart';
-import 'package:smart_documents_scanner/widgets/documents_widget.dart';
-import 'package:smart_documents_scanner/widgets/empty_widget.dart';
-import 'package:smart_documents_scanner/widgets/tab_bar_widget.dart';
+import 'package:smart_documents_scanner/screens/scan_camera/scan_camera_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class AddDocumentButton extends StatefulWidget {
+  const AddDocumentButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("appBar.home".tr(), style: const TextStyle(fontSize: 18)),
-      ),
-      body: BlocBuilder<DocumentsBloc, DocumentsState>(
-        builder: (context, state) {
-          if (state is DocumentsLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is DocumentsEmpty) {
-            return const HomeEmptyWidget();
-          }
-
-          if (state is DocumentsLoaded) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 12),
-                    DocumentsAmountWidget(documents: state.documents),
-                    const SizedBox(height: 12),
-                    DocumentsWidget(
-                      documents: state.documents.take(3).toList(),
-                      title: "home.documents_title".tr(),
-                      onViewAllTap: () {
-                        TabBarWidget.of(context)?.goToTab(1);
-                      },
-                      shrinkWrap: true,
-                    ),
-                    const SizedBox(height: 12),
-                    const _AddDocumentButton(),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          if (state is DocumentsError) {
-            return Center(child: Text(state.message));
-          }
-
-          return const SizedBox();
-        },
-      ),
-    );
-  }
+  State<AddDocumentButton> createState() => _AddDocumentButtonState();
 }
 
-class HomeEmptyWidget extends StatelessWidget {
-  const HomeEmptyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: EmptyWidget(
-        imagePath: 'assets/images/document_scanner.png',
-        title: "home.empty.title".tr(),
-        message: "home.empty.message".tr(),
-        footer: const _AddDocumentButton(),
-      ),
-    );
-  }
-}
-
-class _AddDocumentButton extends StatefulWidget {
-  const _AddDocumentButton({super.key});
-
-  @override
-  State<_AddDocumentButton> createState() => _AddDocumentButtonState();
-}
-
-class _AddDocumentButtonState extends State<_AddDocumentButton> {
+class _AddDocumentButtonState extends State<AddDocumentButton> {
   bool _isLoading = false;
 
   @override

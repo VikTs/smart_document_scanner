@@ -7,7 +7,7 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
-import 'package:smart_documents_scanner/screens/documents_screen.dart';
+import 'package:smart_documents_scanner/screens/documents/documents_screen.dart';
 
 import 'document_details_screen_test.dart';
 

@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
-import 'package:smart_documents_scanner/screens/home_screen.dart';
-import 'package:smart_documents_scanner/widgets/empty_widget.dart';
+import 'package:smart_documents_scanner/screens/home/home_screen.dart';
+import 'package:smart_documents_scanner/shared/empty_widget.dart';
 
 class MockDocumentsBloc extends Mock implements DocumentsBloc {}
 

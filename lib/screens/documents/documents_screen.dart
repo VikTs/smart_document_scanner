@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
-import 'package:smart_documents_scanner/widgets/documents_widget.dart';
+import 'package:smart_documents_scanner/screens/documents/documents_widget.dart';
 
 class DocumentsScreen extends StatefulWidget {
   const DocumentsScreen({super.key});

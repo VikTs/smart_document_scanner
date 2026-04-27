@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:smart_documents_scanner/screens/documents_screen.dart';
-import 'package:smart_documents_scanner/screens/home_screen.dart';
+import 'package:smart_documents_scanner/screens/documents/documents_screen.dart';
+import 'package:smart_documents_scanner/screens/home/home_screen.dart';
 
 class TabBarWidget extends StatefulWidget {
   const TabBarWidget({super.key});

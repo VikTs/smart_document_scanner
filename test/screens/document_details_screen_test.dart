@@ -10,7 +10,7 @@ import 'package:smart_documents_scanner/data/db/converters/document_file_type_co
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
-import 'package:smart_documents_scanner/screens/document_details_screen.dart';
+import 'package:smart_documents_scanner/screens/document_details/document_details_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:transparent_image/transparent_image.dart';
 
