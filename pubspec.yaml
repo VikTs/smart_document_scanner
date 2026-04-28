@@ -27,6 +27,7 @@ dependencies:
   pdfx: 2.6.0
   pdf: ^3.11.3
   syncfusion_flutter_pdf: 32.2.9
+  flutter_dotenv: 6.0.1
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,7 @@ flutter:
   assets:
     - assets/translations/
     - assets/images/
+    - .env
 
 flutter_launcher_icons:
   android: true
