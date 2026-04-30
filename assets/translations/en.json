@@ -20,18 +20,9 @@
     "document_max_size_error": "Pages count shouldn't be more than 5"
   },
   "documents": {
-    "sort": {
-      "newest_first": "Newest first",
-      "oldest_first": "Oldest first"
-    },
-    "filter": {
-      "all": "All documents",
-      "receipt": "Receipts",
-      "idDocument": "Id documents",
-      "unknown": "Unknown documents"
-    },
+    "search_field_hint": "Search documents...",
     "empty": {
-      "title": "No documents"
+      "title": "No documents found"
     }
   },
   "document_details": {

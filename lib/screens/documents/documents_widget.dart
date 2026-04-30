@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
+import 'package:smart_documents_scanner/screens/documents/documents_empty_widget.dart';
 import 'package:smart_documents_scanner/shared/document_card_widget.dart';
-import 'package:smart_documents_scanner/shared/empty_widget.dart';
 
 class DocumentsWidget extends StatelessWidget {
   final List<DocumentData> documents;
@@ -39,17 +38,13 @@ class DocumentsWidget extends StatelessWidget {
             child: Row(
               children: [
                 Text(title!, style: textTheme.titleMedium),
-                Spacer(),
+                const Spacer(),
                 if (onViewAllTap != null)
                   GestureDetector(
-                    behavior: HitTestBehavior.translucent,
                     onTap: onViewAllTap,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(4, 4, 0, 4),
-                      child: Text(
-                        "home.view_all_btn".tr(),
-                        style: textTheme.labelMedium,
-                      ),
+                    child: Text(
+                      "home.view_all_btn".tr(),
+                      style: textTheme.labelMedium,
                     ),
                   ),
               ],
@@ -62,20 +57,6 @@ class DocumentsWidget extends StatelessWidget {
 
         return DocumentCardWidget(document: document);
       },
-    );
-  }
-}
-
-class DocumentsEmptyWidget extends StatelessWidget {
-  const DocumentsEmptyWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: EmptyWidget(
-        imagePath: 'assets/images/documents.png',
-        title: "documents.empty.title".tr(),
-      ),
     );
   }
 }
