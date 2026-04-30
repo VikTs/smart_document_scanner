@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:pdfx/pdfx.dart' as pdfx;
 import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart' as sfpdf;
@@ -28,7 +29,7 @@ Uint8List pagesToPdf(List<DocumentFile> pages) {
 Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
   final pdfDoc = await pdfx.PdfDocument.openData(data);
   if (pdfDoc.pagesCount > 5) {
-    throw Exception("home.document_max_size_error");
+    throw Exception("home.document_max_size_error".tr());
   }
   final pages = <DocumentFile>[];
 

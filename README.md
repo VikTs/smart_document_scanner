@@ -24,18 +24,13 @@ Supported formats:
 - Database: Drift (local storage)
 - Localization: easy_localization (translations in assets/translations)
 - Text recognision: google_mlkit_text_recognition
-- LLM: Groq (https://console.groq.com)
+- LLM: Groq/OpenAI
 
 # Getting started
 ## Prerequisites
 
 - [Flutter >= 3.38](https://docs.flutter.dev/install)
 - [Dart >= 3.10](https://dart.dev/get-dart)
-
-## Setup Groq API key (is needed only for document chat)
-1. Go to https://console.groq.com
-2. Choose "Api keys" -> "Create API key"
-3. Add the key to .env under LLM_BASE_URL
 
 ## Installation and launching
 

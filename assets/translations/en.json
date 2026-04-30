@@ -1,7 +1,8 @@
 {
   "appBar": {
     "home": "Home",
-    "documents": "Documents"
+    "documents": "Documents",
+    "settings": "Settings"
   },
   "home": {
     "empty": {
@@ -55,7 +56,40 @@
     "title": "Document сhat",
     "error_message": "Request failed. Please check your internet connection and make sure your API key is set up correctly, then try again.",
     "input_hint": "Ask about document...",
-    "intro_message": "Ask a question about this document. \n\nFor example:\n- What is this document about?\n- Can you summarize the key points?"
+    "intro_message": "Ask a question about this document. \n\nFor example:\n- What is this document about?\n- Can you summarize the key points?",
+    "setup_required": {
+      "title": "AI is not configured",
+      "subtitle": "Connect provider and API key in settings",
+      "open_settings_btn": "Open settings"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "api_key_label": "New API Key",
+    "api_key_hint": "Enter new API key",
+    "api_key_note": "Your key is stored securely on this device.",
+    "save_btn": "Save",
+    "test_btn": "Test connection",
+    "connection_success_message": "Connection successful",
+    "connection_error_message": "Connection failed",
+    "empty_api_key_message": "API key cannot be empty",
+    "api_key_success_message": "Saved successfully",
+    "api_key_error_message": "Failed to save key",
+    "ai_provider_label": "AI Provider",
+    "ai_providers": {
+      "groq": "Groq",
+      "openai": "OpenAI"
+    },
+    "ai_provider_platforms": {
+      "groq": "Groq console",
+      "openai": "OpenAI platform"
+    },
+    "provider_instructions": {
+      "title": "How to get API key",
+      "step1": "1. Login ",
+      "step2": "2. Create a new key",
+      "step3": "3. Paste it below"
+    }
   },
   "scan_document": {
     "title": "Scan document",
