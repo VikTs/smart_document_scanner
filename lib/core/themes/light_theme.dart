@@ -34,6 +34,26 @@ final ThemeData lightTheme = ThemeData(
     foregroundColor: Colors.white,
   ),
 
+  inputDecorationTheme: const InputDecorationTheme(
+    labelStyle: TextStyle(
+      color: Color(0xFF6B7280),
+    ),
+    floatingLabelStyle: TextStyle(
+      color: Color(0xFF6B7280),
+    ),
+
+    prefixIconColor: Color(0xFF6B7280),
+    suffixIconColor: Color(0xFF6B7280),
+  ),
+
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: Color(0xFF2F6BFF),
+  ),
+
+  iconTheme: const IconThemeData(
+    color: Color(0xFF6B7280),
+  ),
+
   textTheme: const TextTheme(
     titleLarge: TextStyle(
       fontSize: 20,
@@ -44,8 +64,12 @@ final ThemeData lightTheme = ThemeData(
       fontSize: 14,
       letterSpacing: 0.1,
       color: Color(0xFF111827),
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500, 
     ),
-    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+    labelLarge: TextStyle(
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: Color(0xFF111827),
+    ),
   ),
 );
