@@ -6,28 +6,27 @@ import 'package:smart_documents_scanner/data/services/storage_service.dart';
 
 class LlmService {
   final storage = AppStorage();
-  final apiUrl = dotenv.env['LLM_BASE_URL'] ?? "";
 
   Future<String> sendToLLM(String prompt) async {
     final apiKey = await storage.getApiKey();
-    final apiUrl = await getBaseUrl();
+    final providerConfig = await getProviderConfig();
 
     if (apiKey == null || apiKey.isEmpty) {
       throw Exception("API key is not set");
     }
 
-    if (apiUrl == null) {
-      throw Exception("API url or provider is not set");
+    if (providerConfig?.baseUrl == null || providerConfig?.model == null) {
+      throw Exception("Provider is not set or configured");
     }
 
     final response = await http.post(
-      Uri.parse(apiUrl),
+      Uri.parse(providerConfig!.baseUrl!),
       headers: {
         'Authorization': 'Bearer $apiKey',
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
-        "model": dotenv.env["LLM_MODEL_NAME"],
+        "model": providerConfig.model,
         "messages": [
           {"role": "user", "content": prompt},
         ],
@@ -38,15 +37,22 @@ class LlmService {
     return data['choices']?[0]?['message']?['content'];
   }
 
-  Future<String?> getBaseUrl() async {
+  Future<({String? baseUrl, String? model})?> getProviderConfig() async {
     final provider = await storage.getProvider();
     if (provider == null) return null;
 
     switch (provider) {
       case AIProvider.groq:
-        return dotenv.env['GROQ_BASE_URL'];
+        return (
+          baseUrl: dotenv.env['GROQ_BASE_URL'],
+          model: dotenv.env['GROQ_MODEL_NAME'],
+        );
+
       case AIProvider.openai:
-        return dotenv.env['OPENAI_BASE_URL'];
+        return (
+          baseUrl: dotenv.env['OPENAI_BASE_URL'],
+          model: dotenv.env['OPENAI_MODEL_NAME'],
+        );
     }
   }
 
