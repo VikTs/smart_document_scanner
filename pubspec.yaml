@@ -1,7 +1,7 @@
 name: smart_documents_scanner
 description: "Application for scanning and recognizing documents"
 publish_to: 'none'
-version: 0.1.0
+version: 1.0.0
 
 environment:
   sdk: ^3.10.7
