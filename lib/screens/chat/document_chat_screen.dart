@@ -130,6 +130,10 @@ class _DocumentChatScreenState extends State<DocumentChatScreen> {
   }
 
   Future<String> _askLLM(String question) async {
+    if (documentText?.trim().isEmpty ?? true) {
+      return "chat.no_readable_text_message".tr();
+    }
+
     return await widget.llmService.askQuestion(
       question: question,
       documentText: documentText ?? "",

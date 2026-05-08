@@ -12,6 +12,7 @@ import 'package:smart_documents_scanner/screens/chat/document_chat_screen.dart';
 import 'package:smart_documents_scanner/screens/document_details/delete_confirmation_sheet.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
 import 'package:smart_documents_scanner/screens/document_details/ocr_overlay_widget.dart';
+import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
 
 class DocumentDetailsScreen extends StatefulWidget {
   final DocumentData document;
@@ -129,6 +130,9 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
 
       for (int i = 0; i < files.length; i++) {
         final boxes = await _recognize(files[i].bytes);
+        if (boxes.isEmpty) {
+          AppSnackbar.warning(context, "home.document_recognision_error".tr());
+        }
 
         if (!mounted) return;
 
@@ -271,7 +275,7 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                     ),
                   ),
 
-                if (showOcr && !isOcrLoading)
+                if (showOcr && !isOcrLoading && ocrData[0]?.isNotEmpty == true)
                   Positioned(
                     left: 16,
                     right: 16,

@@ -16,13 +16,14 @@
     "upload_file_btn": "Upload file",
     "documents_title": "Recent documents",
     "view_all_btn": "View all >",
-    "document_recognision_error": "No recognizable document detected. Please try again with a clearer image.",
+    "document_recognision_error": "The text inside the document couldn’t be read. Please try again with a clearer image.",
     "document_max_size_error": "Pages count shouldn't be more than 5"
   },
   "documents": {
     "search_field_hint": "Search documents...",
     "empty": {
-      "title": "No documents found"
+      "title": "No documents found",
+      "message": "There is no uploaded documents."
     }
   },
   "document_details": {
@@ -45,9 +46,10 @@
   },
   "chat": {
     "title": "Document сhat",
+    "no_readable_text_message": "Document contains no readable text. Please try again with a clearer image.",
     "error_message": "Request failed. Please check your internet connection and make sure your API key is set up correctly, then try again.",
     "input_hint": "Ask about document...",
-    "intro_message": "Ask a question about this document. \n\nFor example:\n- What is this document about?\n- Can you summarize the key points?",
+    "intro_message": "Ask a question about this document. \n\nFor example:\n- What is this document about?\n- Can you summarize the key points? \n\nNote: DON'T use this chat for documents with CONFIDENTIAL or SENSITIVE personal data.",
     "setup_required": {
       "title": "AI is not configured",
       "subtitle": "Connect provider and API key in settings",
@@ -56,20 +58,26 @@
   },
   "settings": {
     "title": "Settings",
-    "api_key_label": "New API Key",
-    "api_key_hint": "Enter new API key",
+    "api_key_label": "API Key",
+    "api_key_hint": "Enter API key",
     "api_key_note": "Your key is stored securely on this device.",
     "save_btn": "Save",
-    "test_btn": "Test connection",
+    "test_btn": "Check connection",
     "connection_success_message": "Connection successful",
-    "connection_error_message": "Connection failed",
-    "empty_api_key_message": "API key cannot be empty",
-    "api_key_success_message": "Saved successfully",
-    "api_key_error_message": "Failed to save key",
+    "connection_error_message": "Connection failed. Please verify your API key and check if your usage limit has been exceeded.",
     "ai_provider_label": "AI Provider",
     "ai_providers": {
       "groq": "Groq",
       "openai": "OpenAI"
+    },
+    "api_key": {
+      "no_key_saved_message": "No API key saved",
+      "empty_message": "API key cannot be empty",
+      "success_message": "Saved successfully",
+      "error_message": "Failed to save key",
+      "add_btn": "Add",
+      "update_btn": "Update",
+      "cancel_btn": "Cancel"
     },
     "ai_provider_platforms": {
       "groq": "Groq console",
