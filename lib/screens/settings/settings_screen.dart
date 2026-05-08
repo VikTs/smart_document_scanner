@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/models/ai_provider.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
-import 'package:smart_documents_scanner/screens/settings/api_key_input_widget.dart';
+import 'package:smart_documents_scanner/screens/settings/api_key/api_key_input_widget.dart';
 import 'package:smart_documents_scanner/screens/settings/provider_instructions_widget.dart';
 import 'package:smart_documents_scanner/screens/settings/provider_selector_widget.dart';
 
