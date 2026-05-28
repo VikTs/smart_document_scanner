@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
+import 'package:smart_documents_scanner/shared/app_snackbar.dart';
 
 void main() {
   Widget wrapWithApp() {

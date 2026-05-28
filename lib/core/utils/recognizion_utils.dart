@@ -4,6 +4,17 @@ import 'package:flutter/services.dart';
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
 
+Future<List<RecognizedTextBox>> generateRecognizedTextBoxes(
+  Uint8List bytes,
+) async {
+  final result = await recognizeText(bytes: bytes);
+
+  return result.blocks
+      .expand((b) => b.lines)
+      .map((l) => RecognizedTextBox(text: l.text, rect: l.boundingBox))
+      .toList();
+}
+
 Rect mapImageRectToWidgetRect(Rect rect, Size imageSize, Size widgetSize) {
   final scale =
       (imageSize.width / imageSize.height >
@@ -23,15 +34,4 @@ Rect mapImageRectToWidgetRect(Rect rect, Size imageSize, Size widgetSize) {
     rect.width * scale,
     rect.height * scale,
   );
-}
-
-Future<List<RecognizedTextBox>> generateRecognizedTextBoxes(
-  Uint8List bytes,
-) async {
-  final result = await recognizeText(bytes: bytes);
-
-  return result.blocks
-      .expand((b) => b.lines)
-      .map((l) => RecognizedTextBox(text: l.text, rect: l.boundingBox))
-      .toList();
 }

@@ -8,7 +8,7 @@ import 'dart:typed_data';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
-import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
+import 'package:smart_documents_scanner/shared/app_snackbar.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';

@@ -17,7 +17,7 @@ import 'package:smart_documents_scanner/screens/document_details/delete_confirma
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_pages_list_widget.dart';
 import 'package:smart_documents_scanner/screens/document_details/info_banner_overlay_widget.dart';
-import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
+import 'package:smart_documents_scanner/shared/app_snackbar.dart';
 import 'package:smart_documents_scanner/screens/document_details/page_indicator_overlay_widget.dart';
 import 'package:smart_documents_scanner/shared/editable_title_app_bar.dart';
 

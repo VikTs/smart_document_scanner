@@ -21,6 +21,12 @@
   },
   "documents": {
     "search_field_hint": "Search documents...",
+    "sort": {
+      "az": "A - Z",
+      "za": "Z - A",
+      "oldNew": "Oldest first",
+      "newOld": "Newest first"
+    },
     "empty": {
       "title": "No documents found",
       "message": "There is no uploaded documents."
