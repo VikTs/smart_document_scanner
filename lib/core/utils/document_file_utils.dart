@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pdfx/pdfx.dart' as pdfx;
-import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
+import 'package:smart_documents_scanner/data/db/converters/document_file_extension_converter.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart' as sfpdf;
 import 'package:uuid/uuid.dart';
 
@@ -49,7 +49,7 @@ Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
           id: const Uuid().v1(),
           documentId: documentId,
           bytes: bytes,
-          type: DocumentFileType.pdf,
+          extension: DocumentFileExtension.pdf,
           pageNumber: i,
         ),
       );
@@ -62,20 +62,18 @@ Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
   return pages;
 }
 
-DocumentFileType getTypeFromExtension(String extension) {
-  switch (extension) {
-    case "pdf":
-      return DocumentFileType.pdf;
-    default:
-      return DocumentFileType.image;
-  }
+bool isImage(DocumentFileExtension extension) {
+  const imageExtensions = [
+    DocumentFileExtension.jpg,
+    DocumentFileExtension.jpeg,
+    DocumentFileExtension.png,
+  ];
+
+  return imageExtensions.contains(extension);
 }
 
-String getExtensionFromType(DocumentFileType type) {
-  switch (type) {
-    case DocumentFileType.pdf:
-      return "pdf";
-    default:
-      return "jpg";
-  }
+String getFileNameWithoutExtension(String? name) {
+  if (name == null) return "";
+
+  return name.contains('.') ? name.substring(0, name.lastIndexOf('.')) : name;
 }

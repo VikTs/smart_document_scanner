@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +14,9 @@ class ChatInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
@@ -22,9 +24,13 @@ class ChatInput extends StatelessWidget {
           children: [
             Expanded(
               child: TextField(
+                maxLength: 200,
+                minLines: 1,
+                maxLines: 3,
                 controller: controller,
                 onSubmitted: (_) => _handleSubmit(),
                 decoration: InputDecoration(
+                  counterText: "",
                   hintText: "chat.input_hint".tr(),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -33,7 +39,22 @@ class ChatInput extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            IconButton(icon: const Icon(Icons.send), onPressed: _handleSubmit),
+
+            ValueListenableBuilder(
+              valueListenable: controller,
+              builder: (_, _, _) {
+                final isEnabled = controller.text.isNotEmpty;
+                return IconButton(
+                  onPressed: isEnabled ? _handleSubmit : null,
+                  icon: Icon(
+                    Icons.send,
+                    color: isEnabled
+                        ? colorScheme.primary
+                        : const Color(0xFF6B7280),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

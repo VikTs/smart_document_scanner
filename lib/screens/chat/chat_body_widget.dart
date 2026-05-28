@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/models/message.dart';
 import 'package:smart_documents_scanner/screens/chat/chat_input_widget.dart';
@@ -25,10 +24,28 @@ class ChatBody extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.all(8),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: Text("📄 $documentName"),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.description_outlined,
+                  size: 18,
+                  color: Colors.grey,
+                ),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Text(
+                    documentName,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.all(16),

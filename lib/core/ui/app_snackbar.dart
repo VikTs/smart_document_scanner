@@ -1,23 +1,43 @@
 import 'package:flutter/material.dart';
 
 class AppSnackbar {
-  static const _infoColor = Color(0xFF2196F3);
   static const _warningColor = Color(0xFFFF9800);
   static const _errorColor = Color(0xFFF44336);
+  static const _successColor = Color(0xFF47bb64);
 
   static void info(BuildContext context, String message) {
-    _show(context, message, backgroundColor: _infoColor);
+    _showBottom(context, message);
   }
 
-  static void warning(BuildContext context, String message) {
-    _show(context, message, backgroundColor: _warningColor);
+  static void warning(
+    BuildContext context,
+    String message, {
+    Duration? duration,
+  }) {
+    _showTop(context, message, backgroundColor: _warningColor);
   }
 
-  static void error(BuildContext context, String message) {
-    _show(context, message, backgroundColor: _errorColor);
+  static void error(
+    BuildContext context,
+    String message, {
+    Duration? duration,
+  }) {
+    _showTop(context, message, backgroundColor: _errorColor);
   }
 
-  static void _show(
+  static void success(
+    BuildContext context,
+    String message, {
+    Duration? duration,
+  }) {
+    _showTop(context, message, backgroundColor: _successColor);
+  }
+
+  static void _showBottom(BuildContext context, String text) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  static void _showTop(
     BuildContext context,
     String message, {
     required Color backgroundColor,
@@ -64,8 +84,7 @@ class _SnackbarWidget extends StatefulWidget {
     required this.message,
     required this.backgroundColor,
     required this.onClose,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   State<_SnackbarWidget> createState() => _SnackbarWidgetState();

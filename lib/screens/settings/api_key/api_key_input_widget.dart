@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/core/prompts/document_chat.dart';
+import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
 import 'package:smart_documents_scanner/data/services/llm_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/screens/settings/api_key/api_key_editor_widget.dart';
 import 'package:smart_documents_scanner/screens/settings/api_key/api_key_header_widget.dart';
-import 'package:smart_documents_scanner/screens/settings/api_key/status_card_widget.dart';
 
 class ApiKeyInput extends StatefulWidget {
   final String? apiKey;
@@ -27,8 +28,6 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
   bool isTesting = false;
   bool isEditMode = false;
 
-  String? status;
-
   @override
   void initState() {
     super.initState();
@@ -46,21 +45,16 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
     });
   }
 
-  void _showSnack(String text) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
-  }
-
   Future<void> _save() async {
     final value = controller.text.trim();
 
     if (value.isEmpty) {
-      _showSnack("settings.api_key.empty_message".tr());
+      AppSnackbar.info(context, "settings.api_key.empty_message".tr());
       return;
     }
 
     setState(() {
       isSaving = true;
-      status = null;
     });
 
     try {
@@ -74,9 +68,9 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
         controller.clear();
       });
 
-      _showSnack("settings.api_key.success_message".tr());
+      AppSnackbar.info(context, "settings.api_key.success_message".tr());
     } catch (_) {
-      _showSnack("settings.api_key.error_message".tr());
+      AppSnackbar.info(context, "settings.api_key.error_message".tr());
     } finally {
       if (mounted) {
         setState(() {
@@ -86,26 +80,28 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
     }
   }
 
-  Future<void> _test() async {
+  Future<void> _testConnection() async {
     setState(() {
       isTesting = true;
-      status = null;
     });
 
     try {
-      await llmService.sendToLLM("Reply with only word: OK");
+      await llmService.sendToLLM(DocumentChatPrompt.testConnection);
 
-      if (!mounted) return;
-
-      setState(() {
-        status = "settings.connection_success_message".tr();
-      });
+      if (mounted) {
+        AppSnackbar.success(
+          context,
+          "settings.connection_success_message".tr(),
+        );
+      }
     } catch (_) {
-      if (!mounted) return;
-
-      setState(() {
-        status = "settings.connection_error_message".tr();
-      });
+      if (mounted) {
+        AppSnackbar.error(
+          context,
+          "settings.connection_error_message".tr(),
+          duration: Duration(seconds: 7),
+        );
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -200,7 +196,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                   child: OutlinedButton(
                     onPressed: (isTesting || savedApiKey == null)
                         ? null
-                        : _test,
+                        : _testConnection,
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
@@ -220,11 +216,6 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
             ),
           ),
         ),
-
-        if (status != null) ...[
-          const SizedBox(height: 16),
-          StatusCard(status: status),
-        ],
       ],
     );
   }

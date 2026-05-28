@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:smart_documents_scanner/core/models/ai_provider.dart';
+import 'package:smart_documents_scanner/core/prompts/document_chat.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
 
 class LlmService {
   final storage = AppStorage();
 
-  Future<String> sendToLLM(String prompt) async {
+  Future<String> sendToLLM(String prompt, {String? rules}) async {
     final apiKey = await storage.getApiKey();
     final providerConfig = await getProviderConfig();
 
@@ -28,6 +29,7 @@ class LlmService {
       body: jsonEncode({
         "model": providerConfig.model,
         "messages": [
+          if (rules != null) {"role": "system", "content": rules},
           {"role": "user", "content": prompt},
         ],
       }),
@@ -60,33 +62,12 @@ class LlmService {
     required String question,
     required String documentText,
   }) async {
-    final prompt =
-        """
-You are an AI assistant inside a document analysis app.
-Your task is to answer user questions based ONLY on the provided document context.
+    final userPrompt = DocumentChatPrompt.userQuestion(
+      documentText: documentText,
+      question: question,
+    );
+    final contextRules = DocumentChatPrompt.contextRules;
 
-Rules:
-- Use ONLY the information from the context.
-- Do NOT use external knowledge.
-- If the answer is not in the context, clearly say that the document does not contain enough information to answer the question (max length of the answer - 40 symbols).
-- Do not guess or hallucinate missing details.
-- Be concise and clear.
-- If appropriate, explain in simple terms.
-- Always respond in the same language as the user's question.
-- If the document context is empty, null, or contains no meaningful text, you must respond exactly: "Document contains no readable text"
-
-Style:
-- Be helpful and natural, like a document assistant.
-- Prefer short and structured answers.
-- If useful, use bullet points.
-
-Context:
-$documentText
-
-Question:
-$question
-""";
-
-    return await sendToLLM(prompt);
+    return await sendToLLM(userPrompt, rules: contextRules);
   }
 }

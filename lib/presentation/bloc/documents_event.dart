@@ -17,8 +17,8 @@ class ClearDocument extends DocumentsEvent {
   ClearDocument({required this.id});
 }
 
-class SaveScannedDocument extends DocumentsEvent {
+class SaveDocument extends DocumentsEvent {
   final DocumentData document;
 
-  SaveScannedDocument({required this.document});
+  SaveDocument({required this.document});
 }

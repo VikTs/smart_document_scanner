@@ -8,7 +8,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
 
   DocumentsBloc(this.repository) : super(DocumentsInitial()) {
     on<LoadDocuments>(_onLoadDocuments);
-    on<SaveScannedDocument>(_onSaveScannedDocument);
+    on<SaveDocument>(_onSavedDocument);
     on<ClearDocuments>(_onClearDocuments);
     on<ClearDocument>(_onClearDocument);
   }
@@ -32,8 +32,8 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     }
   }
 
-  Future<void> _onSaveScannedDocument(
-    SaveScannedDocument event,
+  Future<void> _onSavedDocument(
+    SaveDocument event,
     Emitter<DocumentsState> emit,
   ) async {
     await repository.addDocument(event.document);
