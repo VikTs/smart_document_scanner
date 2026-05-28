@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
@@ -9,11 +10,14 @@ import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
 import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
+import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/chat/document_chat_screen.dart';
 import 'package:smart_documents_scanner/screens/document_details/delete_confirmation_sheet.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
 import 'package:smart_documents_scanner/screens/document_details/ocr_overlay_widget.dart';
 import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
+import 'package:smart_documents_scanner/shared/editable_title_app_bar.dart';
 
 class DocumentDetailsScreen extends StatefulWidget {
   final DocumentData document;
@@ -179,6 +183,21 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
     );
   }
 
+  void onUpdateDocumentName(DocumentData document, String newName) {
+    if (newName == document.name) return;
+
+    final updatedDocument = DocumentData(
+      id: document.id,
+      name: newName,
+      createdAt: document.createdAt,
+      files: document.files,
+    );
+
+    context.read<DocumentsBloc>().add(
+      UpdateDocument(document: updatedDocument),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -186,9 +205,11 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
     final documentFiles = widget.document.files;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.document.name),
-        leading: const BackButton(),
+      appBar: EditableTitleAppBar(
+        title: widget.document.name,
+        onChanged: (String name) {
+          onUpdateDocumentName(widget.document, name);
+        },
       ),
       body: documentFiles.isEmpty
           ? const Center(child: CircularProgressIndicator())

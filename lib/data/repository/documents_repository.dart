@@ -43,6 +43,18 @@ class DocumentsRepository {
     await documentFileRepository.addDocumentFiles(document.files);
   }
 
+  Future<void> updateDocument(DocumentData document) async {
+    final dbDocument = Document(
+      id: document.id,
+      name: document.name,
+      createdAt: document.createdAt,
+    );
+
+    await (db.update(
+      db.documents,
+    )..where((tbl) => tbl.id.equals(dbDocument.id))).write(dbDocument);
+  }
+
   Future<void> clearDocuments() async {
     db.clearTable(db.documents);
   }

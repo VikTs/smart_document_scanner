@@ -8,7 +8,8 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
 
   DocumentsBloc(this.repository) : super(DocumentsInitial()) {
     on<LoadDocuments>(_onLoadDocuments);
-    on<SaveDocument>(_onSavedDocument);
+    on<SaveDocument>(_onSaveDocument);
+    on<UpdateDocument>(_onUpdateDocument);
     on<ClearDocuments>(_onClearDocuments);
     on<ClearDocument>(_onClearDocument);
   }
@@ -32,12 +33,29 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     }
   }
 
-  Future<void> _onSavedDocument(
+  Future<void> _onSaveDocument(
     SaveDocument event,
     Emitter<DocumentsState> emit,
   ) async {
     await repository.addDocument(event.document);
     add(LoadDocuments());
+  }
+
+  Future<void> _onUpdateDocument(
+    UpdateDocument event,
+    Emitter<DocumentsState> emit,
+  ) async {
+    await repository.updateDocument(event.document);
+
+    final currentState = state;
+
+    if (currentState is DocumentsLoaded) {
+      final updatedList = currentState.documents.map((doc) {
+        return doc.id == event.document.id ? event.document : doc;
+      }).toList();
+
+      emit(DocumentsLoaded(updatedList));
+    }
   }
 
   Future<void> _onClearDocuments(
