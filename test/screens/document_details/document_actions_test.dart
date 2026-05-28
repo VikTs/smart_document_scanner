@@ -63,7 +63,7 @@ void main() {
           document: document,
           onDelete: (context, id) => deleteCalled = true,
           onShare: (_) => shareCalled = true,
-          onRecognize: () => recognizeCalled = true,
+          onRecognize: (files) => recognizeCalled = true,
         ),
       ),
     );

@@ -1,28 +1,34 @@
-import 'dart:ui' as ui;
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
-import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
 import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
+import 'package:smart_documents_scanner/core/utils/file_utils.dart';
+import 'package:smart_documents_scanner/core/utils/recognizion_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
+import 'package:smart_documents_scanner/presentation/bloc/documents_bloc_extension.dart';
+import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/chat/document_chat_screen.dart';
 import 'package:smart_documents_scanner/screens/document_details/delete_confirmation_sheet.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
-import 'package:smart_documents_scanner/screens/document_details/ocr_overlay_widget.dart';
+import 'package:smart_documents_scanner/screens/document_details/document_pages_list_widget.dart';
+import 'package:smart_documents_scanner/screens/document_details/info_banner_overlay_widget.dart';
 import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
+import 'package:smart_documents_scanner/screens/document_details/page_indicator_overlay_widget.dart';
+import 'package:smart_documents_scanner/shared/editable_title_app_bar.dart';
 
 class DocumentDetailsScreen extends StatefulWidget {
-  final DocumentData document;
+  final String documentId;
   final void Function(BuildContext, String) onDelete;
   final void Function(List<DocumentFile>) onShare;
 
   const DocumentDetailsScreen({
     super.key,
-    required this.document,
+    required this.documentId,
     required this.onDelete,
     required this.onShare,
   });
@@ -33,6 +39,8 @@ class DocumentDetailsScreen extends StatefulWidget {
 
 class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
   final ScrollController _scrollController = ScrollController();
+
+  DocumentData? document;
 
   int currentIndex = 0;
   double pageHeight = 0;
@@ -72,15 +80,17 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_updateCurrentPage);
-    _preloadImageSizes();
+
+    _scrollController.addListener(() {
+      _updateCurrentPage(document?.files.length ?? 1);
+    });
   }
 
-  void _updateCurrentPage() {
+  void _updateCurrentPage(int pageNumber) {
     if (!mounted) return;
 
     final index = (_scrollController.offset / pageHeight).floor();
-    final newIndex = index.clamp(0, widget.document.files.length - 1);
+    final newIndex = index.clamp(0, pageNumber - 1);
 
     if (newIndex != currentIndex) {
       setState(() => currentIndex = newIndex);
@@ -93,26 +103,13 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
     super.dispose();
   }
 
-  Future<void> _preloadImageSizes() async {
+  Future<void> _loadImageSizes(List<DocumentFile> files) async {
     setState(() => isImageLoading = true);
 
     final Map<int, Size> sizes = {};
-    final files = widget.document.files;
-
     for (int i = 0; i < files.length; i++) {
-      try {
-        final codec = await ui.instantiateImageCodec(files[i].bytes);
-        final frame = await codec.getNextFrame();
-        final image = frame.image;
-
-        sizes[i] = Size(image.width.toDouble(), image.height.toDouble());
-      } catch (e) {
-        debugPrint("Image decode error page $i: $e");
-        sizes[i] = const Size(1000, 1000);
-      }
+      sizes[i] = await loadImageSize(files[i].bytes);
     }
-
-    if (!mounted) return;
 
     setState(() {
       imageSizes = sizes;
@@ -120,21 +117,17 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
     });
   }
 
-  Future<void> _handleRecognize() async {
+  Future<void> _handleRecognize(List<DocumentFile> files) async {
     try {
       setState(() {
         showOcr = true;
         isOcrLoading = true;
       });
 
-      final files = widget.document.files;
-
       for (int i = 0; i < files.length; i++) {
-        final boxes = await _recognize(files[i].bytes);
+        final boxes = await generateRecognizedTextBoxes(files[i].bytes);
 
-        if (!mounted) return;
-
-        if (boxes.isEmpty) {
+        if (boxes.isEmpty && mounted) {
           AppSnackbar.warning(context, "home.document_recognision_error".tr());
         }
 
@@ -143,124 +136,64 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
         });
       }
     } finally {
-      if (mounted) {
-        setState(() => isOcrLoading = false);
-      }
+      setState(() => isOcrLoading = false);
     }
   }
 
-  Future<List<RecognizedTextBox>> _recognize(Uint8List bytes) async {
-    final result = await recognizeText(bytes: bytes);
+  void onUpdateDocumentName(DocumentData? document, String newName) {
+    if (document == null) return;
+    if (newName == document.name) return;
 
-    return result.blocks
-        .expand((b) => b.lines)
-        .map((l) => RecognizedTextBox(text: l.text, rect: l.boundingBox))
-        .toList();
+    final updatedDocument = document.copyWith(name: newName);
+    context.read<DocumentsBloc>().add(
+      UpdateDocument(document: updatedDocument),
+    );
   }
 
-  Rect _scaleRect(Rect rect, Size imageSize, Size widgetSize) {
-    final scale =
-        (imageSize.width / imageSize.height >
-            widgetSize.width / widgetSize.height)
-        ? widgetSize.width / imageSize.width
-        : widgetSize.height / imageSize.height;
-
-    final displayedWidth = imageSize.width * scale;
-    final displayedHeight = imageSize.height * scale;
-
-    final offsetX = (widgetSize.width - displayedWidth) / 2;
-    final offsetY = (widgetSize.height - displayedHeight) / 2;
-
-    return Rect.fromLTWH(
-      rect.left * scale + offsetX,
-      rect.top * scale + offsetY,
-      rect.width * scale,
-      rect.height * scale,
+  void _loadDocument(BuildContext context) {
+    final blocDocument = context.select(
+      (DocumentsBloc bloc) => bloc.byId(widget.documentId),
     );
+
+    if (blocDocument?.files.length != document?.files.length) {
+      _loadImageSizes(blocDocument?.files ?? []);
+    }
+    if (blocDocument != null) {
+      setState(() => document = blocDocument);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final documentFiles = widget.document.files;
+
+    _loadDocument(context);
+    final documentFiles = document?.files;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.document.name),
-        leading: const BackButton(),
+      appBar: EditableTitleAppBar(
+        title: document?.name ?? "",
+        onChanged: (String name) {
+          onUpdateDocumentName(document, name);
+        },
       ),
-      body: documentFiles.isEmpty
+      body: documentFiles?.isEmpty == true
           ? const Center(child: CircularProgressIndicator())
           : Stack(
               children: [
-                ListView.builder(
+                DocumentPagesList(
                   controller: _scrollController,
-                  itemCount: documentFiles.length,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  itemBuilder: (_, index) {
-                    final file = documentFiles[index];
-
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      child: SizedBox(
-                        height: pageHeight,
-                        child: LayoutBuilder(
-                          builder: (_, constraints) {
-                            final widgetSize = Size(
-                              constraints.maxWidth,
-                              constraints.maxHeight,
-                            );
-
-                            return Stack(
-                              children: [
-                                Center(
-                                  child: isImageLoading
-                                      ? const CircularProgressIndicator()
-                                      : FittedBox(
-                                          fit: BoxFit.contain,
-                                          child: SizedBox(
-                                            width: imageSizes[index]!.width,
-                                            height: imageSizes[index]!.height,
-                                            child: Image.memory(file.bytes),
-                                          ),
-                                        ),
-                                ),
-
-                                if (showOcr &&
-                                    ocrData[index] != null &&
-                                    imageSizes[index] != null)
-                                  Positioned.fill(
-                                    child: OcrOverlay(
-                                      boxes: ocrData[index]!,
-                                      imageSize: imageSizes[index]!,
-                                      widgetSize: widgetSize,
-                                      scaleRect: _scaleRect,
-                                    ),
-                                  ),
-
-                                if (isOcrLoading)
-                                  Positioned.fill(
-                                    child: ColoredBox(
-                                      color: colorScheme.overlaySoft,
-                                      child: Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  },
+                  files: documentFiles!,
+                  pageHeight: pageHeight,
+                  isImageLoading: isImageLoading,
+                  imageSizes: imageSizes,
+                  showOcr: showOcr,
+                  isOcrLoading: isOcrLoading,
+                  ocrData: ocrData,
                 ),
 
-                if (isImage(widget.document.files[0].extension))
+                if (isImage(documentFiles[0].extension) && document != null)
                   Positioned(
                     bottom: 20,
                     right: 20,
@@ -271,7 +204,7 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (_) =>
-                                DocumentChatScreen(document: widget.document),
+                                DocumentChatScreen(document: document!),
                           ),
                         );
                       },
@@ -284,57 +217,33 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                     left: 16,
                     right: 16,
                     top: 8,
-                    child: SafeArea(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colorScheme.overlayStrong,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          'document_details.tap_to_copy_label'.tr(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: colorScheme.textLight,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
+                    child: InfoBannerOverlay(
+                      backgroundColor: colorScheme.overlayStrong,
+                      textColor: colorScheme.textLight,
+                      text: 'document_details.tap_to_copy_label',
                     ),
                   ),
                 if (documentFiles.length > 1)
                   Positioned(
                     top: 16,
                     left: 16,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: colorScheme.overlayStrong,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '${currentIndex + 1}/${documentFiles.length}',
-                        style: TextStyle(
-                          color: colorScheme.textLight,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                    child: PageIndicatorOverlay(
+                      currentIndex: currentIndex,
+                      total: documentFiles.length,
+                      backgroundColor: colorScheme.overlayStrong,
+                      textColor: colorScheme.textLight,
                     ),
                   ),
               ],
             ),
-      bottomNavigationBar: DocumentActions(
-        document: widget.document,
-        onDelete: _showDeleteConfirmation,
-        onShare: widget.onShare,
-        onRecognize: _handleRecognize,
-      ),
+      bottomNavigationBar: document != null
+          ? DocumentActions(
+              document: document!,
+              onDelete: _showDeleteConfirmation,
+              onShare: widget.onShare,
+              onRecognize: _handleRecognize,
+            )
+          : SizedBox.shrink(),
     );
   }
 }

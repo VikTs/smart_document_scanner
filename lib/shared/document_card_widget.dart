@@ -66,7 +66,7 @@ class DocumentCardWidget extends StatelessWidget {
           builder: (_) => BlocProvider.value(
             value: context.read<DocumentsBloc>(),
             child: DocumentDetailsScreen(
-              document: document,
+              documentId: document.id,
               onDelete: onDelete,
               onShare: onShare,
             ),
