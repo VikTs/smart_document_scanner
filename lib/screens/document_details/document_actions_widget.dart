@@ -10,7 +10,7 @@ class DocumentActions extends StatelessWidget {
   final DocumentData document;
   final void Function(BuildContext, String) onDelete;
   final void Function(List<DocumentFile>) onShare;
-  final VoidCallback onRecognize;
+  final void Function(List<DocumentFile>) onRecognize;
 
   const DocumentActions({
     required this.document,
@@ -45,7 +45,9 @@ class DocumentActions extends StatelessWidget {
                   icon: Icons.text_snippet_outlined,
                   label: "document_details.recognize_document_btn".tr(),
                   color: color,
-                  onTap: onRecognize,
+                  onTap: () {
+                    onRecognize(document.files);
+                  },
                 ),
               ),
             const SizedBox(width: 12),

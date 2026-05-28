@@ -46,16 +46,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState> {
     Emitter<DocumentsState> emit,
   ) async {
     await repository.updateDocument(event.document);
-
-    final currentState = state;
-
-    if (currentState is DocumentsLoaded) {
-      final updatedList = currentState.documents.map((doc) {
-        return doc.id == event.document.id ? event.document : doc;
-      }).toList();
-
-      emit(DocumentsLoaded(updatedList));
-    }
+    add(LoadDocuments());
   }
 
   Future<void> _onClearDocuments(

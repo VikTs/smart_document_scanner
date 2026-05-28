@@ -37,6 +37,7 @@
     "unknown_document_banner_message": "Document could not be recognized — it may be blurry or unclear",
     "text_copied_message": "Text copied",
     "tap_to_copy_label": "Tap highlighted text to copy",
+    "preview_error_message": "The preview cannot be loaded",
     "delete_document_bottom_sheet": {
       "title": "Delete the document?",
       "subtitle": "This action cannot be cancelled",
