@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/models/message.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/screens/chat/chat_input_widget.dart';
 
 class ChatBody extends StatelessWidget {
@@ -20,6 +21,9 @@ class ChatBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Column(
       children: [
         Container(
@@ -29,10 +33,10 @@ class ChatBody extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(
+                Icon(
                   Icons.description_outlined,
                   size: 18,
-                  color: Colors.grey,
+                  color: colorScheme.iconDisabled,
                 ),
                 const SizedBox(width: 4),
                 Flexible(
@@ -62,13 +66,17 @@ class ChatBody extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   constraints: const BoxConstraints(maxWidth: 280),
                   decoration: BoxDecoration(
-                    color: msg.isUser ? Colors.blue : Colors.grey.shade200,
+                    color: msg.isUser
+                        ? colorScheme.messagePrimaryBackground
+                        : colorScheme.messageSecondaryBackground,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
                     msg.text,
                     style: TextStyle(
-                      color: msg.isUser ? Colors.white : Colors.black87,
+                      color: msg.isUser
+                          ? colorScheme.onMessagePrimary
+                          : colorScheme.onMessageSecondary,
                     ),
                   ),
                 ),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/prompts/document_chat.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
 import 'package:smart_documents_scanner/data/services/llm_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
@@ -113,6 +114,9 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -123,7 +127,9 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
           elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: Colors.grey.withOpacity(0.15)),
+            side: BorderSide(
+              color: colorScheme.settingsSurface.withOpacity(0.15),
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.all(18),
@@ -163,7 +169,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.06),
+                    color: colorScheme.settingsSurface.withOpacity(0.06),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Row(
@@ -171,7 +177,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                       Icon(
                         Icons.info_outline,
                         size: 18,
-                        color: Colors.grey[700],
+                        color: colorScheme.settingsTextStrong,
                       ),
 
                       const SizedBox(width: 10),
@@ -181,7 +187,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                           "settings.api_key_note".tr(),
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey[700],
+                            color: colorScheme.settingsTextStrong,
                           ),
                         ),
                       ),

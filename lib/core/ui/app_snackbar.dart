@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 
 class AppSnackbar {
-  static const _warningColor = Color(0xFFFF9800);
-  static const _errorColor = Color(0xFFF44336);
-  static const _successColor = Color(0xFF47bb64);
-
   static void info(BuildContext context, String message) {
     _showBottom(context, message);
   }
@@ -14,7 +11,11 @@ class AppSnackbar {
     String message, {
     Duration? duration,
   }) {
-    _showTop(context, message, backgroundColor: _warningColor);
+    _showTop(
+      context,
+      message,
+      backgroundColor: Theme.of(context).colorScheme.snackbarWarning,
+    );
   }
 
   static void error(
@@ -22,7 +23,11 @@ class AppSnackbar {
     String message, {
     Duration? duration,
   }) {
-    _showTop(context, message, backgroundColor: _errorColor);
+    _showTop(
+      context,
+      message,
+      backgroundColor: Theme.of(context).colorScheme.snackbarError,
+    );
   }
 
   static void success(
@@ -30,7 +35,11 @@ class AppSnackbar {
     String message, {
     Duration? duration,
   }) {
-    _showTop(context, message, backgroundColor: _successColor);
+    _showTop(
+      context,
+      message,
+      backgroundColor: Theme.of(context).colorScheme.snackbarSuccess,
+    );
   }
 
   static void _showBottom(BuildContext context, String text) {

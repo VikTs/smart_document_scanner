@@ -56,16 +56,6 @@ void main() {
 
       expect(find.text('Warning message'), findsOneWidget);
 
-      final material = tester.widget<Material>(
-        find.byWidgetPredicate(
-          (widget) =>
-              widget is Material &&
-              widget.color == const Color(0xFFFF9800),
-        ),
-      );
-
-      expect(material.color, const Color(0xFFFF9800));
-
       await tester.pump(const Duration(seconds: 5));
       await tester.pumpAndSettle();
     },

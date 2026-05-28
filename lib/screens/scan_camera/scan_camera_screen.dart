@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:smart_documents_scanner/core/platform/photo.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/screens/scan_camera/camera_permition_denied_widget.dart';
 import 'package:smart_documents_scanner/screens/scan_camera/camera_preview_widget.dart';
 
@@ -121,9 +122,12 @@ class _ScanCameraScreenState extends State<ScanCameraScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     if (_isLoading) {
-      return const Scaffold(
-        backgroundColor: Colors.black,
+      return Scaffold(
+        backgroundColor: colorScheme.cameraBackground,
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -140,4 +144,3 @@ class _ScanCameraScreenState extends State<ScanCameraScreen> {
     );
   }
 }
-

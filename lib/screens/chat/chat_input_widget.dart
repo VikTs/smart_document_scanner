@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 
 class ChatInput extends StatelessWidget {
   final TextEditingController controller;
@@ -49,8 +50,8 @@ class ChatInput extends StatelessWidget {
                   icon: Icon(
                     Icons.send,
                     color: isEnabled
-                        ? colorScheme.primary
-                        : const Color(0xFF6B7280),
+                        ? colorScheme.iconPrimary
+                        : colorScheme.iconDisabled,
                   ),
                 );
               },

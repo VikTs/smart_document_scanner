@@ -6,12 +6,12 @@ import 'package:flutter/services.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/screens/chat/document_chat_screen.dart';
 import 'package:smart_documents_scanner/screens/document_details/delete_confirmation_sheet.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
-import 'package:smart_documents_scanner/screens/document_details/document_details_app_bar.dart';
 import 'package:smart_documents_scanner/screens/document_details/ocr_overlay_widget.dart';
 import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
 
@@ -181,6 +181,8 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final documentFiles = widget.document.files;
 
     return Scaffold(
@@ -241,9 +243,9 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                                   ),
 
                                 if (isOcrLoading)
-                                  const Positioned.fill(
+                                  Positioned.fill(
                                     child: ColoredBox(
-                                      color: Colors.black26,
+                                      color: colorScheme.overlaySoft,
                                       child: Center(
                                         child: CircularProgressIndicator(),
                                       ),
@@ -289,13 +291,16 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.75),
+                          color: colorScheme.overlayStrong,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           'document_details.tap_to_copy_label'.tr(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+                          style: TextStyle(
+                            color: colorScheme.textLight,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ),
@@ -310,13 +315,13 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.black54,
+                        color: colorScheme.overlayStrong,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
                         '${currentIndex + 1}/${documentFiles.length}',
-                        style: const TextStyle(
-                          color: Colors.white,
+                        style: TextStyle(
+                          color: colorScheme.textLight,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
