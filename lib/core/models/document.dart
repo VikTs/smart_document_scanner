@@ -1,6 +1,6 @@
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 
-const documentDefaultName = "DocScanner";
+const documentDefaultName = "Scanned document";
 
 class DocumentData {
   final String id;

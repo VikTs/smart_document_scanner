@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_documents_scanner/core/themes/app_colors.dart';
-import 'package:smart_documents_scanner/data/db/converters/document_file_extension_converter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:typed_data';
 
+import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
 import 'package:smart_documents_scanner/shared/app_snackbar.dart';

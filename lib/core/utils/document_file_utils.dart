@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:pdfx/pdfx.dart' as pdfx;
-import 'package:smart_documents_scanner/data/db/converters/document_file_extension_converter.dart';
+import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart' as sfpdf;
 import 'package:uuid/uuid.dart';
 

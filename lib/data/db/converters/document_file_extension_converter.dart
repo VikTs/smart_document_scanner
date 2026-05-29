@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
-
-enum DocumentFileExtension { jpg, jpeg, png, pdf }
+import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
 
 class DocumentFileExtensionConverter extends TypeConverter<DocumentFileExtension, int> {
   const DocumentFileExtensionConverter();

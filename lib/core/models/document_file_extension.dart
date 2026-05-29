@@ -1,0 +1,1 @@
+enum DocumentFileExtension { jpg, jpeg, png, pdf }
