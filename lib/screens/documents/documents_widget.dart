@@ -9,6 +9,7 @@ class DocumentsWidget extends StatelessWidget {
   final String? title;
   final GestureTapCallback? onViewAllTap;
   final bool shrinkWrap;
+  final void Function(DocumentData) onDocumentCreated;
 
   const DocumentsWidget({
     super.key,
@@ -16,6 +17,7 @@ class DocumentsWidget extends StatelessWidget {
     this.title,
     this.onViewAllTap,
     this.shrinkWrap = false,
+    required this.onDocumentCreated,
   });
 
   @override
@@ -23,7 +25,9 @@ class DocumentsWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     if (documents.isEmpty) {
-      return const DocumentsEmptyWidget();
+      return DocumentsEmptyWidget(
+        onDocumentCreated: onDocumentCreated,
+      );
     }
 
     return ListView.builder(

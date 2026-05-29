@@ -1,7 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
+import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/home/add_document_button_widget.dart';
 
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
@@ -34,6 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void onDocumentCreated(DocumentData document) {
+    context.read<DocumentsBloc>().add(SaveDocument(document: document));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           if (state is DocumentsEmpty) {
-            return const HomeEmptyWidget();
+            return HomeEmptyWidget(onDocumentCreated: onDocumentCreated);
           }
 
           if (state is DocumentsLoaded) {
@@ -67,9 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         TabBarWidget.of(context)?.goToTab(1);
                       },
                       shrinkWrap: true,
+                      onDocumentCreated: onDocumentCreated,
                     ),
                     const SizedBox(height: 12),
-                    const AddDocumentButton(),
+                    AddDocumentButton(onDocumentCreated: onDocumentCreated),
                   ],
                 ),
               ),
@@ -88,7 +95,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class HomeEmptyWidget extends StatelessWidget {
-  const HomeEmptyWidget({super.key});
+  final void Function(DocumentData document) onDocumentCreated;
+  const HomeEmptyWidget({super.key, required this.onDocumentCreated});
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +105,7 @@ class HomeEmptyWidget extends StatelessWidget {
         imagePath: 'assets/images/document_scanner.png',
         title: "home.empty.title".tr(),
         message: "home.empty.message".tr(),
-        footer: const AddDocumentButton(),
+        footer: AddDocumentButton(onDocumentCreated: onDocumentCreated),
       ),
     );
   }
