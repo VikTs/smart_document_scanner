@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
+import 'package:smart_documents_scanner/core/services/text_recognizion_service.dart';
 import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
-import 'package:smart_documents_scanner/core/utils/recognizion_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_bloc_extension.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_bloc_extension.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/chat/document_chat_screen.dart';
 import 'package:smart_documents_scanner/screens/document_details/delete_confirmation_sheet.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
@@ -125,7 +125,7 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
       });
 
       for (int i = 0; i < files.length; i++) {
-        final boxes = await generateRecognizedTextBoxes(files[i].bytes);
+        final boxes = await TextRecognisionService.generateRecognizedTextBoxes(files[i].bytes);
 
         if (boxes.isEmpty && mounted) {
           AppSnackbar.warning(context, "home.document_recognision_error".tr());

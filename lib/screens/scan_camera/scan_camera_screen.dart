@@ -5,7 +5,7 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:smart_documents_scanner/core/platform/photo.dart';
+import 'package:smart_documents_scanner/core/services/photo_service.dart';
 import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/screens/scan_camera/camera_permition_denied_widget.dart';
 import 'package:smart_documents_scanner/screens/scan_camera/camera_preview_widget.dart';
@@ -33,7 +33,7 @@ class _ScanCameraScreenState extends State<ScanCameraScreen> {
   }
 
   Future<void> _loadLastPhoto() async {
-    final photo = await getLastPhoto();
+    final photo = await PhotoService.getLastPhoto();
     if (!mounted) return;
     setState(() => _lastPhoto = photo);
   }

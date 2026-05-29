@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/home/add_document_button_widget.dart';
 
-import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_state.dart';
 import 'package:smart_documents_scanner/screens/home/documents_amount_widget.dart';
 import 'package:smart_documents_scanner/screens/documents/documents_widget.dart';
 import 'package:smart_documents_scanner/screens/home/privacy_policy_dialog.dart';

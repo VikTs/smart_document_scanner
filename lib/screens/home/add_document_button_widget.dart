@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
-import 'package:smart_documents_scanner/core/services/document_upload.dart';
+import 'package:smart_documents_scanner/core/services/document_upload_service.dart';
 
 class AddDocumentButton extends StatefulWidget {
   final void Function(DocumentData document) onDocumentCreated;
