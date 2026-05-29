@@ -36,7 +36,7 @@ class DocumentUploadService {
     if (bytes == null) return null;
 
     final extension = DocumentFileExtension.values.byName(
-      result.names[0]!.split('.').last,
+      result.names[0]!.split('.').last.toLowerCase(),
     );
 
     return createDocument(

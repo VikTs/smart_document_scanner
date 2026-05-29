@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
+import 'package:smart_documents_scanner/shared/bottom_sheet/add_document_bottom_sheet.dart';
+import 'package:smart_documents_scanner/core/services/document_upload_service.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_state.dart';
@@ -53,8 +55,24 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     setState(() => _sortType = type);
   }
 
-  void onDocumentCreated(DocumentData document) {
-    context.read<DocumentsBloc>().add(SaveDocument(document: document));
+  void onDocumentCreated(DocumentData? document) {
+    if (document != null) {
+      context.read<DocumentsBloc>().add(SaveDocument(document: document));
+    }
+  }
+
+  void onShowAddDocumentBottomSheet() {
+    showAddDocumentBottomSheet(
+      context: context,
+      onScan: () async {
+        final document = await DocumentUploadService.scan(context);
+        onDocumentCreated(document);
+      },
+      onUpload: () async {
+        final document = await DocumentUploadService.upload();
+        onDocumentCreated(document);
+      },
+    );
   }
 
   @override
@@ -78,55 +96,63 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
           if (state is DocumentsLoaded) {
             final docs = _processDocuments(state.documents);
 
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  const SizedBox(height: 12),
-
-                  Row(
+            return Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
                     children: [
-                      Expanded(
-                        child: TextField(
-                          onChanged: (value) {
-                            setState(() {
-                              _query = value.trim().toLowerCase();
-                            });
-                          },
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            hintText: "documents.search_field_hint".tr(),
-                            isDense: true,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  _query = value.trim().toLowerCase();
+                                });
+                              },
+                              decoration: InputDecoration(
+                                prefixIcon: const Icon(Icons.search),
+                                hintText: "documents.search_field_hint".tr(),
+                                isDense: true,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          const SizedBox(width: 8),
+                          DocumentsSortButton(
+                            sortType: _sortType,
+                            onSelected: _onSortSelected,
+                          ),
+                        ],
                       ),
-
-                      const SizedBox(width: 8),
-
-                      DocumentsSortButton(
-                        sortType: _sortType,
-                        onSelected: _onSortSelected,
+                      const SizedBox(height: 12),
+                      Expanded(
+                        child: DocumentsWidget(
+                          documents: docs,
+                          onDocumentCreated: onDocumentCreated,
+                        ),
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 12),
-
-                  Expanded(
-                    child: DocumentsWidget(
-                      documents: docs,
-                      onDocumentCreated: onDocumentCreated,
-                    ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  right: 20,
+                  child: FloatingActionButton(
+                    shape: const CircleBorder(),
+                    onPressed: onShowAddDocumentBottomSheet,
+                    child: const Icon(Icons.post_add),
                   ),
-                ],
-              ),
+                ),
+              ],
             );
           }
 
-          return const SizedBox();
+          return const SizedBox.shrink();
         },
       ),
     );
