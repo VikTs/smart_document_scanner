@@ -59,6 +59,7 @@ void main() {
     return MaterialApp(
       home: Material(
         child: DocumentActions(
+          areActionsDisabled: false,
           document: document,
           onDelete: (context, id) => deleteCalled = true,
           onShare: (_) => shareCalled = true,

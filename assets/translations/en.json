@@ -56,7 +56,7 @@
     "no_readable_text_message": "Document contains no readable text. Please try again with a clearer image.",
     "error_message": "Request failed. Please check your internet connection and make sure your API key is set up correctly, then try again.",
     "input_hint": "Ask about document...",
-    "intro_message": "Ask a question about this document. \n\nFor example:\n- What is this document about?\n- Can you summarize the key points? \n\nNote: DON'T use this chat for documents with CONFIDENTIAL or SENSITIVE personal data.",
+    "intro_message": "Ask a question about this document. \n\nFor example:\n- What is this document about?\n- Can you summarize the key points? \n\nNote: don't use this chat for documents with confidential personal data.",
     "setup_required": {
       "title": "AI is not configured",
       "subtitle": "Connect provider and API key in settings",
