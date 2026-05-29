@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
-import 'package:smart_documents_scanner/core/utils/recognizion_utils.dart';
+import 'package:smart_documents_scanner/core/services/text_recognizion_service.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/screens/document_details/ocr_overlay_widget.dart';
 import 'package:smart_documents_scanner/shared/cached_image_widget.dart';
@@ -67,18 +67,18 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
                       child: widget.isImageLoading
                           ? const CircularProgressIndicator()
                           : (imageSize == null
-                              ? Text(
-                                  "document_details.preview_error_message"
-                                      .tr(),
-                                )
-                              : FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: SizedBox(
-                                    width: imageSize.width,
-                                    height: imageSize.height,
-                                    child: CachedImage(bytes: file.bytes),
-                                  ),
-                                )),
+                                ? Text(
+                                    "document_details.preview_error_message"
+                                        .tr(),
+                                  )
+                                : FittedBox(
+                                    fit: BoxFit.contain,
+                                    child: SizedBox(
+                                      width: imageSize.width,
+                                      height: imageSize.height,
+                                      child: CachedImage(bytes: file.bytes),
+                                    ),
+                                  )),
                     ),
 
                     if (widget.showOcr &&
@@ -89,7 +89,8 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
                           boxes: widget.ocrData[index]!,
                           imageSize: imageSize,
                           widgetSize: widgetSize,
-                          scaleRect: mapImageRectToWidgetRect,
+                          scaleRect:
+                              TextRecognisionService.mapImageRectToWidgetRect,
                         ),
                       ),
 

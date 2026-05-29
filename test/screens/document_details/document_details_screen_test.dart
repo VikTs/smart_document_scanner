@@ -10,9 +10,9 @@ import 'package:mocktail/mocktail.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_state.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_details_screen.dart';
 
 class MockDocumentsBloc extends MockBloc<DocumentsEvent, DocumentsState> implements DocumentsBloc {}

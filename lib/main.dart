@@ -5,8 +5,8 @@ import 'package:smart_documents_scanner/core/themes/theme.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 import 'package:smart_documents_scanner/data/repository/documents_repository.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/shared/tab_bar_widget.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 

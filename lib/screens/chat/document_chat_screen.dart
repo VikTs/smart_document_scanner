@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/message.dart';
-import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
+import 'package:smart_documents_scanner/core/services/text_recognizion_service.dart';
 import 'package:smart_documents_scanner/data/services/llm_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/screens/chat/chat_body_widget.dart';
@@ -61,7 +61,7 @@ class _DocumentChatScreenState extends State<DocumentChatScreen> {
   }
 
   Future<void> _prepareDocument() async {
-    final recognized = await recognizeText(
+    final recognized = await TextRecognisionService.recognize(
       bytes: widget.document.files[0].bytes,
     );
 

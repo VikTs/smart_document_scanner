@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_state.dart';
 import 'package:smart_documents_scanner/screens/documents/documents_empty_widget.dart';
 import 'package:smart_documents_scanner/screens/documents/documents_sort_button_widget.dart';
 import 'package:smart_documents_scanner/screens/documents/documents_widget.dart';
@@ -52,6 +53,10 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
     setState(() => _sortType = type);
   }
 
+  void onDocumentCreated(DocumentData document) {
+    context.read<DocumentsBloc>().add(SaveDocument(document: document));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +68,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
           }
 
           if (state is DocumentsEmpty) {
-            return const DocumentsEmptyWidget();
+            return DocumentsEmptyWidget(onDocumentCreated: onDocumentCreated);
           }
 
           if (state is DocumentsError) {
@@ -110,7 +115,12 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
 
                   const SizedBox(height: 12),
 
-                  Expanded(child: DocumentsWidget(documents: docs)),
+                  Expanded(
+                    child: DocumentsWidget(
+                      documents: docs,
+                      onDocumentCreated: onDocumentCreated,
+                    ),
+                  ),
                 ],
               ),
             );

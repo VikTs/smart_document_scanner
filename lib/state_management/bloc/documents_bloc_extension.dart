@@ -1,6 +1,6 @@
 import 'package:smart_documents_scanner/core/models/document.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
-import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
+import 'package:smart_documents_scanner/state_management/bloc/documents_state.dart';
 
 extension DocumentsBlocX on DocumentsBloc {
   DocumentData? byId(String id) {
