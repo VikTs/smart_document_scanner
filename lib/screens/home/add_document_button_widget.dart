@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/services/document_upload_service.dart';
+import 'package:smart_documents_scanner/shared/bottom_sheet/add_document_bottom_sheet.dart';
 
 class AddDocumentButton extends StatefulWidget {
   final void Function(DocumentData document) onDocumentCreated;
@@ -16,12 +17,35 @@ class AddDocumentButton extends StatefulWidget {
 class _AddDocumentButtonState extends State<AddDocumentButton> {
   bool _isLoading = false;
 
+  void onShowAddDocumentBottomSheet() {
+    showAddDocumentBottomSheet(
+      context: context,
+      onScan: () => _processAction(() => DocumentUploadService.scan(context)),
+      onUpload: () => _processAction(DocumentUploadService.upload),
+    );
+  }
+
+  Future<void> _processAction(Future<DocumentData?> Function() action) async {
+    if (_isLoading) return;
+    setState(() => _isLoading = true);
+
+    try {
+      final document = await action();
+
+      if (document != null && mounted) {
+        widget.onDocumentCreated(document);
+      }
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return FilledButton.icon(
-      onPressed: _isLoading ? null : () => _showAddOptions(context),
+      onPressed: _isLoading ? null : onShowAddDocumentBottomSheet,
       icon: _isLoading
           ? SizedBox(
               width: 20,
@@ -36,53 +60,5 @@ class _AddDocumentButtonState extends State<AddDocumentButton> {
         _isLoading ? 'home.loading'.tr() : 'home.add_document_btn'.tr(),
       ),
     );
-  }
-
-  void _showAddOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.document_scanner),
-              title: Text("home.scan_document_btn".tr()),
-              onTap: () async {
-                Navigator.pop(context);
-                await _handle(() async {
-                  final doc = await DocumentUploadService.scan(context);
-                  if (doc != null) {
-                    widget.onDocumentCreated(doc);
-                  }
-                });
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.upload_file),
-              title: Text("home.upload_file_btn".tr()),
-              onTap: () async {
-                Navigator.pop(context);
-                await _handle(() async {
-                  final doc = await DocumentUploadService.upload();
-                  if (doc != null) {
-                    widget.onDocumentCreated(doc);
-                  }
-                });
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> _handle(Future<void> Function() action) async {
-    setState(() => _isLoading = true);
-    try {
-      await action();
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
   }
 }
