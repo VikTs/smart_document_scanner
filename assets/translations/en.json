@@ -21,6 +21,12 @@
   },
   "documents": {
     "search_field_hint": "Search documents...",
+    "sort": {
+      "az": "A - Z",
+      "za": "Z - A",
+      "oldNew": "Oldest first",
+      "newOld": "Newest first"
+    },
     "empty": {
       "title": "No documents found",
       "message": "There is no uploaded documents."
@@ -37,6 +43,7 @@
     "unknown_document_banner_message": "Document could not be recognized — it may be blurry or unclear",
     "text_copied_message": "Text copied",
     "tap_to_copy_label": "Tap highlighted text to copy",
+    "preview_error_message": "The preview cannot be loaded",
     "delete_document_bottom_sheet": {
       "title": "Delete the document?",
       "subtitle": "This action cannot be cancelled",
@@ -94,5 +101,30 @@
     "title": "Scan document",
     "camera_permission_error": "Camera permission denied",
     "grant_permission_btn": "Grant permission"
+  },
+  "privacy_policy": {
+    "title": "Privacy Policy",
+    "accept_btn": "Continue",
+    "accept_checkbox": "I have read and agree to the Privacy Policy",
+    "section_1": {
+      "title": "1. Data Collection",
+      "text": "We do not intentionally collect or store personal data on external servers. All documents are stored locally on your device unless you explicitly share them."
+    },
+    "section_2": {
+      "title": "2. Camera and Storage",
+      "text": "The app uses camera and gallery access only for scanning and importing documents."
+    },
+    "section_3": {
+      "title": "3. AI Processing",
+      "text": "Some features use AI services to analyze text extracted from documents. Only selected content is sent for processing."
+    },
+    "section_4": {
+      "title": "4. Local Storage",
+      "text": "All documents and data are stored locally on your device. You may choose to share them manually using system sharing features."
+    },
+    "section_5": {
+      "title": "5. Consent",
+      "text": "By continuing, you agree to the processing of document content for OCR and AI analysis."
+    }
   }
 }

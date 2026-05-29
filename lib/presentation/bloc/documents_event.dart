@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 
@@ -17,8 +16,14 @@ class ClearDocument extends DocumentsEvent {
   ClearDocument({required this.id});
 }
 
-class SaveScannedDocument extends DocumentsEvent {
+class SaveDocument extends DocumentsEvent {
   final DocumentData document;
 
-  SaveScannedDocument({required this.document});
+  SaveDocument({required this.document});
+}
+
+class UpdateDocument extends DocumentsEvent {
+  final DocumentData document;
+
+  UpdateDocument({required this.document});
 }

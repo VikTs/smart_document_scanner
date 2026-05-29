@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/models/message.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/screens/chat/chat_input_widget.dart';
 
 class ChatBody extends StatelessWidget {
@@ -21,14 +21,35 @@ class ChatBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Column(
       children: [
         Container(
           margin: const EdgeInsets.all(8),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          child: Text("📄 $documentName"),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.description_outlined,
+                  size: 18,
+                  color: colorScheme.iconDisabled,
+                ),
+                const SizedBox(width: 4),
+                Flexible(
+                  child: Text(
+                    documentName,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-
         Expanded(
           child: ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -45,13 +66,17 @@ class ChatBody extends StatelessWidget {
                   padding: const EdgeInsets.all(12),
                   constraints: const BoxConstraints(maxWidth: 280),
                   decoration: BoxDecoration(
-                    color: msg.isUser ? Colors.blue : Colors.grey.shade200,
+                    color: msg.isUser
+                        ? colorScheme.messagePrimaryBackground
+                        : colorScheme.messageSecondaryBackground,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
                     msg.text,
                     style: TextStyle(
-                      color: msg.isUser ? Colors.white : Colors.black87,
+                      color: msg.isUser
+                          ? colorScheme.onMessagePrimary
+                          : colorScheme.onMessageSecondary,
                     ),
                   ),
                 ),

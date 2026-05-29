@@ -4,9 +4,11 @@ import 'package:uuid/uuid.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:typed_data';
 
+import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/platform/text_recognizion.dart';
-import 'package:smart_documents_scanner/core/ui/app_snackbar.dart';
+import 'package:smart_documents_scanner/shared/app_snackbar.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
@@ -26,15 +28,18 @@ class _AddDocumentButtonState extends State<AddDocumentButton> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return FilledButton.icon(
       onPressed: _isLoading ? null : () => _showAddOptions(context),
       icon: _isLoading
-          ? const SizedBox(
+          ? SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: Colors.white,
+                color: colorScheme.loadingIndicator,
               ),
             )
           : const Icon(Icons.add),
@@ -109,26 +114,28 @@ class _AddDocumentButtonState extends State<AddDocumentButton> {
     final recognizedText = await recognizeText(imagePath: imagePath);
     final document = await generateDocument(bytes);
 
+    if (!mounted) {
+      return;
+    }
+
     if (recognizedText.blocks.isEmpty) {
       AppSnackbar.warning(context, "home.document_recognision_error".tr());
     }
 
     if (document != null) {
-      context.read<DocumentsBloc>().add(
-        SaveScannedDocument(document: document),
-      );
+      context.read<DocumentsBloc>().add(SaveDocument(document: document));
     }
   }
 
   Future<DocumentData?> generateDocument(
     Uint8List bytes, {
-    String extension = 'jpg',
+    DocumentFileExtension extension = DocumentFileExtension.jpg,
     String? documentName,
   }) async {
     final documentId = const Uuid().v1();
     try {
       final List<DocumentFile> files;
-      if (extension == "pdf") {
+      if (extension == DocumentFileExtension.pdf) {
         files = await pdfToPages(documentId, bytes);
       } else {
         final fileData = DocumentFile(
@@ -136,7 +143,7 @@ class _AddDocumentButtonState extends State<AddDocumentButton> {
           documentId: documentId,
           bytes: bytes,
           pageNumber: 1,
-          type: getTypeFromExtension(extension),
+          extension: extension,
         );
         files = [fileData];
       }
@@ -144,11 +151,13 @@ class _AddDocumentButtonState extends State<AddDocumentButton> {
         id: documentId,
         createdAt: DateTime.now(),
         files: files,
-        name: documentName ?? "DocScanner.$extension",
+        name: documentName ?? documentDefaultName,
       );
       return document;
     } catch (e) {
-      AppSnackbar.error(context, e.toString());
+      if (mounted) {
+        AppSnackbar.error(context, e.toString());
+      }
     }
     return null;
   }
@@ -162,16 +171,14 @@ class _AddDocumentButtonState extends State<AddDocumentButton> {
 
     final document = await generateDocument(
       bytes,
-      extension: extension,
-      documentName: result.names[0],
+      extension: DocumentFileExtension.values.byName(extension),
+      documentName: getFileNameWithoutExtension(result.names[0]),
     );
 
     if (!context.mounted) return;
 
     if (document != null) {
-      context.read<DocumentsBloc>().add(
-        SaveScannedDocument(document: document),
-      );
+      context.read<DocumentsBloc>().add(SaveDocument(document: document));
     }
   }
 }

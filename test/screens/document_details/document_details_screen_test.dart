@@ -1,106 +1,101 @@
+import 'dart:typed_data';
+
 import 'package:bloc_test/bloc_test.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+
 import 'package:smart_documents_scanner/core/models/document.dart';
+import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/presentation/bloc/documents_state.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_details_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:transparent_image/transparent_image.dart';
 
-class MockDocumentsBloc extends MockBloc<DocumentsEvent, DocumentsState>
-    implements DocumentsBloc {}
-
-class FakeDocumentsEvent extends Fake implements DocumentsEvent {}
+class MockDocumentsBloc extends MockBloc<DocumentsEvent, DocumentsState> implements DocumentsBloc {}
 
 class FakeDocumentsState extends Fake implements DocumentsState {}
 
-class _FakeAssetLoader extends AssetLoader {
-  @override
-  Future<Map<String, dynamic>> load(String path, Locale locale) async {
-    return {
-      "document_details": {
-        "share_document_btn": "Share",
-        "recognize_document_btn": "Recognize",
-        "delete_document_btn": "Delete",
-      }
-    };
-  }
-}
+class FakeDocumentsEvent extends Fake implements DocumentsEvent {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  late MockDocumentsBloc documentsBloc;
-  late DocumentData testDocument;
-
-  setUpAll(() async {
-    registerFallbackValue(FakeDocumentsEvent());
+  setUpAll(() {
     registerFallbackValue(FakeDocumentsState());
-
-    SharedPreferences.setMockInitialValues({});
-    await EasyLocalization.ensureInitialized();
+    registerFallbackValue(FakeDocumentsEvent());
   });
+
+  late MockDocumentsBloc mockBloc;
+
+  const bytes = [
+    71, 73, 70, 56, 57, 97, 1, 0, 1, 0, 128, 0, 0, 0, 0, 0, 255, 255, 255, 33, 249, 4, 1, 0, 0, 1, 
+    0, 44, 0, 0, 0, 0, 1, 0, 1, 0, 0, 2, 2, 68, 1, 0, 59
+    ];
+
+  final testDocument = DocumentData(
+    id: '1',
+    name: 'Test document',
+    createdAt: DateTime(2025, 1, 1),
+    files: [
+      DocumentFile(
+        id: 'file_1',
+        documentId: '1',
+        bytes: Uint8List.fromList(bytes),
+        extension: DocumentFileExtension.jpg,
+        pageNumber: 1,
+      ),
+    ],
+  );
 
   setUp(() {
-    documentsBloc = MockDocumentsBloc();
+    mockBloc = MockDocumentsBloc();
+
+    when(() => mockBloc.state).thenReturn(DocumentsLoaded([testDocument]));
 
     whenListen(
-      documentsBloc,
-      Stream.value(DocumentsInitial()),
-      initialState: DocumentsInitial(),
-    );
-
-    testDocument = DocumentData(
-      id: 'doc_1',
-      name: "doc_name",
-      files: [
-        DocumentFile(
-          id: "2",
-          documentId: "2",
-          bytes: kTransparentImage,
-          type: DocumentFileType.image,
-        ),
-      ],
-      createdAt: DateTime(2026, 2, 4),
+      mockBloc,
+      Stream<DocumentsState>.fromIterable([
+        DocumentsLoaded([testDocument]),
+      ]),
+      initialState: DocumentsLoaded([testDocument]),
     );
   });
 
-  Widget _wrap(Widget child) {
+  Widget buildWidget() {
     return EasyLocalization(
       supportedLocales: const [Locale('en')],
-      fallbackLocale: const Locale('en'),
       path: 'assets/translations',
-      assetLoader: _FakeAssetLoader(),
-      child: MaterialApp(
-        home: BlocProvider.value(
-          value: documentsBloc,
-          child: child,
+      fallbackLocale: const Locale('en'),
+      startLocale: const Locale('en'),
+      saveLocale: false,
+      child: BlocProvider<DocumentsBloc>.value(
+        value: mockBloc,
+        child: MaterialApp(
+          locale: const Locale('en'),
+          home: DocumentDetailsScreen(documentId: '1', onDelete: (_, __) {}, onShare: (_) {}),
         ),
       ),
     );
   }
 
   testWidgets('Displays document details screen correctly', (tester) async {
-    await tester.pumpWidget(
-      _wrap(
-        DocumentDetailsScreen(
-          document: testDocument,
-          onDelete: (context, id) {},
-          onShare: (files) {},
-        ),
-      ),
-    );
+    await tester.pumpWidget(buildWidget());
 
     await tester.pump();
-    await tester.pump(const Duration(milliseconds: 200));
+    await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.byIcon(Icons.delete_outline), findsOneWidget);
+    expect(find.byType(DocumentDetailsScreen), findsOneWidget);
+
+    expect(find.text('Test document'), findsOneWidget);
+
+    expect(find.byType(Scaffold), findsOneWidget);
+
+    expect(find.byType(FloatingActionButton), findsOneWidget);
+
+    expect(find.byIcon(Icons.chat), findsOneWidget);
   });
 }

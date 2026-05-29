@@ -1,11 +1,10 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
+import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
 
 void main() {
@@ -21,7 +20,7 @@ void main() {
       id: 'file_1',
       documentId: docId,
       bytes: Uint8List.fromList([1, 2, 3]),
-      type: DocumentFileType.image,
+      extension: DocumentFileExtension.jpg,
       pageNumber: 0,
     );
   }
@@ -31,7 +30,7 @@ void main() {
       id: 'file_2',
       documentId: docId,
       bytes: Uint8List.fromList([4, 5, 6]),
-      type: DocumentFileType.pdf,
+      extension: DocumentFileExtension.pdf,
       pageNumber: 0,
     );
   }
@@ -63,7 +62,7 @@ void main() {
           document: document,
           onDelete: (context, id) => deleteCalled = true,
           onShare: (_) => shareCalled = true,
-          onRecognize: () => recognizeCalled = true,
+          onRecognize: (files) => recognizeCalled = true,
         ),
       ),
     );

@@ -6,20 +6,39 @@ class AppStorage {
 
   static const _apiKey = 'llm_api_key';
   static const _provider = 'llm_provider';
+  static const _privacyAccepted = 'privacy_accepted';
+
+  // Privacy
+
+  Future<bool> hasAcceptedPrivacy() async {
+    final value = await getAcceptedPrivacy();
+    return value == 'true';
+  }
+
+  Future<String?> getAcceptedPrivacy() async {
+    return _storage.read(key: _privacyAccepted);
+  }
+
+  Future<void> setPrivacyAccepted() async {
+    await _storage.write(key: _privacyAccepted, value: 'true');
+  }
+
+  // API Key
 
   Future<void> saveApiKey(String value) async {
-    final trimmed = value.trim();
-    await _storage.write(key: _apiKey, value: trimmed);
+    await _storage.write(key: _apiKey, value: value.trim());
   }
 
   Future<String?> getApiKey() async {
-    return await _storage.read(key: _apiKey);
+    return _storage.read(key: _apiKey);
   }
 
   Future<bool> hasApiKey() async {
     final key = await getApiKey();
     return key != null && key.isNotEmpty;
   }
+
+  // Provider
 
   Future<void> saveProvider(AIProvider provider) async {
     await _storage.write(key: _provider, value: provider.name);

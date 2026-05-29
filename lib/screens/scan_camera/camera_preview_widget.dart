@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 
 class CameraPreviewView extends StatelessWidget {
   final CameraController controller;
@@ -20,10 +21,11 @@ class CameraPreviewView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: colorScheme.cameraBackground,
       body: SafeArea(
         child: Stack(
           children: [
@@ -129,8 +131,8 @@ class BottomControls extends StatelessWidget {
                     : Container(
                         width: 56,
                         height: 56,
-                        color: Colors.grey,
-                        child: const Icon(Icons.photo, color: Colors.white),
+                        color: colorScheme.galleryPlaceholder,
+                        child:  Icon(Icons.photo, color: colorScheme.iconSecondary),
                       ),
               ),
             ),

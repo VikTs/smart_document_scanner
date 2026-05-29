@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smart_documents_scanner/core/models/recognized_text.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
+import 'package:smart_documents_scanner/shared/app_snackbar.dart';
 
 class OcrOverlay extends StatelessWidget {
   final List<RecognizedTextBox> boxes;
@@ -19,6 +21,9 @@ class OcrOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Stack(
       children: boxes.map((box) {
         final scaled = scaleRect(box.rect, imageSize, widgetSize);
@@ -31,17 +36,15 @@ class OcrOverlay extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               Clipboard.setData(ClipboardData(text: box.text));
-
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text("document_details.text_copied_message".tr()),
-                ),
+              AppSnackbar.info(
+                context,
+                "document_details.text_copied_message".tr(),
               );
             },
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.blue.withOpacity(0.9),
+                  color: colorScheme.ocrBorder.withOpacity(0.9),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(2),

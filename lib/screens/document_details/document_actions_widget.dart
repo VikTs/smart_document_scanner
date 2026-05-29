@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
+import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/data/db/converters/document_file_type_converter.dart';
 
 class DocumentActions extends StatelessWidget {
   final DocumentData document;
   final void Function(BuildContext, String) onDelete;
   final void Function(List<DocumentFile>) onShare;
-  final VoidCallback onRecognize;
+  final void Function(List<DocumentFile>) onRecognize;
 
   const DocumentActions({
     required this.document,
@@ -29,7 +29,7 @@ class DocumentActions extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            if (document.files[0].type == DocumentFileType.image)
+            if (isImage(document.files[0].extension))
               Expanded(
                 child: _ActionItem(
                   icon: Icons.share_outlined,
@@ -39,13 +39,15 @@ class DocumentActions extends StatelessWidget {
                 ),
               ),
             const SizedBox(width: 12),
-            if (document.files[0].type == DocumentFileType.image)
+            if (isImage(document.files[0].extension))
               Expanded(
                 child: _ActionItem(
                   icon: Icons.text_snippet_outlined,
                   label: "document_details.recognize_document_btn".tr(),
                   color: color,
-                  onTap: onRecognize,
+                  onTap: () {
+                    onRecognize(document.files);
+                  },
                 ),
               ),
             const SizedBox(width: 12),

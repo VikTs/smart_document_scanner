@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -58,7 +57,9 @@ class ApiKeyHeader extends StatelessWidget {
               const SizedBox(height: 4),
 
               Text(
-                hasKey ? maskApiKey(savedApiKey!) : "settings.api_key.no_key_saved_message".tr(),
+                hasKey
+                    ? maskApiKey(savedApiKey!)
+                    : "settings.api_key.no_key_saved_message".tr(),
                 style: TextStyle(fontSize: 13, color: Colors.grey[600]),
               ),
             ],
