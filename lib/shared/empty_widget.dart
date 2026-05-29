@@ -14,36 +14,44 @@ class EmptyWidget extends StatelessWidget {
     this.footer,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+@override
+Widget build(BuildContext context) {
+  final textTheme = Theme.of(context).textTheme;
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+  return SafeArea(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset(imagePath, width: 300),
-            SizedBox(height: 16),
+            Flexible(
+              child: Image.asset(
+                imagePath,
+                width: 300,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(height: 16),
             Text(
               title,
               style: textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
             if (message != null) ...[
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
                 message!,
                 style: textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ],
-            SizedBox(height: 16),
-            footer ?? SizedBox.shrink(),
+            const SizedBox(height: 16),
+            footer ?? const SizedBox.shrink(),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }
