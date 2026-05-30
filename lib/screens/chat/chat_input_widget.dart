@@ -51,7 +51,7 @@ class ChatInput extends StatelessWidget {
                     Icons.send,
                     color: isEnabled
                         ? colorScheme.iconPrimary
-                        : colorScheme.iconDisabled,
+                        : colorScheme.iconTertiary,
                   ),
                 );
               },

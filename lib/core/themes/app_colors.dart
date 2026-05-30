@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 extension AppColors on ColorScheme {
-  Color get loadingIndicatorPrimary => primary;
-  Color get loadingIndicatorSecondary => Colors.grey;
   Color get textLight => Colors.white;
 
   Color get iconPrimary => primary;
   Color get iconSecondary => Colors.white;
-  Color get iconDisabled => const Color(0xFF6B7280);
+  Color get iconTertiary => const Color(0xFF6B7280);
 
   Color get messagePrimaryBackground => Colors.blue;
   Color get messageSecondaryBackground => const Color(0xFFEEEEEE);
