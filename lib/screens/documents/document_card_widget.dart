@@ -33,6 +33,7 @@ class DocumentCardWidget extends StatelessWidget {
 
     if (isImage(extension)) {
       return CachedImage(
+        key: ValueKey("document_card_${file.id}"),
         bytes: bytes,
         width: 50,
         height: 50,

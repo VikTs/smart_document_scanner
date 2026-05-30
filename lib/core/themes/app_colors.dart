@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 extension AppColors on ColorScheme {
-  Color get loadingIndicator => Colors.white;
+  Color get loadingIndicatorPrimary => primary;
+  Color get loadingIndicatorSecondary => Colors.grey;
   Color get textLight => Colors.white;
 
   Color get iconPrimary => primary;
