@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
-import 'package:smart_documents_scanner/shared/bottom_sheet/add_document_bottom_sheet.dart';
+import 'package:smart_documents_scanner/shared/bottom_sheets/add_document_bottom_sheet.dart';
 import 'package:smart_documents_scanner/core/services/document_upload_service.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';

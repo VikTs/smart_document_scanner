@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/shared/images/preloaded_image_widget.dart';
 
 class EmptyWidget extends StatelessWidget {
   final String imagePath;
@@ -14,44 +15,44 @@ class EmptyWidget extends StatelessWidget {
     this.footer,
   });
 
-@override
-Widget build(BuildContext context) {
-  final textTheme = Theme.of(context).textTheme;
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
 
-  return SafeArea(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Flexible(
-              child: Image.asset(
-                imagePath,
-                width: 300,
-                fit: BoxFit.contain,
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(
+                child: PreloadedImage(
+                  path: imagePath,
+                  width: 300,
+                  fit: BoxFit.contain,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              style: textTheme.titleLarge,
-              textAlign: TextAlign.center,
-            ),
-            if (message != null) ...[
-              const SizedBox(height: 4),
+              const SizedBox(height: 16),
               Text(
-                message!,
-                style: textTheme.bodyMedium,
+                title,
+                style: textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
+              if (message != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  message!,
+                  style: textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+              const SizedBox(height: 16),
+              footer ?? const SizedBox.shrink(),
             ],
-            const SizedBox(height: 16),
-            footer ?? const SizedBox.shrink(),
-          ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

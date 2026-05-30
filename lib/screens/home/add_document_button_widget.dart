@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/services/document_upload_service.dart';
-import 'package:smart_documents_scanner/shared/bottom_sheet/add_document_bottom_sheet.dart';
+import 'package:smart_documents_scanner/shared/bottom_sheets/add_document_bottom_sheet.dart';
 
 class AddDocumentButton extends StatefulWidget {
   final void Function(DocumentData document) onDocumentCreated;
