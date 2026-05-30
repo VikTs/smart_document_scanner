@@ -30,6 +30,7 @@ class EmptyWidget extends StatelessWidget {
                 child: PreloadedImage(
                   path: imagePath,
                   width: 300,
+                  loaderHeight: 200,
                   fit: BoxFit.contain,
                 ),
               ),

@@ -139,15 +139,16 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: 20,
-                  right: 20,
-                  child: FloatingActionButton(
-                    shape: const CircleBorder(),
-                    onPressed: onShowAddDocumentBottomSheet,
-                    child: const Icon(Icons.post_add),
+                if (docs.isNotEmpty)
+                  Positioned(
+                    bottom: 20,
+                    right: 20,
+                    child: FloatingActionButton(
+                      shape: const CircleBorder(),
+                      onPressed: onShowAddDocumentBottomSheet,
+                      child: const Icon(Icons.post_add),
+                    ),
                   ),
-                ),
               ],
             );
           }

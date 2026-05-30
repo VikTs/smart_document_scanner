@@ -72,6 +72,7 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
                                         .tr(),
                                   )
                                 : CachedImage(
+                                    key: ValueKey("document_details_${file.id}"),
                                     bytes: file.bytes,
                                     width: imageSize.width,
                                     height: imageSize.height,
