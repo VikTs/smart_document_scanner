@@ -46,9 +46,11 @@ class _PreloadedImageState extends State<PreloadedImage> {
         width: widget.width,
         height: widget.loaderHeight,
         child: Center(
-          child: CircularProgressIndicator(
-            color: colorScheme.loadingIndicatorSecondary,
-          ),
+        child: Icon(
+          Icons.image_outlined,
+          size: 40,
+          color: colorScheme.iconTertiary,
+        ),
         ),
       );
     }

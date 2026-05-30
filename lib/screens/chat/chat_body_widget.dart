@@ -36,7 +36,7 @@ class ChatBody extends StatelessWidget {
                 Icon(
                   Icons.description_outlined,
                   size: 18,
-                  color: colorScheme.iconDisabled,
+                  color: colorScheme.iconTertiary,
                 ),
                 const SizedBox(width: 4),
                 Flexible(

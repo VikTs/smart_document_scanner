@@ -84,7 +84,7 @@ class _ActionItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final color = colorScheme.secondary;
-    final disabledColor = colorScheme.iconDisabled;
+    final disabledColor = colorScheme.iconTertiary;
 
     return InkWell(
       borderRadius: BorderRadius.circular(12),
