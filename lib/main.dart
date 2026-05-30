@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:smart_documents_scanner/app_gate.dart';
 import 'package:smart_documents_scanner/core/themes/theme.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 import 'package:smart_documents_scanner/data/repository/documents_repository.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
-import 'package:smart_documents_scanner/shared/tab_bar_widget.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 late final AppDatabase appDatabase;
@@ -46,7 +46,7 @@ class MainApp extends StatelessWidget {
         create: (_) => DocumentsBloc(
           DocumentsRepository(appDatabase, DocumentFileRepository(appDatabase)),
         )..add(LoadDocuments()),
-        child: const TabBarWidget(),
+        child: const AppGateScreen(),
       ),
     );
   }
