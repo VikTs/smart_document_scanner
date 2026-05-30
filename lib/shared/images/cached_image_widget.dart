@@ -1,12 +1,22 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
+/// Displays an in-memory image from bytes.
+/// If the same bytes are passed again, the previous image
+/// is reused to avoid unnecessary rebuilds.
+
 class CachedImage extends StatefulWidget {
   final Uint8List bytes;
+  final double? width;
+  final double? height;
+  final BoxFit fit;
 
   const CachedImage({
     super.key,
     required this.bytes,
+    this.width,
+    this.height,
+    this.fit = BoxFit.contain,
   });
 
   @override
@@ -14,7 +24,7 @@ class CachedImage extends StatefulWidget {
 }
 
 class _CachedImageState extends State<CachedImage> {
-  ImageProvider? _provider;
+  late ImageProvider _provider;
 
   @override
   void initState() {
@@ -33,6 +43,12 @@ class _CachedImageState extends State<CachedImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Image(image: _provider!, gaplessPlayback: true);
+    return Image(
+      image: _provider,
+      width: widget.width,
+      height: widget.height,
+      fit: widget.fit,
+      gaplessPlayback: true,
+    );
   }
 }

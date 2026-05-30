@@ -5,7 +5,7 @@ import 'package:smart_documents_scanner/core/models/recognized_text.dart';
 import 'package:smart_documents_scanner/core/services/text_recognizion_service.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/screens/document_details/ocr_overlay_widget.dart';
-import 'package:smart_documents_scanner/shared/cached_image_widget.dart';
+import 'package:smart_documents_scanner/shared/images/cached_image_widget.dart';
 
 class DocumentPagesList extends StatefulWidget {
   final ScrollController controller;
@@ -71,13 +71,11 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
                                     "document_details.preview_error_message"
                                         .tr(),
                                   )
-                                : FittedBox(
+                                : CachedImage(
+                                    bytes: file.bytes,
+                                    width: imageSize.width,
+                                    height: imageSize.height,
                                     fit: BoxFit.contain,
-                                    child: SizedBox(
-                                      width: imageSize.width,
-                                      height: imageSize.height,
-                                      child: CachedImage(bytes: file.bytes),
-                                    ),
                                   )),
                     ),
 

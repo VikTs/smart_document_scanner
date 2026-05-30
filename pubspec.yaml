@@ -30,6 +30,7 @@ dependencies:
   flutter_dotenv: 6.0.1
   flutter_secure_storage: 10.0.0
   url_launcher: 6.3.2
+  flutter_native_splash: 2.4.7
 
 dev_dependencies:
   flutter_test:
@@ -60,3 +61,9 @@ flutter_launcher_icons:
   image_path: "assets/images/logo.png"
   adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/images/logo.png"
+
+flutter_native_splash:
+  color: "#2F6BFF"
+  image: assets/images/splash.png
+  android: true
+  ios: true

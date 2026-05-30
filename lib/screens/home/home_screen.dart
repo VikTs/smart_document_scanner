@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
-import 'package:smart_documents_scanner/data/services/storage_service.dart';
+import 'package:smart_documents_scanner/screens/home/home_empty_widget.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/home/add_document_button_widget.dart';
 
@@ -10,7 +10,6 @@ import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dar
 import 'package:smart_documents_scanner/state_management/bloc/documents_state.dart';
 import 'package:smart_documents_scanner/screens/home/documents_amount_widget.dart';
 import 'package:smart_documents_scanner/screens/documents/documents_widget.dart';
-import 'package:smart_documents_scanner/screens/home/privacy_policy_dialog.dart';
 import 'package:smart_documents_scanner/shared/empty_widget.dart';
 import 'package:smart_documents_scanner/shared/tab_bar_widget.dart';
 
@@ -26,14 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final storage = AppStorage();
-      final accepted = await storage.hasAcceptedPrivacy();
-
-      if (!accepted && mounted) {
-        PrivacyPolicyDialog.show(context, storage: storage);
-      }
-    });
   }
 
   void onDocumentCreated(DocumentData document) {
@@ -93,21 +84,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-class HomeEmptyWidget extends StatelessWidget {
-  final void Function(DocumentData document) onDocumentCreated;
-  const HomeEmptyWidget({super.key, required this.onDocumentCreated});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: EmptyWidget(
-        imagePath: 'assets/images/document_scanner.png',
-        title: "home.empty.title".tr(),
-        message: "home.empty.message".tr(),
-        footer: AddDocumentButton(onDocumentCreated: onDocumentCreated),
-      ),
-    );
-  }
-}
-

@@ -125,7 +125,9 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
       });
 
       for (int i = 0; i < files.length; i++) {
-        final boxes = await TextRecognisionService.generateRecognizedTextBoxes(files[i].bytes);
+        final boxes = await TextRecognisionService.generateRecognizedTextBoxes(
+          files[i].bytes,
+        );
 
         if (boxes.isEmpty && mounted) {
           AppSnackbar.warning(context, "home.document_recognision_error".tr());
@@ -238,6 +240,7 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
             ),
       bottomNavigationBar: document != null
           ? DocumentActions(
+              areActionsDisabled: isImageLoading || isOcrLoading,
               document: document!,
               onDelete: _showDeleteConfirmation,
               onShare: widget.onShare,

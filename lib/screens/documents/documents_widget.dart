@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/screens/documents/documents_empty_widget.dart';
-import 'package:smart_documents_scanner/shared/document_card_widget.dart';
+import 'package:smart_documents_scanner/screens/documents/document_card_widget.dart';
 
 class DocumentsWidget extends StatelessWidget {
   final List<DocumentData> documents;

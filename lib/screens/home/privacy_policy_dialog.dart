@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
+import 'package:smart_documents_scanner/shared/labeled_checkbox_widget.dart';
 
 class PrivacyPolicyDialog extends StatefulWidget {
   final AppStorage storage;
@@ -74,18 +75,14 @@ class _PrivacyPolicyDialogState extends State<PrivacyPolicyDialog> {
 
             const SizedBox(height: 12),
 
-            Row(
-              children: [
-                Checkbox(
-                  value: _accepted,
-                  onChanged: (v) {
-                    setState(() {
-                      _accepted = v ?? false;
-                    });
-                  },
-                ),
-                Expanded(child: Text("privacy_policy.accept_checkbox".tr())),
-              ],
+            LabeledCheckbox(
+              value: _accepted,
+              label: "privacy_policy.accept_checkbox".tr(),
+              onChanged: (value) {
+                setState(() {
+                  _accepted = value;
+                });
+              },
             ),
 
             const SizedBox(height: 12),
