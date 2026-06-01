@@ -64,10 +64,6 @@ class _PrivacyPolicyDialogState extends State<PrivacyPolicyDialog> {
                       title: "privacy_policy.section_4.title".tr(),
                       text: "privacy_policy.section_4.text".tr(),
                     ),
-                    _Section(
-                      title: "privacy_policy.section_5.title".tr(),
-                      text: "privacy_policy.section_5.text".tr(),
-                    ),
                   ],
                 ),
               ),

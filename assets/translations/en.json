@@ -87,14 +87,16 @@
       "cancel_btn": "Cancel"
     },
     "ai_provider_platforms": {
-      "groq": "Groq console",
-      "openai": "OpenAI platform"
+      "groq": "Groq\u00A0console",
+      "openai": "OpenAI\u00A0platform"
     },
     "provider_instructions": {
       "title": "How to get API key",
-      "step1": "1. Login ",
-      "step2": "2. Create a new key",
-      "step3": "3. Paste it below"
+      "step1": "1. Sign in or create an account at ",
+      "step2": "\n2. Create a new API key and paste it below",
+      "step3_part1": "\n3. Review the ",
+      "step3_part2": "pricing plans",
+      "step3_part3": " and add billing if required"
     }
   },
   "scan_document": {
@@ -119,11 +121,7 @@
       "text": "Some features use AI services to analyze text extracted from documents. Only selected content is sent for processing."
     },
     "section_4": {
-      "title": "4. Local Storage",
-      "text": "All documents and data are stored locally on your device. You may choose to share them manually using system sharing features."
-    },
-    "section_5": {
-      "title": "5. Consent",
+      "title": "4. Consent",
       "text": "By continuing, you agree to the processing of document content for OCR and AI analysis."
     }
   }
