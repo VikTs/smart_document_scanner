@@ -25,9 +25,7 @@ class DocumentsWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     if (documents.isEmpty) {
-      return DocumentsEmptyWidget(
-        onDocumentCreated: onDocumentCreated,
-      );
+      return DocumentsEmptyWidget(onDocumentCreated: onDocumentCreated);
     }
 
     return ListView.builder(
@@ -45,10 +43,14 @@ class DocumentsWidget extends StatelessWidget {
                 const Spacer(),
                 if (onViewAllTap != null)
                   GestureDetector(
+                    behavior: HitTestBehavior.opaque,
                     onTap: onViewAllTap,
-                    child: Text(
-                      "home.view_all_btn".tr(),
-                      style: textTheme.labelMedium,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Text(
+                        "home.view_all_btn".tr(),
+                        style: textTheme.labelMedium,
+                      ),
                     ),
                   ),
               ],
