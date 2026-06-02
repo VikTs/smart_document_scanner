@@ -1,4 +1,4 @@
-package com.example.smart_documents_scanner
+package com.viktsukan.docscanner
 
 import io.flutter.embedding.android.FlutterActivity
 
