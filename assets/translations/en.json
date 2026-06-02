@@ -61,6 +61,13 @@
       "title": "AI is not configured",
       "subtitle": "Connect provider and API key in settings",
       "open_settings_btn": "Open settings"
+    },
+    "leave_chat_bottom_sheet": {
+      "title": "Leave chat?",
+      "subtitle": "The chat history will not be saved after you exit",
+      "cancel": "Stay",
+      "leave": "Leave",
+      "never_show_again": "Never show again"
     }
   },
   "settings": {

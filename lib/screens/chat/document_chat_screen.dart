@@ -6,8 +6,10 @@ import 'package:smart_documents_scanner/core/services/text_recognizion_service.d
 import 'package:smart_documents_scanner/data/services/llm_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/screens/chat/chat_body_widget.dart';
+import 'package:smart_documents_scanner/screens/chat/leave_chat_confirmation_bottom_sheet.dart';
 import 'package:smart_documents_scanner/screens/chat/setup_required_widget.dart';
 import 'package:smart_documents_scanner/screens/settings/settings_screen.dart';
+import 'package:smart_documents_scanner/shared/labeled_checkbox_widget.dart';
 
 class DocumentChatScreen extends StatefulWidget {
   final DocumentData document;
@@ -82,22 +84,57 @@ class _DocumentChatScreenState extends State<DocumentChatScreen> {
     _checkConfigAndPrepare();
   }
 
+  Future<bool> _onPopRequested() async {
+    if (messages.length <= 1) return true;
+
+    final storage = AppStorage();
+    final skipDialog = await storage.getSkipLeaveChatDialog();
+    if (skipDialog) return true;
+
+    if (!mounted) return true;
+
+    final leave = await showModalBottomSheet<bool>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) => LeaveChatConfirmationSheet(
+        onCancel: () => Navigator.pop(context, false),
+        onConfirm: (neverShowAgain) async {
+          if (neverShowAgain) {
+            await storage.setSkipLeaveChatDialog(true);
+          }
+          if (context.mounted) Navigator.pop(context, true);
+        },
+      ),
+    );
+
+    return leave ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("chat.title".tr())),
-
-      body: isPreparingDocument
-          ? const Center(child: CircularProgressIndicator())
-          : !isConfigured
-          ? SetupRequired(onPressed: onSetupApiPressed)
-          : ChatBody(
-              documentName: widget.document.name,
-              messages: messages,
-              isLoading: isLoading,
-              controller: _controller,
-              onSend: _send,
-            ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        final shouldPop = await _onPopRequested();
+        if (shouldPop && context.mounted) Navigator.pop(context);
+      },
+      child: Scaffold(
+        appBar: AppBar(title: Text("chat.title".tr())),
+        body: isPreparingDocument
+            ? const Center(child: CircularProgressIndicator())
+            : !isConfigured
+            ? SetupRequired(onPressed: onSetupApiPressed)
+            : ChatBody(
+                documentName: widget.document.name,
+                messages: messages,
+                isLoading: isLoading,
+                controller: _controller,
+                onSend: _send,
+              ),
+      ),
     );
   }
 
@@ -140,3 +177,4 @@ class _DocumentChatScreenState extends State<DocumentChatScreen> {
     );
   }
 }
+

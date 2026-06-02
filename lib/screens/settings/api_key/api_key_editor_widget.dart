@@ -30,7 +30,6 @@ class _ApiKeyEditorState extends State<ApiKeyEditor> {
           obscureText: isObscured,
           decoration: InputDecoration(
             hintText: "settings.api_key_hint".tr(),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
             prefixIcon: const Icon(Icons.vpn_key_rounded),
             suffixIcon: IconButton(
               icon: Icon(isObscured ? Icons.visibility : Icons.visibility_off),
@@ -47,9 +46,9 @@ class _ApiKeyEditorState extends State<ApiKeyEditor> {
 
         SizedBox(
           width: double.infinity,
-          child: ElevatedButton(
+          child: OutlinedButton(
             onPressed: widget.isSaving ? null : widget.onSave,
-            style: ElevatedButton.styleFrom(
+            style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),

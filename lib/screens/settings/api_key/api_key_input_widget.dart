@@ -164,59 +164,74 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                       : const SizedBox.shrink(),
                 ),
 
-                const SizedBox(height: 18),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 250),
+                  child: !isEditMode
+                      ? Column(
+                          children: [
+                            const SizedBox(height: 18),
 
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: colorScheme.settingsSurface.withOpacity(0.06),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.info_outline,
-                        size: 18,
-                        color: colorScheme.settingsTextStrong,
-                      ),
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: colorScheme.settingsSurface.withOpacity(
+                                  0.06,
+                                ),
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.info_outline,
+                                    size: 18,
+                                    color: colorScheme.settingsTextStrong,
+                                  ),
 
-                      const SizedBox(width: 10),
+                                  const SizedBox(width: 10),
 
-                      Expanded(
-                        child: Text(
-                          "settings.api_key_note".tr(),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: colorScheme.settingsTextStrong,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                                  Expanded(
+                                    child: Text(
+                                      "settings.api_key_note".tr(),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: colorScheme.settingsTextStrong,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
 
-                const SizedBox(height: 16),
+                            const SizedBox(height: 16),
 
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: (isTesting || savedApiKey == null)
-                        ? null
-                        : _testConnection,
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: isTesting
-                        ? const SizedBox(
-                            height: 18,
-                            width: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text("settings.test_btn".tr()),
-                  ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton(
+                                onPressed: (isTesting || savedApiKey == null)
+                                    ? null
+                                    : _testConnection,
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                ),
+                                child: isTesting
+                                    ? const SizedBox(
+                                        height: 18,
+                                        width: 18,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : Text("settings.test_btn".tr()),
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
                 ),
               ],
             ),
