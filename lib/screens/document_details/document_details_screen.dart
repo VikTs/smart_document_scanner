@@ -143,10 +143,11 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
   }
 
   void onUpdateDocumentName(DocumentData? document, String newName) {
-    if (document == null) return;
-    if (newName == document.name) return;
+    String trimmedName = newName.trim();
+    if (document == null || trimmedName.isEmpty) return;
+    if (trimmedName == document.name) return;
 
-    final updatedDocument = document.copyWith(name: newName);
+    final updatedDocument = document.copyWith(name: trimmedName);
     context.read<DocumentsBloc>().add(
       UpdateDocument(document: updatedDocument),
     );
