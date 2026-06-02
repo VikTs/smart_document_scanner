@@ -82,11 +82,15 @@ class _EditableTitleAppBarState extends State<EditableTitleAppBar> {
                 ),
                 const SizedBox(width: 8),
                 GestureDetector(
+                  behavior: HitTestBehavior.opaque,
                   onTap: () => setState(() => _isEditing = true),
-                  child: Icon(
-                    Icons.edit,
-                    size: 18,
-                    color: colorScheme.textLight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Icon(
+                      Icons.edit,
+                      size: 18,
+                      color: colorScheme.textLight,
+                    ),
                   ),
                 ),
               ],

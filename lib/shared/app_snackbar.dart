@@ -3,6 +3,7 @@ import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 
 class AppSnackbar {
   static void info(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
     _showBottom(context, message);
   }
 
