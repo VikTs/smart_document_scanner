@@ -7,6 +7,7 @@ class AppStorage {
   static const _apiKey = 'llm_api_key';
   static const _provider = 'llm_provider';
   static const _privacyAccepted = 'privacy_accepted';
+  static const _skipLeaveChatDialog = 'skip_leave_chat_dialog';
 
   // Privacy
 
@@ -21,6 +22,16 @@ class AppStorage {
 
   Future<void> setPrivacyAccepted() async {
     await _storage.write(key: _privacyAccepted, value: 'true');
+  }
+
+  // Skip leave chat dialog
+
+  Future<bool> getSkipLeaveChatDialog() async {
+    return await _storage.read(key: _skipLeaveChatDialog) == "true" ? true : false;
+  }
+
+  Future<void> setSkipLeaveChatDialog(bool value) async {
+    await _storage.write(key: _skipLeaveChatDialog, value: value.toString());
   }
 
   // API Key

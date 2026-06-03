@@ -29,11 +29,13 @@ class OcrOverlay extends StatelessWidget {
         final scaled = scaleRect(box.rect, imageSize, widgetSize);
 
         return Positioned(
-          left: scaled.left,
-          top: scaled.top,
-          width: scaled.width,
-          height: scaled.height,
+          left: scaled.left - 4,
+          top: scaled.top - 4,
+          width: scaled.width + 8,
+          height: scaled.height + 8,
           child: GestureDetector(
+            behavior: HitTestBehavior
+                .opaque,
             onTap: () {
               Clipboard.setData(ClipboardData(text: box.text));
               AppSnackbar.info(
@@ -41,13 +43,16 @@ class OcrOverlay extends StatelessWidget {
                 "document_details.text_copied_message".tr(),
               );
             },
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: colorScheme.ocrBorder.withOpacity(0.9),
-                  width: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(4),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: colorScheme.ocrBorder.withOpacity(0.9),
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(2),
                 ),
-                borderRadius: BorderRadius.circular(2),
               ),
             ),
           ),

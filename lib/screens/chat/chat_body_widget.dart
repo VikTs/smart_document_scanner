@@ -3,7 +3,7 @@ import 'package:smart_documents_scanner/core/models/message.dart';
 import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/screens/chat/chat_input_widget.dart';
 
-class ChatBody extends StatelessWidget {
+class ChatBody extends StatefulWidget {
   final String documentName;
   final List<Message> messages;
   final bool isLoading;
@@ -18,6 +18,40 @@ class ChatBody extends StatelessWidget {
     required this.controller,
     required this.onSend,
   });
+
+  @override
+  State<ChatBody> createState() => _ChatBodyState();
+}
+
+class _ChatBodyState extends State<ChatBody> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void didUpdateWidget(covariant ChatBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.messages.length != widget.messages.length ||
+        oldWidget.isLoading != widget.isLoading) {
+      _scrollToBottom();
+    }
+  }
+
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +75,7 @@ class ChatBody extends StatelessWidget {
                 const SizedBox(width: 4),
                 Flexible(
                   child: Text(
-                    documentName,
+                    widget.documentName,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -52,10 +86,11 @@ class ChatBody extends StatelessWidget {
         ),
         Expanded(
           child: ListView.builder(
+            controller: _scrollController,
             padding: const EdgeInsets.all(16),
-            itemCount: messages.length,
+            itemCount: widget.messages.length,
             itemBuilder: (_, index) {
-              final msg = messages[index];
+              final msg = widget.messages[index];
 
               return Align(
                 alignment: msg.isUser
@@ -85,13 +120,13 @@ class ChatBody extends StatelessWidget {
           ),
         ),
 
-        if (isLoading)
+        if (widget.isLoading)
           const Padding(
             padding: EdgeInsets.all(8),
             child: CircularProgressIndicator(),
           ),
 
-        ChatInput(controller: controller, onSend: onSend),
+        ChatInput(controller: widget.controller, onSend: widget.onSend),
       ],
     );
   }

@@ -40,6 +40,9 @@ class _EditableTitleAppBarState extends State<EditableTitleAppBar> {
   }
 
   void _save() {
+    if (_controller.text.trim().isEmpty) {
+      _controller.text = widget.title;
+    }
     widget.onChanged(_controller.text);
     setState(() => _isEditing = false);
   }
@@ -71,21 +74,32 @@ class _EditableTitleAppBarState extends State<EditableTitleAppBar> {
                 isDense: true,
               ),
             )
-          : Text(widget.title),
-
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(widget.title, overflow: TextOverflow.ellipsis),
+                ),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () => setState(() => _isEditing = true),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Icon(
+                      Icons.edit,
+                      size: 18,
+                      color: colorScheme.textLight,
+                    ),
+                  ),
+                ),
+              ],
+            ),
       actions: [
         ...?widget.actions,
 
-        IconButton(
-          icon: Icon(_isEditing ? Icons.check : Icons.edit),
-          onPressed: () {
-            if (_isEditing) {
-              _save();
-            } else {
-              setState(() => _isEditing = true);
-            }
-          },
-        ),
+        if (_isEditing)
+          IconButton(icon: const Icon(Icons.check), onPressed: _save),
       ],
     );
   }
