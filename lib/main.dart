@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smart_documents_scanner/app_gate.dart';
 import 'package:smart_documents_scanner/core/themes/theme.dart';
@@ -14,6 +15,7 @@ late final AppDatabase appDatabase;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await EasyLocalization.ensureInitialized();
   appDatabase = AppDatabase();
