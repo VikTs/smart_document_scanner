@@ -8,8 +8,7 @@ import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/screens/chat/chat_body_widget.dart';
 import 'package:smart_documents_scanner/screens/chat/leave_chat_confirmation_bottom_sheet.dart';
 import 'package:smart_documents_scanner/screens/chat/setup_required_widget.dart';
-import 'package:smart_documents_scanner/screens/settings/settings_screen.dart';
-import 'package:smart_documents_scanner/shared/labeled_checkbox_widget.dart';
+import 'package:smart_documents_scanner/screens/settings/ai_settings/ai_settings_screen.dart';
 
 class DocumentChatScreen extends StatefulWidget {
   final DocumentData document;
@@ -78,7 +77,7 @@ class _DocumentChatScreenState extends State<DocumentChatScreen> {
   void onSetupApiPressed() async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (_) => const SettingsScreen()),
+      MaterialPageRoute(builder: (_) => const AISettingsScreen()),
     );
 
     _checkConfigAndPrepare();

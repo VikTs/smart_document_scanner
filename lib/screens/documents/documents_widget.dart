@@ -39,8 +39,15 @@ class DocumentsWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                Text(title!, style: textTheme.titleMedium),
-                const Spacer(),
+                Expanded(
+                  child: Text(
+                    title!,
+                    style: textTheme.titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8),
                 if (onViewAllTap != null)
                   GestureDetector(
                     behavior: HitTestBehavior.opaque,

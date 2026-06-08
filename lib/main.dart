@@ -24,7 +24,7 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en')],
+      supportedLocales: const [Locale('en'), Locale('uk')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       child: const MainApp(),
@@ -36,7 +36,7 @@ class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return MaterialApp(
       locale: context.locale,
       supportedLocales: context.supportedLocales,

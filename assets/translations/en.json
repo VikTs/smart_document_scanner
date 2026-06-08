@@ -35,12 +35,9 @@
   "document_details": {
     "title": "Document details",
     "summary_title": "Summary",
-    "view_document_btn": "View original document",
     "recognize_document_btn": "Recognize",
     "delete_document_btn": "Delete",
     "share_document_btn": "Share",
-    "unknown_document_banner_title": "Unknown document type",
-    "unknown_document_banner_message": "Document could not be recognized — it may be blurry or unclear",
     "text_copied_message": "Text copied",
     "tap_to_copy_label": "Tap highlighted text to copy",
     "preview_error_message": "The preview cannot be loaded",
@@ -72,6 +69,15 @@
   },
   "settings": {
     "title": "Settings",
+    "general": {
+      "title": "General",
+      "subtitle": "Language"
+    },
+    "ai": {
+      "title": "Artificial Intelligence",
+      "subtitle": "AI provider, API key"
+    },
+    "language": "Language",
     "api_key_label": "API Key",
     "api_key_hint": "Enter API key",
     "api_key_note": "Your key is stored securely on this device.",
