@@ -5,8 +5,8 @@ import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/shared/app_snackbar.dart';
 import 'package:smart_documents_scanner/data/services/llm_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
-import 'package:smart_documents_scanner/screens/settings/api_key/api_key_editor_widget.dart';
-import 'package:smart_documents_scanner/screens/settings/api_key/api_key_header_widget.dart';
+import 'package:smart_documents_scanner/screens/settings/ai_settings/api_key/api_key_editor_widget.dart';
+import 'package:smart_documents_scanner/screens/settings/ai_settings/api_key/api_key_header_widget.dart';
 
 class ApiKeyInput extends StatefulWidget {
   final String? apiKey;

@@ -69,6 +69,15 @@
   },
   "settings": {
     "title": "Settings",
+    "general": {
+      "title": "General",
+      "subtitle": "Language"
+    },
+    "ai": {
+      "title": "Artificial Intelligence",
+      "subtitle": "AI provider, API key"
+    },
+    "language": "Language",
     "api_key_label": "API Key",
     "api_key_hint": "Enter API key",
     "api_key_note": "Your key is stored securely on this device.",

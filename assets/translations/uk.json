@@ -69,6 +69,15 @@
   },
   "settings": {
     "title": "Налаштування",
+        "general": {
+      "title": "Загальні",
+      "subtitle": "Мова"
+    },
+    "ai": {
+      "title": "Штучний інтелект",
+      "subtitle": "Постачальник ШІ, ключ API"
+    },
+    "language": "Мова",
     "api_key_label": "API ключ",
     "api_key_hint": "Введіть API ключ",
     "api_key_note": "Ваш ключ безпечно зберігається на цьому пристрої",

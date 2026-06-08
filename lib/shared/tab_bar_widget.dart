@@ -37,6 +37,8 @@ class _TabBarWidgetState extends State<TabBarWidget>
 
   @override
   Widget build(BuildContext context) {
+    final locale = context.locale;
+
     return Scaffold(
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
