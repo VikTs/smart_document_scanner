@@ -139,7 +139,11 @@
       "text": "Some features use AI services to analyze text extracted from documents. Only selected content is sent for processing."
     },
     "section_4": {
-      "title": "4. Consent",
+      "title": "4. Network and Region Information",
+      "text": "The app may access non-personal device information such as SIM card country or network region to improve language selection and localization. This information is not stored or shared with third parties and is used only locally on the device."
+    },
+    "section_5": {
+      "title": "5. Consent",
       "text": "By continuing, you agree to the processing of document content for OCR and AI analysis."
     }
   }
