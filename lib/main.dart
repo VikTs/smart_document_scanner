@@ -10,14 +10,21 @@ import 'package:smart_documents_scanner/core/utils/locale_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 import 'package:smart_documents_scanner/data/repository/documents_repository.dart';
+import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
+import 'package:smart_documents_scanner/core/controllers/theme_controller.dart';
 
 late final AppDatabase appDatabase;
+late final ThemeController themeController;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+  final storage = AppStorage();
+  themeController = ThemeController(storage);
+  await themeController.load();
 
   await EasyLocalization.ensureInitialized();
   final startLocale = await getStartLocale();
@@ -42,19 +49,29 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      locale: context.locale,
-      supportedLocales: context.supportedLocales,
-      localizationsDelegates: context.localizationDelegates,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.system,
-      home: BlocProvider(
-        create: (_) => DocumentsBloc(
-          DocumentsRepository(appDatabase, DocumentFileRepository(appDatabase)),
-        )..add(LoadDocuments()),
-        child: const AppGateScreen(),
-      ),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: themeController.mode,
+      builder: (context, mode, _) {
+        return MaterialApp(
+          locale: context.locale,
+          supportedLocales: context.supportedLocales,
+          localizationsDelegates: context.localizationDelegates,
+
+          theme: AppTheme.light,
+          darkTheme: AppTheme.dark,
+          themeMode: mode,
+
+          home: BlocProvider(
+            create: (_) => DocumentsBloc(
+              DocumentsRepository(
+                appDatabase,
+                DocumentFileRepository(appDatabase),
+              ),
+            )..add(LoadDocuments()),
+            child: const AppGateScreen(),
+          ),
+        );
+      },
     );
   }
 }
