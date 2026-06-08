@@ -21,10 +21,6 @@ class SetupRequired extends StatelessWidget {
                 Text(
                   "chat.setup_required.title".tr(),
                   style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  "chat.setup_required.subtitle".tr(),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),

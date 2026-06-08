@@ -55,8 +55,7 @@
     "input_hint": "Ask about document...",
     "intro_message": "Ask a question about this document. \n\nFor example:\n- What is this document about?\n- Can you summarize the key points? \n\nNote: don't use this chat for documents with confidential personal data.",
     "setup_required": {
-      "title": "AI is not configured",
-      "subtitle": "Connect provider and API key in settings",
+      "title": "Artificial Intelligence is not configured",
       "open_settings_btn": "Open settings"
     },
     "leave_chat_bottom_sheet": {

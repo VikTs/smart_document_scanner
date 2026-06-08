@@ -24,6 +24,8 @@ class ApiKeyHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasKey = savedApiKey != null && savedApiKey!.isNotEmpty;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Row(
       children: [
@@ -60,7 +62,10 @@ class ApiKeyHeader extends StatelessWidget {
                 hasKey
                     ? maskApiKey(savedApiKey!)
                     : "settings.api_key.no_key_saved_message".tr(),
-                style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+                ),
               ),
             ],
           ),

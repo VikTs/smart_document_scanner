@@ -175,7 +175,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
                                 color: colorScheme.settingsSurface.withOpacity(
-                                  0.06,
+                                  0.08,
                                 ),
                                 borderRadius: BorderRadius.circular(14),
                               ),
@@ -184,7 +184,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                                   Icon(
                                     Icons.info_outline,
                                     size: 18,
-                                    color: colorScheme.settingsTextStrong,
+                                    color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
                                   ),
 
                                   const SizedBox(width: 10),
@@ -194,7 +194,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                                       "settings.api_key_note".tr(),
                                       style: TextStyle(
                                         fontSize: 12,
-                                        color: colorScheme.settingsTextStrong,
+                                        color:  colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
                                       ),
                                     ),
                                   ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/data/services/sim_country_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';

@@ -80,33 +80,38 @@ class _ActionItem extends StatelessWidget {
     this.isDisabled = false,
   });
 
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final color = colorScheme.secondary;
-    final disabledColor = colorScheme.iconTertiary;
+@override
+Widget build(BuildContext context) {
+  final colorScheme = Theme.of(context).colorScheme;
 
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: isDisabled ? null : onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 22, color: isDisabled ? disabledColor : color),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                color: isDisabled ? disabledColor : color,
-                fontWeight: FontWeight.w500,
-              ),
+  final color = colorScheme.onSurface;
+  final disabledColor = colorScheme.onSurface.withValues(alpha: 0.4);
+
+  return InkWell(
+    borderRadius: BorderRadius.circular(12),
+    onTap: isDisabled ? null : onTap,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 22,
+            color: isDisabled ? disabledColor : color,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              color: isDisabled ? disabledColor : color,
+              fontWeight: FontWeight.w500,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
