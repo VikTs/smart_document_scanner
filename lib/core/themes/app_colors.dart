@@ -24,5 +24,4 @@ extension AppColors on ColorScheme {
   Color get snackbarSuccess => const Color(0xFF47bb64);
 
   Color get settingsSurface => Colors.grey;
-  Color get settingsTextStrong => const Color(0xFF616161);
 }

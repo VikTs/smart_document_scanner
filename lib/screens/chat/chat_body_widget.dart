@@ -102,8 +102,10 @@ class _ChatBodyState extends State<ChatBody> {
                   constraints: const BoxConstraints(maxWidth: 280),
                   decoration: BoxDecoration(
                     color: msg.isUser
-                        ? colorScheme.messagePrimaryBackground
-                        : colorScheme.messageSecondaryBackground,
+                        ? colorScheme.messagePrimaryBackground.withOpacity(0.9)
+                        : colorScheme.messageSecondaryBackground.withOpacity(
+                            0.9,
+                          ),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(

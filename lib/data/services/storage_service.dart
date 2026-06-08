@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:smart_documents_scanner/core/models/ai_provider.dart';
 
@@ -8,6 +9,37 @@ class AppStorage {
   static const _provider = 'llm_provider';
   static const _privacyAccepted = 'privacy_accepted';
   static const _skipLeaveChatDialog = 'skip_leave_chat_dialog';
+  static const _language = 'app_language';
+  static const _themeMode = 'app_theme_mode';
+
+  // Theme
+
+  Future<void> saveThemeMode(ThemeMode mode) async {
+    await _storage.write(key: _themeMode, value: mode.name);
+  }
+
+  Future<ThemeMode> getThemeMode() async {
+    final value = await _storage.read(key: _themeMode);
+
+    switch (value) {
+      case 'light':
+        return ThemeMode.light;
+      case 'dark':
+        return ThemeMode.dark;
+      default:
+        return ThemeMode.system;
+    }
+  }
+
+  // Language
+
+  Future<void> saveLanguage(String languageCode) async {
+    await _storage.write(key: _language, value: languageCode);
+  }
+
+  Future<String?> getLanguage() async {
+    return _storage.read(key: _language);
+  }
 
   // Privacy
 
@@ -27,7 +59,9 @@ class AppStorage {
   // Skip leave chat dialog
 
   Future<bool> getSkipLeaveChatDialog() async {
-    return await _storage.read(key: _skipLeaveChatDialog) == "true" ? true : false;
+    return await _storage.read(key: _skipLeaveChatDialog) == "true"
+        ? true
+        : false;
   }
 
   Future<void> setSkipLeaveChatDialog(bool value) async {

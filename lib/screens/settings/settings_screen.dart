@@ -27,7 +27,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () => _open(context, const GeneralSettingsScreen()),
           ),
 
-          const SizedBox(height: 12),
+          const SizedBox(height: 8),
 
           _SettingsCard(
             icon: Icons.smart_toy,

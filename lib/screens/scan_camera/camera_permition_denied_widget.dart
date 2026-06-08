@@ -22,6 +22,7 @@ class CameraPermissionDeniedView extends StatelessWidget {
                 children: [
                   Text(
                     "scan_document.camera_permission_error".tr(),
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       color: colorScheme.textLight,
                       fontSize: 18,
