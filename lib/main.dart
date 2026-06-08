@@ -2,15 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:smart_documents_scanner/app_gate.dart';
 import 'package:smart_documents_scanner/core/themes/theme.dart';
+import 'package:smart_documents_scanner/core/utils/locale_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 import 'package:smart_documents_scanner/data/repository/documents_repository.dart';
-import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 late final AppDatabase appDatabase;
 
@@ -19,19 +20,15 @@ void main() async {
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await EasyLocalization.ensureInitialized();
+  final startLocale = await getStartLocale();
+
   appDatabase = AppDatabase();
 
-  await dotenv.load(fileName: ".env");
-
-  final storage = AppStorage();
-  final savedLang = await storage.getLanguage();
-  final startLocale = savedLang != null
-      ? Locale(savedLang)
-      : WidgetsBinding.instance.platformDispatcher.locale;
+  await dotenv.load(fileName: '.env');
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('uk')],
+      supportedLocales: supportedLocales,
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
       startLocale: startLocale,
