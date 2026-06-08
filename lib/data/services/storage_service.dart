@@ -8,6 +8,17 @@ class AppStorage {
   static const _provider = 'llm_provider';
   static const _privacyAccepted = 'privacy_accepted';
   static const _skipLeaveChatDialog = 'skip_leave_chat_dialog';
+  static const _language = 'app_language';
+
+  // Language
+
+  Future<void> saveLanguage(String languageCode) async {
+    await _storage.write(key: _language, value: languageCode);
+  }
+
+  Future<String?> getLanguage() async {
+    return _storage.read(key: _language);
+  }
 
   // Privacy
 
@@ -27,7 +38,9 @@ class AppStorage {
   // Skip leave chat dialog
 
   Future<bool> getSkipLeaveChatDialog() async {
-    return await _storage.read(key: _skipLeaveChatDialog) == "true" ? true : false;
+    return await _storage.read(key: _skipLeaveChatDialog) == "true"
+        ? true
+        : false;
   }
 
   Future<void> setSkipLeaveChatDialog(bool value) async {

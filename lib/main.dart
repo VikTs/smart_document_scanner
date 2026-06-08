@@ -7,6 +7,7 @@ import 'package:smart_documents_scanner/core/themes/theme.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 import 'package:smart_documents_scanner/data/repository/documents_repository.dart';
+import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,11 +23,18 @@ void main() async {
 
   await dotenv.load(fileName: ".env");
 
+  final storage = AppStorage();
+  final savedLang = await storage.getLanguage();
+  final startLocale = savedLang != null
+      ? Locale(savedLang)
+      : WidgetsBinding.instance.platformDispatcher.locale;
+
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('uk')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
+      startLocale: startLocale,
       child: const MainApp(),
     ),
   );
@@ -36,7 +44,7 @@ class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return MaterialApp(
       locale: context.locale,
       supportedLocales: context.supportedLocales,

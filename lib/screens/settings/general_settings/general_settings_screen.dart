@@ -1,6 +1,6 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/screens/settings/general_settings/language_selector_widget.dart';
 
 class GeneralSettingsScreen extends StatelessWidget {
@@ -17,6 +17,7 @@ class GeneralSettingsScreen extends StatelessWidget {
         children: [
           LanguageSelector(
             currentLocale: context.locale,
+            storage: AppStorage(),
           ),
         ],
       ),
