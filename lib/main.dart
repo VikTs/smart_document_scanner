@@ -65,7 +65,6 @@ class MainApp extends StatelessWidget {
             create: (_) => DocumentsBloc(
               DocumentsRepository(
                 appDatabase,
-                DocumentFileRepository(appDatabase),
               ),
             )..add(LoadDocuments()),
             child: const AppGateScreen(),

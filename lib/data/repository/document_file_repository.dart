@@ -7,20 +7,15 @@ class DocumentFileRepository {
   DocumentFileRepository(this.db);
 
   Future<List<DocumentFile>> getDocumentFiles(String documentId) async {
-    final files =
-        await (db.select(db.documentFiles)
-              ..where((f) => f.documentId.equals(documentId))
-              ..orderBy([(f) => OrderingTerm.asc(f.pageNumber)]))
-            .get();
-
-    return files;
+    return (db.select(db.documentFiles)
+          ..where((f) => f.documentId.equals(documentId))
+          ..orderBy([(f) => OrderingTerm.asc(f.pageNumber)]))
+        .get();
   }
 
   Future<void> addDocumentFiles(List<DocumentFile> files) async {
-    await db.transaction(() async {
-      for (final file in files) {
-        await db.into(db.documentFiles).insert(file);
-      }
+    await db.batch((batch) {
+      batch.insertAll(db.documentFiles, files);
     });
   }
 }
