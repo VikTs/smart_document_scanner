@@ -60,13 +60,27 @@ Tests are stored inside /test folder. To run them, launch the command:
 flutter test
 ```
 
-## Building Android app
+# Building Android app
 
+## APK
 ```bash
 flutter build apk --release
 ```
 
-The apk file will be saved to build/app/outputs/flutter-apk folder
+
+## AAB (Google Play)
+1. Go to android/app/build.gradle.kts:
+- Uncomment signingConfigs
+- Replace `signingConfigs.getByName("debug")` with `signingConfigs.getByName("release")`
+2. Check if files exist: 
+- android/key.properties
+- android/upload-keystore.jks
+3. Run the command:
+```bash
+flutter build appbundle --release
+```
+
+
 
 # Privacy policy
 https://sites.google.com/view/docscanner-privacy-policy-info
