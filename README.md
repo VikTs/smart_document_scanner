@@ -67,3 +67,6 @@ flutter build apk --release
 ```
 
 The apk file will be saved to build/app/outputs/flutter-apk folder
+
+# Privacy policy
+https://sites.google.com/view/docscanner-privacy-policy-info

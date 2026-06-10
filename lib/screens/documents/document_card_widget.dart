@@ -102,7 +102,7 @@ class DocumentCardWidget extends StatelessWidget {
                     Text(
                       formatDate(
                         document.createdAt,
-                        format: "dd/MM/yyyy hh:mm",
+                        format: "dd/MM/yyyy HH:mm",
                       ),
                       style: textTheme.bodySmall,
                     ),

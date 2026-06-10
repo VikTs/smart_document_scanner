@@ -127,24 +127,40 @@
     "accept_btn": "Continue",
     "accept_checkbox": "I have read and agree to the Privacy Policy",
     "section_1": {
-      "title": "1. Data Collection",
-      "text": "We do not intentionally collect or store personal data on external servers. All documents are stored locally on your device unless you explicitly share them."
+      "title": "Introduction",
+      "text": "DocScanner respects your privacy and is designed to minimize data collection whenever possible. This Privacy Policy explains what information may be accessed, processed, or transmitted when you use the application."
     },
     "section_2": {
-      "title": "2. Camera and Storage",
-      "text": "The app uses camera and gallery access only for scanning and importing documents."
+      "title": "Information Stored on Your Device",
+      "text": "Scanned documents, extracted text, and application settings are stored locally on your device. The application does not upload or synchronize your documents to any server operated by the developer."
     },
     "section_3": {
-      "title": "3. AI Processing",
-      "text": "Some features use AI services to analyze text extracted from documents. Only selected content is sent for processing."
+      "title": "Camera and Photo Library Access",
+      "text": "DocScanner requires access to the device camera and photo library in order to: scan documents using the camera and import existing images from the gallery. These permissions are used only for the functionality requested by the user."
     },
     "section_4": {
-      "title": "4. Network and Region Information",
-      "text": "The app may access non-personal device information such as SIM card country or network region to improve language selection and localization. This information is not stored or shared with third parties and is used only locally on the device."
+      "title": "OCR Processing",
+      "text": "The application uses Optical Character Recognition (OCR) technology to extract text from document images. OCR processing is performed locally on the device. Document images are not uploaded to the developer's servers for OCR processing."
     },
     "section_5": {
-      "title": "5. Consent",
-      "text": "By continuing, you agree to the processing of document content for OCR and AI analysis."
+      "title": "AI Chat Feature",
+      "text": "DocScanner includes an AI chat feature that allows users to ask questions about document content. When this feature is used: \n - The text extracted from the selected document may be sent to the AI service selected by the user.\n - The user's chat messages may also be transmitted to the AI service.\n - The developer does not receive, store, or process this information on personal servers.\nUsers must provide their own API key for supported AI providers, such as OpenAI or Groq. Use of AI services is subject to the privacy policies and terms of the selected provider."
+    },
+    "section_6": {
+      "title": "Document Sharing",
+      "text": "DocScanner allows users to share scanned documents using applications installed on their devices. Document sharing is initiated only by the user. When a document is shared, the selected content may be transferred to the destination application chosen by the user. The developer does not receive or store shared documents."
+    },
+    "section_7": {
+      "title": "SIM Country Information",
+      "text": "The application may read the device SIM country code in order to determine the user's region and apply region-specific functionality when necessary. Only the country code is accessed. The application does not access phone numbers, contacts, call history, or other telephony information."
+    },
+    "section_8": {
+      "title": "Data Sharing",
+      "text": "The developer does not sell user data. Data may be transmitted only to third-party AI providers when the user explicitly uses AI chat features."
+    },
+    "section_9": {
+      "title": "Data Security",
+      "text": "Documents and application data are stored locally on the user's device. Users are responsible for protecting their devices and any information stored on them."
     }
   }
 }
