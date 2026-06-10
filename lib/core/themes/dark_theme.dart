@@ -37,8 +37,6 @@ final ThemeData darkTheme = ThemeData(
   ),
 
   inputDecorationTheme: const InputDecorationTheme(
-    border: InputBorder.none,
-
     labelStyle: TextStyle(color: Color(0xFF94A3B8)),
     floatingLabelStyle: TextStyle(color: Color(0xFFCBD5E1)),
 

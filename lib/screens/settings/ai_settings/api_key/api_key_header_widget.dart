@@ -24,21 +24,20 @@ class ApiKeyHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final hasKey = savedApiKey != null && savedApiKey!.isNotEmpty;
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Row(
       children: [
         Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            color: colorScheme.primary.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(
             Icons.key_rounded,
             size: 20,
-            color: Theme.of(context).colorScheme.primary,
+            color: colorScheme.primary,
           ),
         ),
 
@@ -71,16 +70,17 @@ class ApiKeyHeader extends StatelessWidget {
           ),
         ),
 
-        FilledButton.tonal(
-          onPressed: onToggleEdit,
-          child: Text(
-            isEditMode
-                ? "settings.api_key.cancel_btn".tr()
-                : hasKey
-                ? "settings.api_key.update_btn".tr()
-                : "settings.api_key.add_btn".tr(),
-          ),
-        ),
+if (isEditMode)
+  const SizedBox.shrink()
+else
+FilledButton.tonal(
+  onPressed: isEditMode ? null : onToggleEdit,
+  child: Text(
+    hasKey
+        ? "settings.api_key.update_btn".tr()
+        : "settings.api_key.add_btn".tr(),
+  ),
+),
       ],
     );
   }

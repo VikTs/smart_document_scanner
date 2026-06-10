@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/prompts/document_chat.dart';
 import 'package:smart_documents_scanner/core/themes/app_colors.dart';
+import 'package:smart_documents_scanner/screens/settings/ai_settings/api_key/api_key_editor_widget.dart';
+import 'package:smart_documents_scanner/screens/settings/ai_settings/api_key/api_key_header_widget.dart';
 import 'package:smart_documents_scanner/shared/app_snackbar.dart';
 import 'package:smart_documents_scanner/data/services/llm_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
-import 'package:smart_documents_scanner/screens/settings/ai_settings/api_key/api_key_editor_widget.dart';
-import 'package:smart_documents_scanner/screens/settings/ai_settings/api_key/api_key_header_widget.dart';
 
 class ApiKeyInput extends StatefulWidget {
   final String? apiKey;
@@ -114,8 +114,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (isLoading) {
       return const Center(child: CircularProgressIndicator());
@@ -141,11 +140,7 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                   savedApiKey: savedApiKey,
                   onToggleEdit: () {
                     setState(() {
-                      isEditMode = !isEditMode;
-
-                      if (!isEditMode) {
-                        controller.clear();
-                      }
+                      isEditMode = true;
                     });
                   },
                 ),
@@ -158,6 +153,12 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                           child: ApiKeyEditor(
                             controller: controller,
                             onSave: _save,
+                            onCancel: () {
+                              setState(() {
+                                isEditMode = false;
+                                controller.clear();
+                              });
+                            },
                             isSaving: isSaving,
                           ),
                         )
@@ -169,38 +170,39 @@ class _ApiKeyInputState extends State<ApiKeyInput> {
                   child: !isEditMode
                       ? Column(
                           children: [
-                            const SizedBox(height: 18),
-
-                            Container(
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: colorScheme.settingsSurface.withOpacity(
-                                  0.08,
-                                ),
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.info_outline,
-                                    size: 18,
-                                    color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                            if (!isEditMode)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 18.0),
+                                child: Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: colorScheme.settingsSurface
+                                        .withOpacity(0.08),
+                                    borderRadius: BorderRadius.circular(14),
                                   ),
-
-                                  const SizedBox(width: 10),
-
-                                  Expanded(
-                                    child: Text(
-                                      "settings.api_key_note".tr(),
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color:  colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.info_outline,
+                                        size: 18,
+                                        color: colorScheme.onSurfaceVariant
+                                            .withValues(alpha: 0.6),
                                       ),
-                                    ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          "settings.api_key_note".tr(),
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: colorScheme.onSurfaceVariant
+                                                .withValues(alpha: 0.6),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
 
                             const SizedBox(height: 16),
 
