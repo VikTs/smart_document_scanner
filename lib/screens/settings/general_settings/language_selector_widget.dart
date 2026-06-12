@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/core/models/language.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
 
 class LanguageSelector extends StatelessWidget {
@@ -23,14 +24,14 @@ class LanguageSelector extends StatelessWidget {
             labelText: "settings.language".tr(),
             border: InputBorder.none,
           ),
-          items: const [
+          items: [
             DropdownMenuItem(
-              value: Locale('en'),
-              child: Text('English'),
+              value: AppLanguage.en.code,
+              child: const Text('English'),
             ),
             DropdownMenuItem(
-              value: Locale('uk'),
-              child: Text('Українська'),
+              value: AppLanguage.uk.code,
+              child: const Text('Українська'),
             ),
           ],
           onChanged: (locale) {
