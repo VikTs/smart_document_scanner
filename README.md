@@ -50,7 +50,7 @@ flutter run
 ```
 
 ## Testing data
-The application was tested with the images from **assets/images/test** folder.
+The application was tested with the images from **assets/test** folder.
 They can be uploaded to the device's gallery and used for testing.
 
 ## Running tests

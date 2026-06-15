@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:smart_documents_scanner/app_gate.dart';
+import 'package:smart_documents_scanner/core/models/language.dart';
 import 'package:smart_documents_scanner/core/themes/theme.dart';
 import 'package:smart_documents_scanner/core/utils/locale_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
-import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 import 'package:smart_documents_scanner/data/repository/documents_repository.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
@@ -37,7 +37,7 @@ void main() async {
     EasyLocalization(
       supportedLocales: supportedLocales,
       path: 'assets/translations',
-      fallbackLocale: const Locale('en'),
+      fallbackLocale: AppLanguage.en.code,
       startLocale: startLocale,
       child: const MainApp(),
     ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/core/models/language.dart';
 import 'package:smart_documents_scanner/data/services/sim_country_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
-
-const supportedLocales = [Locale('en'), Locale('uk')];
 
 Future<Locale> resolveLocale(Locale locale) async {
   for (final supported in supportedLocales) {
@@ -14,10 +13,10 @@ Future<Locale> resolveLocale(Locale locale) async {
   final simCountry = await SimCountry.getCountry();
 
   if (locale.countryCode == 'UA' || simCountry == 'UA') {
-    return const Locale('uk');
+    return AppLanguage.uk.code;
   }
 
-  return const Locale('en');
+  return AppLanguage.en.code;
 }
 
 Future<Locale> getStartLocale() async {
