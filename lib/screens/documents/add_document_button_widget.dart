@@ -57,7 +57,7 @@ class _AddDocumentButtonState extends State<AddDocumentButton> {
             )
           : const Icon(Icons.add),
       label: Text(
-        _isLoading ? 'home.loading'.tr() : 'home.add_document_btn'.tr(),
+        _isLoading ? 'documents.loading'.tr() : 'documents.add_document_btn'.tr(),
       ),
     );
   }

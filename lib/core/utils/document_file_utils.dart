@@ -29,7 +29,7 @@ Uint8List pagesToPdf(List<DocumentFile> pages) {
 Future<List<DocumentFile>> pdfToPages(String documentId, Uint8List data) async {
   final pdfDoc = await pdfx.PdfDocument.openData(data);
   if (pdfDoc.pagesCount > 5) {
-    throw Exception("home.document_max_size_error".tr());
+    throw Exception("documents.document_max_size_error".tr());
   }
   final pages = <DocumentFile>[];
 

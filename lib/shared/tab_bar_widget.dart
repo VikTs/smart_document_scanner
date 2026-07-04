@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smart_documents_scanner/screens/documents/documents_screen.dart';
-import 'package:smart_documents_scanner/screens/home/home_screen.dart';
 import 'package:smart_documents_scanner/screens/settings/settings_screen.dart';
 
 class TabBarWidget extends StatefulWidget {
@@ -26,7 +25,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 3, vsync: this);
+    _controller = TabController(length: 2, vsync: this);
 
     _controller.addListener(() {
       if (mounted) {
@@ -43,7 +42,7 @@ class _TabBarWidgetState extends State<TabBarWidget>
       body: TabBarView(
         physics: const NeverScrollableScrollPhysics(),
         controller: _controller,
-        children: const [HomeScreen(), DocumentsScreen(), SettingsScreen()],
+        children: const [DocumentsScreen(), SettingsScreen()],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _controller.index,
@@ -51,10 +50,6 @@ class _TabBarWidgetState extends State<TabBarWidget>
           _controller.animateTo(index);
         },
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'appBar.home'.tr(),
-          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.file_copy),
             label: 'appBar.documents'.tr(),

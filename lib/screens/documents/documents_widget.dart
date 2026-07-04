@@ -55,7 +55,7 @@ class DocumentsWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: Text(
-                        "home.view_all_btn".tr(),
+                        "documents.view_all_btn".tr(),
                         style: textTheme.labelMedium,
                       ),
                     ),

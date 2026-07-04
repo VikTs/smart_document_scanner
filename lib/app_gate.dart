@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
-import 'package:smart_documents_scanner/screens/home/privacy_policy_dialog.dart';
+import 'package:smart_documents_scanner/screens/privacy_policy/privacy_policy_dialog.dart';
 import 'package:smart_documents_scanner/shared/tab_bar_widget.dart';
 
 class AppGateScreen extends StatefulWidget {

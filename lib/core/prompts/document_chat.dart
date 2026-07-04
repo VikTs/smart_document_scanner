@@ -23,7 +23,7 @@ Rules:
   -- Do not include language labels such as "English:" or "Ukrainian:" in the response.
   Style:
 - Be helpful and natural, like a document assistant.
-- Prefer short and structured answers.
+- Prefer structured answers.
 - If useful, use bullet points.
 ''';
 

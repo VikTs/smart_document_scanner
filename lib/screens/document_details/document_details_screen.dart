@@ -130,7 +130,7 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
         );
 
         if (boxes.isEmpty && mounted) {
-          AppSnackbar.warning(context, "home.document_recognision_error".tr());
+          AppSnackbar.warning(context, "documents.document_recognision_error".tr());
         }
 
         setState(() {
