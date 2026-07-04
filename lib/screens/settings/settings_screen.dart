@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import 'package:smart_documents_scanner/screens/privacy_policy/privacy_policy_screen.dart';
 import 'package:smart_documents_scanner/screens/settings/ai_settings/ai_settings_screen.dart';
 import 'package:smart_documents_scanner/screens/settings/general_settings/general_settings_screen.dart';
 
@@ -34,6 +35,15 @@ class SettingsScreen extends StatelessWidget {
             title: "settings.ai.title".tr(),
             subtitle: "settings.ai.subtitle".tr(),
             onTap: () => _open(context, const AISettingsScreen()),
+          ),
+
+          const SizedBox(height: 8),
+
+          _SettingsCard(
+            icon: Icons.policy_outlined,
+            title: "settings.privacy.title".tr(),
+            subtitle: "settings.privacy.subtitle".tr(),
+            onTap: () => _open(context, const PrivacyPolicyScreen()),
           ),
         ],
       ),

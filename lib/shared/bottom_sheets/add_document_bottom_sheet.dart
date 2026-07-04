@@ -16,7 +16,7 @@ void showAddDocumentBottomSheet({
           children: [
             ListTile(
               leading: const Icon(Icons.document_scanner),
-              title: Text("home.scan_document_btn".tr()),
+              title: Text("documents.scan_document_btn".tr()),
               onTap: () async {
                 Navigator.pop(context);
                 await onScan();
@@ -24,7 +24,7 @@ void showAddDocumentBottomSheet({
             ),
             ListTile(
               leading: const Icon(Icons.upload_file),
-              title: Text("home.upload_file_btn".tr()),
+              title: Text("documents.upload_file_btn".tr()),
               onTap: () async {
                 Navigator.pop(context);
                 await onUpload();

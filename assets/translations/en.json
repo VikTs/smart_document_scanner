@@ -1,23 +1,7 @@
 {
   "appBar": {
-    "home": "Home",
     "documents": "Documents",
     "settings": "Settings"
-  },
-  "home": {
-    "empty": {
-      "title": "No recent documents",
-      "message": "Scan documents by tapping the button below"
-    },
-    "scanned_documents_amount_title": "Totally scanned:",
-    "add_document_btn": "Add document",
-    "loading": "Loading a document",
-    "scan_document_btn": "Scan document",
-    "upload_file_btn": "Upload file",
-    "documents_title": "Recent documents",
-    "view_all_btn": "View all >",
-    "document_recognision_error": "The text inside the document couldn’t be read. Please try again with a clearer image.",
-    "document_max_size_error": "Pages count shouldn't be more than 5"
   },
   "documents": {
     "search_field_hint": "Search documents...",
@@ -28,9 +12,16 @@
       "newOld": "Newest first"
     },
     "empty": {
-      "title": "No documents found",
-      "message": "There is no uploaded documents."
-    }
+      "title": "No recent documents",
+      "message": "Scan documents by tapping the button below"
+    },
+    "add_document_btn": "Add document",
+    "loading": "Loading a document",
+    "scan_document_btn": "Scan document",
+    "upload_file_btn": "Upload file",
+    "documents_title": "Recent documents",
+    "document_recognision_error": "The text inside the document couldn’t be read. Please try again with a clearer image.",
+    "document_max_size_error": "Pages count shouldn't be more than 5"
   },
   "document_details": {
     "title": "Document details",
@@ -75,6 +66,10 @@
     "ai": {
       "title": "Artificial Intelligence",
       "subtitle": "Сonnection"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "subtitle": "Data collection and usage"
     },
     "language": "Language",
     "theme": {
