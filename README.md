@@ -7,7 +7,6 @@ Mobile application for scanning and storing the documents.
 
 Supported formats: 
 - images (jpg, jpeg, png)
-- pdf (max size - 5 pages)
 
 # Features
 - Scan a document or uploap it from the device 
@@ -80,7 +79,9 @@ flutter build apk --release
 flutter build appbundle --release
 ```
 
+# Production version
+## Google Play
+https://play.google.com/store/apps/details?id=com.viktsukan.docscanner
 
-
-# Privacy policy
+## Privacy policy
 https://sites.google.com/view/docscanner-privacy-policy-info
