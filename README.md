@@ -1,7 +1,7 @@
 # Smart documents scanner
 
-![Flutter](https://img.shields.io/badge/Flutter-3.38-blue)
-![Dart](https://img.shields.io/badge/Dart-3.10-blue)
+![Flutter](https://img.shields.io/badge/Flutter-3.44-blue)
+![Dart](https://img.shields.io/badge/Dart-3.12-blue)
 
 Mobile application for scanning and storing the documents. 
 
