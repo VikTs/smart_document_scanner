@@ -23,7 +23,7 @@ Future<void> shareFile(
 }
 
 Future<FilePickerResult?> uploadFile() async {
-  return await FilePicker.platform.pickFiles(
+  return await FilePicker.pickFiles(
     type: FileType.custom,
     allowedExtensions: ['jpg', 'jpeg', 'png'],
     withData: true,
