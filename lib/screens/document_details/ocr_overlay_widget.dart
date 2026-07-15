@@ -33,7 +33,7 @@ class OcrOverlay extends StatelessWidget {
           return Positioned(
             left: scaled.left,
             top: scaled.top,
-            width: scaled.width + 10,
+            width: scaled.width + 20,
             height: scaled.height + 5,
             child: Container(
               padding: const EdgeInsets.symmetric(
@@ -47,9 +47,9 @@ class OcrOverlay extends StatelessWidget {
               alignment: Alignment.topLeft,
               child: Text(
                 box.text,
-                style:  TextStyle(
+                style: TextStyle(
                   color: Colors.black,
-                  fontSize: scaled.height - 1,
+                  fontSize: (scaled.height - 1).clamp(8, 32),
                   height: 1,
                 ),
                 softWrap: false,
