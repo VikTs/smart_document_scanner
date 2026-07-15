@@ -51,11 +51,17 @@ class _TabBarWidgetState extends State<TabBarWidget>
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.file_copy),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Icon(Icons.file_copy),
+            ),
             label: 'appBar.documents'.tr(),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Icon(Icons.settings),
+            ),
             label: 'appBar.settings'.tr(),
           ),
         ],
