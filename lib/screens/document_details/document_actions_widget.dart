@@ -2,13 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
-import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 
 class DocumentActions extends StatelessWidget {
   final DocumentData document;
   final bool areActionsDisabled;
+  final String recognitionLabel;
   final void Function(BuildContext, String) onDelete;
   final void Function(List<DocumentFile>) onShare;
   final void Function(List<DocumentFile>) onRecognize;
@@ -16,6 +16,7 @@ class DocumentActions extends StatelessWidget {
   const DocumentActions({
     super.key,
     required this.document,
+    required this.recognitionLabel,
     required this.onDelete,
     required this.onShare,
     required this.onRecognize,
@@ -45,7 +46,7 @@ class DocumentActions extends StatelessWidget {
                 child: _ActionItem(
                   isDisabled: areActionsDisabled,
                   icon: Icons.text_snippet_outlined,
-                  label: "document_details.recognize_document_btn".tr(),
+                  label: recognitionLabel,
                   onTap: () {
                     onRecognize(document.files);
                   },
@@ -80,38 +81,41 @@ class _ActionItem extends StatelessWidget {
     this.isDisabled = false,
   });
 
-@override
-Widget build(BuildContext context) {
-  final colorScheme = Theme.of(context).colorScheme;
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
-  final color = colorScheme.onSurface;
-  final disabledColor = colorScheme.onSurface.withValues(alpha: 0.4);
+    final color = colorScheme.onSurface;
+    final disabledColor = colorScheme.onSurface.withValues(alpha: 0.4);
 
-  return InkWell(
-    borderRadius: BorderRadius.circular(12),
-    onTap: isDisabled ? null : onTap,
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            icon,
-            size: 22,
-            color: isDisabled ? disabledColor : color,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: isDisabled ? disabledColor : color,
-              fontWeight: FontWeight.w500,
+    return InkWell(
+      borderRadius: BorderRadius.circular(12),
+      onTap: isDisabled ? null : onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 22, color: isDisabled ? disabledColor : color),
+            SizedBox(
+              height: 32,
+              child: Center(
+                child: Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: isDisabled ? disabledColor : color,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }

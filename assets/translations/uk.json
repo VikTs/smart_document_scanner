@@ -27,10 +27,11 @@
     "title": "Деталі документа",
     "summary_title": "Опис",
     "recognize_document_btn": "Розпізнати",
+    "remove_recognition_btn": "Зняти розпізнавання",
     "delete_document_btn": "Видалити",
     "share_document_btn": "Поділитися",
     "text_copied_message": "Текст скопійовано",
-    "tap_to_copy_label": "Натисніть на виділені області, щоб скопіювати",
+    "tap_to_copy_label": "Натисніть двічі, щоб виділити текст",
     "preview_error_message": "Сталася помилка під час завантаження документа",
     "delete_document_bottom_sheet": {
       "title": "Видалити документ?",

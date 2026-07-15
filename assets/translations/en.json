@@ -27,10 +27,11 @@
     "title": "Document details",
     "summary_title": "Summary",
     "recognize_document_btn": "Recognize",
+    "remove_recognition_btn": "Remove recognition",
     "delete_document_btn": "Delete",
     "share_document_btn": "Share",
     "text_copied_message": "Text copied",
-    "tap_to_copy_label": "Tap highlighted text to copy",
+    "tap_to_copy_label": "Double tap to highlight the text",
     "preview_error_message": "The preview cannot be loaded",
     "delete_document_bottom_sheet": {
       "title": "Delete the document?",

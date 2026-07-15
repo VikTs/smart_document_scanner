@@ -60,6 +60,7 @@ void main() {
       home: Material(
         child: DocumentActions(
           areActionsDisabled: false,
+          recognitionLabel: "Recognize",
           document: document,
           onDelete: (context, id) => deleteCalled = true,
           onShare: (_) => shareCalled = true,

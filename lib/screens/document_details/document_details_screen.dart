@@ -117,7 +117,20 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
     });
   }
 
+  void resetRecognition() {
+    setState(() {
+      showOcr = false;
+      isOcrLoading = false;
+      ocrData = {};
+    });
+  }
+
   Future<void> _handleRecognize(List<DocumentFile> files) async {
+    if (showOcr) {
+      resetRecognition();
+      return;
+    }
+
     try {
       setState(() {
         showOcr = true;
@@ -130,7 +143,10 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
         );
 
         if (boxes.isEmpty && mounted) {
-          AppSnackbar.warning(context, "documents.document_recognision_error".tr());
+          AppSnackbar.warning(
+            context,
+            "documents.document_recognision_error".tr(),
+          );
         }
 
         setState(() {
@@ -242,6 +258,9 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
       bottomNavigationBar: document != null
           ? DocumentActions(
               areActionsDisabled: isImageLoading || isOcrLoading,
+              recognitionLabel: showOcr
+                  ? "document_details.remove_recognition_btn".tr()
+                  : "document_details.recognize_document_btn".tr(),
               document: document!,
               onDelete: _showDeleteConfirmation,
               onShare: widget.onShare,
