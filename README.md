@@ -15,7 +15,6 @@ Supported formats:
   - Copy the text by tapping the highlighted sections
 - Share the image file 
 - Chat with AI about the document content
-- Minimal support for PDF: upload/delete/view
 
 # Technologies
 - Flutter for UI
@@ -28,8 +27,8 @@ Supported formats:
 # Getting started
 ## Prerequisites
 
-- [Flutter >= 3.38](https://docs.flutter.dev/install)
-- [Dart >= 3.10](https://dart.dev/get-dart)
+- [Flutter >= 3.44](https://docs.flutter.dev/install)
+- [Dart >= 3.12](https://dart.dev/get-dart)
 
 ## Installation and launching
 

@@ -18,14 +18,7 @@ class DocumentUploadService {
 
     if (imagePath == null) return null;
 
-    final bytes = await imageToBytes(imagePath);
-
-    final document = await createDocument(
-      bytes: bytes,
-      extension: DocumentFileExtension.jpg,
-    );
-
-    return document;
+    return createDocumentFromImagePath(imagePath);
   }
 
   static Future<DocumentData?> upload() async {
@@ -35,18 +28,26 @@ class DocumentUploadService {
     final bytes = result.files.single.bytes;
     if (bytes == null) return null;
 
-    final extension = DocumentFileExtension.values.byName(
-      result.names[0]!.split('.').last.toLowerCase(),
-    );
+    final extension = getFileExtension(result.names[0]!);
 
-    return createDocument(
+    return _createDocument(
       bytes: bytes,
       extension: extension,
       documentName: getFileNameWithoutExtension(result.names[0]),
     );
   }
 
-  static Future<DocumentData?> createDocument({
+  static Future<DocumentData?> createDocumentFromImagePath(
+    String imagePath,
+  ) async {
+    final bytes = await imageToBytes(imagePath);
+    final extension = getFileExtension(imagePath);
+    final name = getFileNameWithoutExtension(imagePath);
+
+    return _createDocument(bytes: bytes, extension: extension, documentName: name);
+  }
+
+  static Future<DocumentData?> _createDocument({
     required Uint8List bytes,
     required DocumentFileExtension extension,
     String? documentName,

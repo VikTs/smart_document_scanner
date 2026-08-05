@@ -95,7 +95,7 @@ class _DocumentChatScreenState extends State<DocumentChatScreen> {
     final leave = await showModalBottomSheet<bool>(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (_) => LeaveChatConfirmationSheet(
         onCancel: () => Navigator.pop(context, false),

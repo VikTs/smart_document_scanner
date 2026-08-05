@@ -5,6 +5,7 @@ import 'package:pdfx/pdfx.dart' as pdfx;
 import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart' as sfpdf;
 import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as path;
 
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 
@@ -72,8 +73,14 @@ bool isImage(DocumentFileExtension extension) {
   return imageExtensions.contains(extension);
 }
 
-String getFileNameWithoutExtension(String? name) {
-  if (name == null) return "";
+String? getFileNameWithoutExtension(String? value) {
+  if (value == null || value.isEmpty) return null;
 
-  return name.contains('.') ? name.substring(0, name.lastIndexOf('.')) : name;
+  return path.basenameWithoutExtension(value);
+}
+
+// Accepts both file names and file paths
+DocumentFileExtension getFileExtension(String name) {
+  final extension = path.extension(name).replaceFirst('.', '').toLowerCase();
+  return DocumentFileExtension.values.byName(extension);
 }
