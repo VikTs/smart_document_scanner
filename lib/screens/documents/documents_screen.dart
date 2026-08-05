@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:smart_documents_scanner/core/models/document.dart';
+import 'package:smart_documents_scanner/core/services/share_service.dart';
+import 'package:smart_documents_scanner/screens/documents/import_image_bottom_sheet.dart';
 import 'package:smart_documents_scanner/shared/bottom_sheets/add_document_bottom_sheet.dart';
 import 'package:smart_documents_scanner/core/services/document_upload_service.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
@@ -22,6 +24,46 @@ class DocumentsScreen extends StatefulWidget {
 class _DocumentsScreenState extends State<DocumentsScreen> {
   String _query = '';
   DocumentSortType _sortType = DocumentSortType.newOld;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _importSharedImage();
+  }
+
+  Future<void> _importSharedImage() async {
+    final path = await ShareService.getSharedImage();
+    if (path == null || !mounted) return;
+
+    final shouldImport = await showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) {
+        return ImportImageBottomSheet(
+          imagePath: path,
+          cancelText: 'document_details.import_image_bottom_sheet.cancel'.tr(),
+          confirmText: 'document_details.import_image_bottom_sheet.import'.tr(),
+          onCancel: () {
+            Navigator.pop(context, false);
+          },
+          onImport: () {
+            Navigator.pop(context, true);
+          },
+        );
+      },
+    );
+
+    if (shouldImport != true) return;
+
+    final document = await DocumentUploadService.createDocumentFromImagePath(
+      path,
+    );
+
+    onDocumentCreated(document);
+  }
 
   List<DocumentData> _processDocuments(List<DocumentData> docs) {
     var result = docs;

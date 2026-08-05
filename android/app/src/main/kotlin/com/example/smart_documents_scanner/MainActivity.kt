@@ -80,7 +80,7 @@ class MainActivity : FlutterActivity() {
             val file =
                 File(
                     cacheDir,
-                    "Shared document.jpg",
+                    "DocScanner document.jpg",
                 )
 
             val outputStream =

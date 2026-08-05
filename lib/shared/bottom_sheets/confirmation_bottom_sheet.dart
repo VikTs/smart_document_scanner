@@ -1,16 +1,39 @@
-
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class DeleteConfirmationSheet extends StatelessWidget {
+enum ConfirmationType { normal, destructive }
+
+class ConfirmationBottomSheet extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  final String cancelText;
+  final String confirmText;
+
   final VoidCallback onCancel;
   final VoidCallback onConfirm;
 
-  const DeleteConfirmationSheet({
+  final ConfirmationType type;
+
+  const ConfirmationBottomSheet({
     super.key,
+    required this.title,
+    required this.subtitle,
+    required this.cancelText,
+    required this.confirmText,
     required this.onCancel,
     required this.onConfirm,
+    this.type = ConfirmationType.normal,
   });
+
+  Color getConfirmColor(ColorScheme colorScheme) {
+    switch (type) {
+      case ConfirmationType.normal:
+        return colorScheme.primary;
+
+      case ConfirmationType.destructive:
+        return colorScheme.error;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +48,17 @@ class DeleteConfirmationSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(height: 8),
+
             Text(
-              'document_details.delete_document_bottom_sheet.title'.tr(),
+              title,
               style: textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 8),
+
             Text(
-              'document_details.delete_document_bottom_sheet.subtitle'.tr(),
+              subtitle,
               style: textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurface.withOpacity(0.7),
                 fontWeight: FontWeight.w400,
@@ -54,28 +80,24 @@ class DeleteConfirmationSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    child: Text(
-                      'document_details.delete_document_bottom_sheet.cancel'
-                          .tr(),
-                    ),
+                    child: Text(cancelText),
                   ),
                 ),
+
                 const SizedBox(width: 12),
+
                 Expanded(
                   child: ElevatedButton(
                     onPressed: onConfirm,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: colorScheme.error,
-                      foregroundColor: colorScheme.onError,
+                      backgroundColor: getConfirmColor(colorScheme),
+                      foregroundColor: colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                       elevation: 0,
                     ),
-                    child: Text(
-                      'document_details.delete_document_bottom_sheet.delete'
-                          .tr(),
-                    ),
+                    child: Text(confirmText),
                   ),
                 ),
               ],

@@ -38,6 +38,12 @@
       "subtitle": "This action cannot be cancelled",
       "delete": "Delete",
       "cancel": "Cancel"
+    },
+    "import_image_bottom_sheet": {
+      "title": "Import the image?",
+      "subtitle": "Do you want to add this image as a new document?",
+      "import": "Import",
+      "cancel": "Cancel"
     }
   },
   "chat": {

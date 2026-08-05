@@ -9,11 +9,11 @@ import 'package:smart_documents_scanner/core/themes/app_colors.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/shared/bottom_sheets/confirmation_bottom_sheet.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_bloc_extension.dart';
 import 'package:smart_documents_scanner/state_management/bloc/documents_event.dart';
 import 'package:smart_documents_scanner/screens/chat/document_chat_screen.dart';
-import 'package:smart_documents_scanner/screens/document_details/delete_confirmation_sheet.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_actions_widget.dart';
 import 'package:smart_documents_scanner/screens/document_details/document_pages_list_widget.dart';
 import 'package:smart_documents_scanner/screens/document_details/info_banner_overlay_widget.dart';
@@ -59,8 +59,18 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       builder: (_) {
-        return DeleteConfirmationSheet(
-          onCancel: () => Navigator.pop(context),
+        return ConfirmationBottomSheet(
+          type: ConfirmationType.destructive,
+          title: 'document_details.delete_document_bottom_sheet.title'.tr(),
+          subtitle: 'document_details.delete_document_bottom_sheet.subtitle'
+              .tr(),
+          cancelText: 'document_details.delete_document_bottom_sheet.cancel'
+              .tr(),
+          confirmText: 'document_details.delete_document_bottom_sheet.delete'
+              .tr(),
+          onCancel: () {
+            Navigator.pop(context);
+          },
           onConfirm: () {
             Navigator.pop(context);
             widget.onDelete(context, documentId);
