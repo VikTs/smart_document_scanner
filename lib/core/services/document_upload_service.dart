@@ -1,13 +1,13 @@
 import 'dart:typed_data';
-
+import 'package:uuid/uuid.dart';
 import 'package:flutter/material.dart';
+
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
 import 'package:smart_documents_scanner/core/utils/document_file_utils.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/screens/scan_camera/scan_camera_screen.dart';
 import 'package:smart_documents_scanner/core/utils/file_utils.dart';
-import 'package:uuid/uuid.dart';
 
 class DocumentUploadService {
   static Future<DocumentData?> scan(BuildContext context) async {
@@ -18,7 +18,7 @@ class DocumentUploadService {
 
     if (imagePath == null) return null;
 
-    return createDocumentFromImagePath(imagePath);
+    return createDocumentFromImagePath(imagePath, documentDefaultName);
   }
 
   static Future<DocumentData?> upload() async {
@@ -38,13 +38,18 @@ class DocumentUploadService {
   }
 
   static Future<DocumentData?> createDocumentFromImagePath(
-    String imagePath,
-  ) async {
+    String imagePath, [
+    String? imageName,
+  ]) async {
     final bytes = await imageToBytes(imagePath);
     final extension = getFileExtension(imagePath);
-    final name = getFileNameWithoutExtension(imagePath);
+    final name = imageName ?? getFileNameWithoutExtension(imagePath);
 
-    return _createDocument(bytes: bytes, extension: extension, documentName: name);
+    return _createDocument(
+      bytes: bytes,
+      extension: extension,
+      documentName: name,
+    );
   }
 
   static Future<DocumentData?> _createDocument({

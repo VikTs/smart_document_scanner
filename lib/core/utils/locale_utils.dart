@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/models/language.dart';
-import 'package:smart_documents_scanner/core/services/sim_country_service.dart';
+import 'package:smart_documents_scanner/core/platform/sim_country_service.dart';
 import 'package:smart_documents_scanner/data/services/storage_service.dart';
 
 Future<Locale> resolveLocale(Locale locale) async {

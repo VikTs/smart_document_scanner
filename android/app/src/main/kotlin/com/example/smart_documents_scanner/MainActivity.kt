@@ -1,6 +1,8 @@
 package com.viktsukan.docscanner
 
+import android.content.Intent
 import android.os.Bundle
+import com.viktsukan.docscanner.channels.QuickScanChannel
 import com.viktsukan.docscanner.channels.SharedImageChannel
 import com.viktsukan.docscanner.channels.SimCountryChannel
 import com.viktsukan.docscanner.share.ShareImageHandler
@@ -24,11 +26,23 @@ class MainActivity : FlutterActivity() {
             flutterEngine,
             shareImageHandler,
         )
+
+        QuickScanChannel.register(
+            flutterEngine,
+        )
     }
 
-    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         shareImageHandler.handleIntent(intent)
+        QuickScanChannel.handleIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        shareImageHandler.handleIntent(intent)
+        QuickScanChannel.handleIntent(intent)
     }
 }
