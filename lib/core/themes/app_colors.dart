@@ -5,7 +5,9 @@ extension AppColors on ColorScheme {
 
   Color get iconPrimary => primary;
   Color get iconSecondary => Colors.white;
-  Color get iconTertiary => const Color(0xFF6B7280);
+  Color get iconTertiary => brightness == Brightness.light
+      ? const Color(0xFF6B7280)
+      : const Color(0xFFCBD5E1);
 
   Color get messagePrimaryBackground => Colors.blue;
   Color get messageSecondaryBackground => const Color(0xFFEEEEEE);
@@ -24,4 +26,7 @@ extension AppColors on ColorScheme {
   Color get snackbarSuccess => const Color(0xFF47bb64);
 
   Color get settingsSurface => Colors.grey;
+  Color get surfaceMuted => brightness == Brightness.light
+      ? const Color(0xFFF1F3F9)
+      : const Color(0xFF273449);
 }

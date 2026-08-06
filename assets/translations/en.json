@@ -43,7 +43,8 @@
       "title": "Import the image?",
       "subtitle": "Do you want to add this image as a new document?",
       "import": "Import",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "preview_unavailable": "Preview unavailable"
     }
   },
   "chat": {
