@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_documents_scanner/core/themes/app_colors.dart';
+import 'package:smart_documents_scanner/shared/images/file_image_with_placeholder.dart';
 
 class ImportImageBottomSheet extends StatelessWidget {
   final String imagePath;
@@ -46,12 +48,44 @@ class ImportImageBottomSheet extends StatelessWidget {
 
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxHeight: 180),
-                  child: Image.file(
-                    File(imagePath),
+                child: FileImageWithPlaceholder(
+                  file: File(imagePath),
+                  height: 170,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  placeholder: SizedBox(
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    height: 170,
+                    child: Center(
+                      child: SizedBox(
+                        width: 32,
+                        height: 32,
+                        child: const CircularProgressIndicator(),
+                      ),
+                    ),
+                  ),
+                  errorPlaceholder: Container(
+                    width: double.infinity,
+                    height: 170,
+                    color: colorScheme.surfaceMuted,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.image,
+                          size: 48,
+                          color: colorScheme.iconTertiary,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'document_details.import_image_bottom_sheet.preview_unavailable'
+                              .tr(),
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.iconTertiary,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

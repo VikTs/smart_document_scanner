@@ -4,6 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_documents_scanner/core/themes/app_colors.dart';
+import 'package:smart_documents_scanner/shared/images/file_image_with_placeholder.dart';
 
 class CameraPreviewView extends StatelessWidget {
   final CameraController controller;
@@ -43,7 +44,6 @@ class CameraPreviewView extends StatelessWidget {
     );
   }
 }
-
 
 class TopBar extends StatelessWidget {
   final ColorScheme colorScheme;
@@ -121,19 +121,18 @@ class BottomControls extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(28),
-                child: lastPhoto != null
-                    ? Image.file(
-                        lastPhoto!,
-                        width: 56,
-                        height: 56,
-                        fit: BoxFit.cover,
-                      )
-                    : Container(
-                        width: 56,
-                        height: 56,
-                        color: colorScheme.galleryPlaceholder,
-                        child:  Icon(Icons.photo, color: colorScheme.iconSecondary),
-                      ),
+                child: FileImageWithPlaceholder(
+                  file: lastPhoto,
+                  width: 56,
+                  height: 56,
+                  fit: BoxFit.cover,
+                  placeholder: Container(
+                    width: 56,
+                    height: 56,
+                    color: colorScheme.galleryPlaceholder,
+                    child: Icon(Icons.photo, color: colorScheme.iconSecondary),
+                  ),
+                ),
               ),
             ),
           ),
