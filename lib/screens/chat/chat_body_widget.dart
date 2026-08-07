@@ -108,7 +108,7 @@ class _ChatBodyState extends State<ChatBody> {
                           ),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(
+                  child: SelectableText(
                     msg.text,
                     style: TextStyle(
                       color: msg.isUser
