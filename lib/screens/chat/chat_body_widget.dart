@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smart_documents_scanner/core/models/message.dart';
 import 'package:smart_documents_scanner/core/themes/app_colors.dart';
+import 'package:smart_documents_scanner/data/db/app_database.dart';
 import 'package:smart_documents_scanner/screens/chat/chat_input_widget.dart';
 
-class ChatBody extends StatefulWidget {
+class ChatBody extends StatelessWidget {
   final String documentName;
   final List<Message> messages;
   final bool isLoading;
@@ -18,40 +18,6 @@ class ChatBody extends StatefulWidget {
     required this.controller,
     required this.onSend,
   });
-
-  @override
-  State<ChatBody> createState() => _ChatBodyState();
-}
-
-class _ChatBodyState extends State<ChatBody> {
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void didUpdateWidget(covariant ChatBody oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.messages.length != widget.messages.length ||
-        oldWidget.isLoading != widget.isLoading) {
-      _scrollToBottom();
-    }
-  }
-
-  void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +41,7 @@ class _ChatBodyState extends State<ChatBody> {
                 const SizedBox(width: 4),
                 Flexible(
                   child: Text(
-                    widget.documentName,
+                    documentName,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -86,14 +52,15 @@ class _ChatBodyState extends State<ChatBody> {
         ),
         Expanded(
           child: ListView.builder(
-            controller: _scrollController,
+            // Reverse the list so the chat opens at the latest message.
+            reverse: true,
             padding: const EdgeInsets.all(16),
-            itemCount: widget.messages.length,
+            itemCount: messages.length,
             itemBuilder: (_, index) {
-              final msg = widget.messages[index];
+              final message = messages[messages.length - 1 - index];
 
               return Align(
-                alignment: msg.isUser
+                alignment: message.isUser
                     ? Alignment.centerRight
                     : Alignment.centerLeft,
                 child: Container(
@@ -101,7 +68,7 @@ class _ChatBodyState extends State<ChatBody> {
                   padding: const EdgeInsets.all(12),
                   constraints: const BoxConstraints(maxWidth: 280),
                   decoration: BoxDecoration(
-                    color: msg.isUser
+                    color: message.isUser
                         ? colorScheme.messagePrimaryBackground.withOpacity(0.9)
                         : colorScheme.messageSecondaryBackground.withOpacity(
                             0.9,
@@ -109,9 +76,9 @@ class _ChatBodyState extends State<ChatBody> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: SelectableText(
-                    msg.text,
+                    message.value,
                     style: TextStyle(
-                      color: msg.isUser
+                      color: message.isUser
                           ? colorScheme.onMessagePrimary
                           : colorScheme.onMessageSecondary,
                     ),
@@ -122,13 +89,13 @@ class _ChatBodyState extends State<ChatBody> {
           ),
         ),
 
-        if (widget.isLoading)
+        if (isLoading)
           const Padding(
             padding: EdgeInsets.all(8),
             child: CircularProgressIndicator(),
           ),
 
-        ChatInput(controller: widget.controller, onSend: widget.onSend),
+        ChatInput(controller: controller, onSend: onSend),
       ],
     );
   }
