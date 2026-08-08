@@ -21,6 +21,7 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> clearAll() async {
     await transaction(() async {
+      await delete(messages).go();
       await delete(documentFiles).go();
       await delete(documents).go();
     });
@@ -43,6 +44,11 @@ LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dir = await getApplicationDocumentsDirectory();
     final file = File(p.join(dir.path, 'db.sqlite'));
-    return NativeDatabase(file);
+    return NativeDatabase(
+      file,
+      setup: (database) {
+        database.execute('PRAGMA foreign_keys = ON');
+      },
+    );
   });
 }

@@ -1,12 +1,16 @@
 import 'package:drift/drift.dart';
 import 'package:smart_documents_scanner/core/models/document.dart';
 import 'package:smart_documents_scanner/data/db/app_database.dart';
+import 'package:smart_documents_scanner/data/repository/document_file_repository.dart';
 
 class DocumentsRepository {
   final AppDatabase db;
+  late final DocumentFileRepository documentFileRepository;
 
-  DocumentsRepository(this.db);
-
+  DocumentsRepository(this.db) {
+    documentFileRepository = DocumentFileRepository(db);
+  }
+  
   Future<List<DocumentData>> getDocuments() async {
     final query = db.select(db.documents)
       ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]);
@@ -16,11 +20,7 @@ class DocumentsRepository {
     final result = <DocumentData>[];
 
     for (final doc in documents) {
-      final files =
-          await (db.select(db.documentFiles)
-                ..where((f) => f.documentId.equals(doc.id))
-                ..orderBy([(f) => OrderingTerm.asc(f.pageNumber)]))
-              .get();
+      final files = await documentFileRepository.getDocumentFiles(doc.id);
 
       result.add(
         DocumentData(
@@ -47,9 +47,7 @@ class DocumentsRepository {
             ),
           );
 
-      await db.batch((batch) {
-        batch.insertAll(db.documentFiles, document.files);
-      });
+      await documentFileRepository.addDocumentFiles(document.files);
     });
   }
 
