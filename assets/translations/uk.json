@@ -56,13 +56,6 @@
     "setup_required": {
       "title": "Штучний інтелект не налаштовано",
       "open_settings_btn": "Відкрити налаштування"
-    },
-    "leave_chat_bottom_sheet": {
-      "title": "Покинути чат?",
-      "subtitle": "Історія чату не збережеться після виходу",
-      "cancel": "Залишитися",
-      "leave": "Закрити чат",
-      "never_show_again": "Ніколи не показувати знову"
     }
   },
   "settings": {

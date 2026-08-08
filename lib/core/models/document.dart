@@ -20,6 +20,7 @@ class DocumentData {
     String? name,
     DateTime? createdAt,
     List<DocumentFile>? files,
+    List<Message>? messages,
   }) {
     return DocumentData(
       id: id ?? this.id,

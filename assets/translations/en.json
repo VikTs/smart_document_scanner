@@ -56,13 +56,6 @@
     "setup_required": {
       "title": "Artificial Intelligence is not configured",
       "open_settings_btn": "Open settings"
-    },
-    "leave_chat_bottom_sheet": {
-      "title": "Leave chat?",
-      "subtitle": "The chat history will not be saved after you exit",
-      "cancel": "Stay",
-      "leave": "Leave",
-      "never_show_again": "Never show again"
     }
   },
   "settings": {

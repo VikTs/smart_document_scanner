@@ -6,17 +6,18 @@ import 'package:path/path.dart' as p;
 import 'package:smart_documents_scanner/core/models/document_file_extension.dart';
 import 'package:smart_documents_scanner/data/db/converters/document_file_extension_converter.dart';
 import 'package:smart_documents_scanner/data/db/tables/document_files_table.dart';
+import 'package:smart_documents_scanner/data/db/tables/messages_table.dart';
 
 import 'tables/documents_table.dart';
 
 part 'app_database.g.dart';
 
-@DriftDatabase(tables: [Documents, DocumentFiles])
+@DriftDatabase(tables: [Documents, DocumentFiles, Messages])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   Future<void> clearAll() async {
     await transaction(() async {
@@ -24,6 +25,18 @@ class AppDatabase extends _$AppDatabase {
       await delete(documents).go();
     });
   }
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (Migrator m) async {
+      await m.createAll();
+    },
+    onUpgrade: (Migrator m, int from, int to) async {
+      if (from < 2) {
+        await m.createTable(messages);
+      }
+    },
+  );
 }
 
 LazyDatabase _openConnection() {
