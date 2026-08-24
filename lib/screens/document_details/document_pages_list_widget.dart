@@ -47,6 +47,7 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
       padding: const EdgeInsets.symmetric(vertical: 16),
       itemBuilder: (_, index) {
         final file = widget.files[index];
+        final imageSize = widget.imageSizes[index];
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -59,37 +60,39 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
                   constraints.maxHeight,
                 );
 
-                final imageSize = widget.imageSizes[index];
+                if (imageSize == null) {
+                  return Center(
+                    child: Text("document_details.preview_error_message".tr()),
+                  );
+                }
+
+                final transform =
+                    TextRecognisionService.calculateImageTransform(
+                      imageSize: imageSize,
+                      widgetSize: widgetSize,
+                    );
 
                 return Stack(
                   children: [
                     Center(
                       child: widget.isImageLoading
                           ? const CircularProgressIndicator()
-                          : (imageSize == null
-                                ? Text(
-                                    "document_details.preview_error_message"
-                                        .tr(),
-                                  )
-                                : CachedImage(
-                                    key: ValueKey("document_details_${file.id}"),
-                                    bytes: file.bytes,
-                                    width: imageSize.width,
-                                    height: imageSize.height,
-                                    fit: BoxFit.contain,
-                                  )),
+                          : CachedImage(
+                              key: ValueKey("document_details_${file.id}"),
+                              bytes: file.bytes,
+                              width: imageSize.width,
+                              height: imageSize.height,
+                              fit: BoxFit.contain,
+                            ),
                     ),
 
-                    if (widget.showOcr &&
-                        widget.ocrData[index] != null &&
-                        imageSize != null)
+                    if (widget.showOcr && widget.ocrData[index] != null)
                       Positioned.fill(
                         child: OcrOverlay(
                           boxes: widget.ocrData[index]!,
-                          imageSize: imageSize,
-                          widgetSize: widgetSize,
-                          scaleRect:
-                              TextRecognisionService.mapImageRectToWidgetRect,
+                          offsetX: transform.offsetX,
+                          offsetY: transform.offsetY,
+                          scale: transform.scale,
                         ),
                       ),
 

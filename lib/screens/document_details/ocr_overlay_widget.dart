@@ -3,20 +3,16 @@ import 'package:smart_documents_scanner/core/models/recognized_text.dart';
 
 class OcrOverlay extends StatelessWidget {
   final List<RecognizedTextBox> boxes;
-  final Size imageSize;
-  final Size widgetSize;
-  final Rect Function(
-    Rect rect,
-    Size imageSize,
-    Size widgetSize,
-  ) scaleRect;
+  final double offsetX;
+  final double offsetY;
+  final double scale;
 
   const OcrOverlay({
     super.key,
     required this.boxes,
-    required this.imageSize,
-    required this.widgetSize,
-    required this.scaleRect,
+    required this.offsetX,
+    required this.offsetY,
+    required this.scale,
   });
 
   @override
@@ -24,32 +20,35 @@ class OcrOverlay extends StatelessWidget {
     return SelectionArea(
       child: Stack(
         children: boxes.map((box) {
-          final scaled = scaleRect(
-            box.rect,
-            imageSize,
-            widgetSize,
-          );
+          final rect = box.rect;
+          final left = rect.left * scale + offsetX;
+          final top = rect.top * scale + offsetY;
+          final width = rect.width * scale;
+          final height = rect.height * scale;
 
+          final isVertical = box.rect.height > box.rect.width;
+          final text = isVertical ? box.text.split('').join('\n') : box.text;
+          final double fontSize = isVertical
+              ? (width - 1).clamp(7, 16)
+              : (height - 1).clamp(7, 16);
+              
           return Positioned(
-            left: scaled.left,
-            top: scaled.top,
-            width: scaled.width + 20,
-            height: scaled.height + 5,
+            left: left,
+            top: top,
+            width: width + 5,
+            height: height + 3,
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 2,
-                vertical: 1,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(2),
               ),
               alignment: Alignment.topLeft,
               child: Text(
-                box.text,
+                text,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: (scaled.height - 1).clamp(8, 32),
+                  fontSize: fontSize,
                   height: 1,
                 ),
                 softWrap: false,
