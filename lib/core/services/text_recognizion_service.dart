@@ -43,28 +43,19 @@ class TextRecognisionService {
         .toList();
   }
 
-  static Rect mapImageRectToWidgetRect(
-    Rect rect,
-    Size imageSize,
-    Size widgetSize,
-  ) {
-    final scale =
-        (imageSize.width / imageSize.height >
-            widgetSize.width / widgetSize.height)
+  static ({double scale, double offsetX, double offsetY})
+  calculateImageTransform({required Size imageSize, required Size widgetSize}) {
+    final imageAspectRatio = imageSize.width / imageSize.height;
+    final widgetAspectRatio = widgetSize.width / widgetSize.height;
+
+    final scale = imageAspectRatio > widgetAspectRatio
         ? widgetSize.width / imageSize.width
         : widgetSize.height / imageSize.height;
 
-    final displayedWidth = imageSize.width * scale;
-    final displayedHeight = imageSize.height * scale;
-
-    final offsetX = (widgetSize.width - displayedWidth) / 2;
-    final offsetY = (widgetSize.height - displayedHeight) / 2;
-
-    return Rect.fromLTWH(
-      rect.left * scale + offsetX,
-      rect.top * scale + offsetY,
-      rect.width * scale,
-      rect.height * scale,
+    return (
+      scale: scale,
+      offsetX: (widgetSize.width - imageSize.width * scale) / 2,
+      offsetY: (widgetSize.height - imageSize.height * scale) / 2,
     );
   }
 }
