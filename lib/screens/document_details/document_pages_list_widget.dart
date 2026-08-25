@@ -60,23 +60,20 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
                   constraints.maxHeight,
                 );
 
-                if (imageSize == null) {
-                  return Center(
-                    child: Text("document_details.preview_error_message".tr()),
-                  );
-                }
-
-                final transform =
-                    TextRecognisionService.calculateImageTransform(
-                      imageSize: imageSize,
-                      widgetSize: widgetSize,
-                    );
-
+                final transform = imageSize != null
+                    ? TextRecognisionService.calculateImageTransform(
+                        imageSize: imageSize,
+                        widgetSize: widgetSize,
+                      )
+                    : null;
+                    
                 return Stack(
                   children: [
                     Center(
                       child: widget.isImageLoading
                           ? const CircularProgressIndicator()
+                          : imageSize == null
+                          ? PreviewErrorWidget()
                           : CachedImage(
                               key: ValueKey("document_details_${file.id}"),
                               bytes: file.bytes,
@@ -86,7 +83,9 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
                             ),
                     ),
 
-                    if (widget.showOcr && widget.ocrData[index] != null)
+                    if (widget.showOcr &&
+                        widget.ocrData[index] != null &&
+                        transform != null)
                       Positioned.fill(
                         child: OcrOverlay(
                           boxes: widget.ocrData[index]!,
@@ -112,6 +111,32 @@ class _DocumentPagesListState extends State<DocumentPagesList> {
           ),
         );
       },
+    );
+  }
+}
+
+class PreviewErrorWidget extends StatelessWidget {
+  const PreviewErrorWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.image_not_supported_outlined, size: 42),
+          const SizedBox(height: 16),
+          Flexible(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                "document_details.preview_error_message".tr(),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
