@@ -29,8 +29,8 @@ class OcrOverlay extends StatelessWidget {
           final isVertical = box.rect.height > box.rect.width;
           final text = isVertical ? box.text.split('').join('\n') : box.text;
           final double fontSize = isVertical
-              ? (width - 1).clamp(7, 16)
-              : (height - 1).clamp(7, 16);
+              ? (width - 1).clamp(7, 12)
+              : (height - 1).clamp(7, 12);
               
           return Positioned(
             left: left,
