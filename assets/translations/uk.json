@@ -32,7 +32,7 @@
     "share_document_btn": "Поділитися",
     "text_copied_message": "Текст скопійовано",
     "tap_to_copy_label": "Натисніть двічі, щоб виділити текст",
-    "preview_error_message": "Сталася помилка під час завантаження документа",
+    "preview_error_message": "Сталася помилка під час завантаження зображення",
     "delete_document_bottom_sheet": {
       "title": "Видалити документ?",
       "subtitle": "Цю дію неможливо буде скасувати",
