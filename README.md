@@ -12,8 +12,9 @@ Supported formats:
 - Scan a document or uploap it from the device 
 - View a list of the scanned documents
 - Recognize a text from the image (only latin letters and numbers):
-  - Copy the text by tapping the highlighted sections
-- Share the image file 
+  - Select and copy the recognized text
+- Share the image file
+- Import the image directly from other apps
 - Chat with AI about the document content
 
 # Technologies
@@ -22,6 +23,7 @@ Supported formats:
 - Database: Drift (local storage)
 - Localization: easy_localization (translations in assets/translations)
 - Text recognision: google_mlkit_text_recognition
+- Native integration: Kotlin
 - LLM: Groq/OpenAI
 
 # Getting started
