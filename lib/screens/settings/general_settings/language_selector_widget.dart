@@ -33,6 +33,22 @@ class LanguageSelector extends StatelessWidget {
               value: AppLanguage.uk.code,
               child: const Text('Українська'),
             ),
+            DropdownMenuItem(
+              value: AppLanguage.es.code,
+              child: const Text('Español'),
+            ),
+            DropdownMenuItem(
+              value: AppLanguage.it.code,
+              child: const Text('Italiano'),
+            ),
+            DropdownMenuItem(
+              value: AppLanguage.fr.code,
+              child: const Text('Français'),
+            ),
+            DropdownMenuItem(
+              value: AppLanguage.de.code,
+              child: const Text('Deutsch'),
+            ),
           ],
           onChanged: (locale) {
             if (locale != null) {

@@ -143,8 +143,8 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
 
     try {
       setState(() {
-        showOcr = true;
         isOcrLoading = true;
+        ocrData = {};
       });
 
       for (int i = 0; i < files.length; i++) {
@@ -163,6 +163,10 @@ class _DocumentDetailsScreenState extends State<DocumentDetailsScreen> {
           ocrData[i] = boxes;
         });
       }
+
+      setState(() {
+        showOcr = ocrData.values.any((boxes) => boxes.isNotEmpty);
+      });
     } finally {
       setState(() => isOcrLoading = false);
     }

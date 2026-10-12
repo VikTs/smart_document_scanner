@@ -1,0 +1,162 @@
+{
+  "appBar": {
+    "documents": "Documenti",
+    "settings": "Impostazioni"
+  },
+  "documents": {
+    "search_field_hint": "Cerca documenti...",
+    "sort": {
+      "az": "A - Z",
+      "za": "Z - A",
+      "oldNew": "Prima i più vecchi",
+      "newOld": "Prima i più recenti"
+    },
+    "empty": {
+      "title": "Nessun documento recente",
+      "message": "Scansiona i documenti premendo il pulsante qui sotto"
+    },
+    "add_document_btn": "Aggiungi documento",
+    "loading": "Caricamento documento",
+    "scan_document_btn": "Scansiona documento",
+    "upload_file_btn": "Importa dal telefono",
+    "documents_title": "Documenti recenti",
+    "document_recognision_error": "Non è stato possibile leggere il testo del documento. Riprova con un'immagine più nitida.",
+    "document_max_size_error": "Il numero di pagine non può superare 5"
+  },
+  "document_details": {
+    "title": "Dettagli del documento",
+    "summary_title": "Riepilogo",
+    "recognize_document_btn": "Riconosci testo",
+    "remove_recognition_btn": "Rimuovi riconoscimento",
+    "delete_document_btn": "Elimina",
+    "share_document_btn": "Condividi",
+    "text_copied_message": "Testo copiato",
+    "tap_to_copy_label": "Tocca due volte per selezionare il testo",
+    "preview_error_message": "Impossibile caricare l'anteprima",
+    "delete_document_bottom_sheet": {
+      "title": "Eliminare il documento?",
+      "subtitle": "Questa azione non può essere annullata",
+      "delete": "Elimina",
+      "cancel": "Annulla"
+    },
+    "import_image_bottom_sheet": {
+      "title": "Importare l'immagine?",
+      "subtitle": "Vuoi aggiungere questa immagine come nuovo documento?",
+      "import": "Importa",
+      "cancel": "Annulla",
+      "preview_unavailable": "Anteprima non disponibile"
+    }
+  },
+  "chat": {
+    "title": "Chat del documento",
+    "no_readable_text_message": "L'immagine sembra non contenere testo leggibile. Riprova con un'immagine più nitida.",
+    "error_message": "Qualcosa è andato storto. Controlla la connessione a Internet e assicurati che la chiave API sia configurata correttamente.",
+    "input_hint": "Fai una domanda sul documento...",
+    "intro_message": "Fai domande sul contenuto di questo documento.\n\nAd esempio:\n- Di cosa parla questo documento?\n- Quali sono i punti principali del documento?\n\nNota: non utilizzare questa chat con documenti contenenti dati personali riservati.",
+    "setup_required": {
+      "title": "L'intelligenza artificiale non è configurata",
+      "open_settings_btn": "Apri impostazioni"
+    }
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "general": {
+      "title": "Generali",
+      "subtitle": "Lingua e preferenze dell'app"
+    },
+    "ai": {
+      "title": "Intelligenza artificiale",
+      "subtitle": "Connessione"
+    },
+    "privacy": {
+      "title": "Informativa sulla privacy",
+      "subtitle": "Raccolta e utilizzo dei dati"
+    },
+    "language": "Lingua",
+    "theme": {
+      "title": "Tema",
+      "light": "Chiaro",
+      "dark": "Scuro",
+      "system": "Come nel sistema"
+    },
+    "api_key_label": "Chiave API",
+    "api_key_hint": "Inserisci la chiave API",
+    "api_key_note": "La tua chiave viene conservata in modo sicuro su questo dispositivo.",
+    "save_btn": "Salva",
+    "test_btn": "Verifica connessione",
+    "connection_success_message": "Connessione riuscita",
+    "connection_error_message": "Connessione non riuscita. Verifica la chiave API e controlla di non aver superato il limite di utilizzo.",
+    "ai_provider_label": "Fornitore di IA",
+    "ai_providers": {
+      "groq": "Groq",
+      "openai": "OpenAI"
+    },
+    "api_key": {
+      "no_key_saved_message": "Nessuna chiave API salvata",
+      "empty_message": "La chiave API non può essere vuota",
+      "success_message": "Salvata correttamente",
+      "error_message": "Impossibile salvare la chiave",
+      "add_btn": "Aggiungi",
+      "update_btn": "Aggiorna",
+      "cancel_btn": "Annulla"
+    },
+    "ai_provider_platforms": {
+      "groq": "console di Groq",
+      "openai": "piattaforma OpenAI"
+    },
+    "provider_instructions": {
+      "title": "Come ottenere una chiave API",
+      "step1": "1. Accedi o crea un account su ",
+      "step2": "\n2. Crea una nuova chiave API e incollala qui sotto",
+      "step3_part1": "\n3. Consulta i ",
+      "step3_part2": "piani tariffari",
+      "step3_part3": " e aggiungi i dati di pagamento, se necessario"
+    }
+  },
+  "scan_document": {
+    "title": "Scansiona documento",
+    "camera_permission_error": "L'app non dispone dell'autorizzazione per accedere alla fotocamera",
+    "grant_permission_btn": "Concedi autorizzazione"
+  },
+  "privacy_policy": {
+    "title": "Informativa sulla privacy",
+    "accept_btn": "Continua",
+    "accept_checkbox": "Ho letto e accetto l'Informativa sulla privacy",
+    "section_1": {
+      "title": "Introduzione",
+      "text": "DocScanner rispetta la tua privacy ed è progettato per ridurre al minimo la raccolta dei dati, ove possibile. Questa Informativa sulla privacy spiega quali informazioni possono essere consultate, elaborate o trasmesse durante l'utilizzo dell'applicazione."
+    },
+    "section_2": {
+      "title": "Informazioni archiviate sul dispositivo",
+      "text": "I documenti scansionati, il testo estratto e le impostazioni dell'applicazione vengono archiviati localmente sul dispositivo. L'applicazione non carica né sincronizza i documenti con alcun server gestito dallo sviluppatore."
+    },
+    "section_3": {
+      "title": "Accesso alla fotocamera e alla galleria fotografica",
+      "text": "DocScanner richiede l'accesso alla fotocamera e alla galleria fotografica del dispositivo per scansionare documenti con la fotocamera e importare immagini dalla galleria. Queste autorizzazioni vengono utilizzate esclusivamente per le funzionalità richieste dall'utente."
+    },
+    "section_4": {
+      "title": "Elaborazione OCR",
+      "text": "L'applicazione utilizza la tecnologia di riconoscimento ottico dei caratteri (OCR) per estrarre il testo dalle immagini dei documenti. L'elaborazione OCR avviene localmente sul dispositivo. Le immagini dei documenti non vengono caricate sui server dello sviluppatore per l'elaborazione OCR."
+    },
+    "section_5": {
+      "title": "Funzione di chat con IA",
+      "text": "DocScanner include una funzione di chat con IA che consente agli utenti di porre domande sul contenuto dei documenti. Quando si utilizza questa funzione:\n - Il testo estratto dal documento selezionato può essere inviato al servizio di IA scelto dall'utente.\n - Anche i messaggi inviati dall'utente nella chat possono essere trasmessi al servizio di IA.\n - Lo sviluppatore non riceve, archivia né elabora queste informazioni sui propri server.\nGli utenti devono fornire la propria chiave API per i fornitori di IA supportati, come OpenAI o Groq. L'utilizzo dei servizi di IA è soggetto alle informative sulla privacy e ai termini del fornitore selezionato."
+    },
+    "section_6": {
+      "title": "Condivisione dei documenti",
+      "text": "DocScanner consente agli utenti di condividere i documenti scansionati tramite le applicazioni installate sui propri dispositivi. La condivisione viene avviata esclusivamente dall'utente. Quando un documento viene condiviso, il contenuto selezionato può essere trasferito all'applicazione destinataria scelta dall'utente. Lo sviluppatore non riceve né archivia i documenti condivisi."
+    },
+    "section_7": {
+      "title": "Informazioni sul paese della SIM",
+      "text": "L'applicazione può leggere il codice paese della SIM del dispositivo per determinare la regione dell'utente e applicare, se necessario, funzionalità specifiche per la regione. Viene consultato esclusivamente il codice paese. L'applicazione non accede ai numeri di telefono, ai contatti, alla cronologia delle chiamate o ad altre informazioni di telecomunicazione."
+    },
+    "section_8": {
+      "title": "Condivisione dei dati",
+      "text": "Lo sviluppatore non vende i dati degli utenti. I dati possono essere trasmessi a fornitori di IA di terze parti esclusivamente quando l'utente utilizza esplicitamente le funzioni di chat con IA."
+    },
+    "section_9": {
+      "title": "Sicurezza dei dati",
+      "text": "I documenti e i dati dell'applicazione vengono archiviati localmente sul dispositivo dell'utente. Gli utenti sono responsabili della protezione dei propri dispositivi e di tutte le informazioni in essi conservate."
+    }
+  }
+}
