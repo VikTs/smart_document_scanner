@@ -1,0 +1,162 @@
+{
+  "appBar": {
+    "documents": "Dokumente",
+    "settings": "Einstellungen"
+  },
+  "documents": {
+    "search_field_hint": "Dokumente suchen...",
+    "sort": {
+      "az": "A - Z",
+      "za": "Z - A",
+      "oldNew": "Älteste zuerst",
+      "newOld": "Neueste zuerst"
+    },
+    "empty": {
+      "title": "Keine aktuellen Dokumente",
+      "message": "Scanne Dokumente, indem du auf die Schaltfläche unten tippst"
+    },
+    "add_document_btn": "Dokument hinzufügen",
+    "loading": "Dokument wird geladen",
+    "scan_document_btn": "Dokument scannen",
+    "upload_file_btn": "Vom Telefon importieren",
+    "documents_title": "Neueste Dokumente",
+    "document_recognision_error": "Der Text im Dokument konnte nicht gelesen werden. Bitte versuche es erneut mit einem schärferen Bild.",
+    "document_max_size_error": "Die Anzahl der Seiten darf 5 nicht überschreiten"
+  },
+  "document_details": {
+    "title": "Dokumentdetails",
+    "summary_title": "Zusammenfassung",
+    "recognize_document_btn": "Text erkennen",
+    "remove_recognition_btn": "Texterkennung entfernen",
+    "delete_document_btn": "Löschen",
+    "share_document_btn": "Teilen",
+    "text_copied_message": "Text kopiert",
+    "tap_to_copy_label": "Tippe zweimal, um den Text zu markieren",
+    "preview_error_message": "Die Vorschau konnte nicht geladen werden",
+    "delete_document_bottom_sheet": {
+      "title": "Dokument löschen?",
+      "subtitle": "Diese Aktion kann nicht rückgängig gemacht werden",
+      "delete": "Löschen",
+      "cancel": "Abbrechen"
+    },
+    "import_image_bottom_sheet": {
+      "title": "Bild importieren?",
+      "subtitle": "Möchtest du dieses Bild als neues Dokument hinzufügen?",
+      "import": "Importieren",
+      "cancel": "Abbrechen",
+      "preview_unavailable": "Vorschau nicht verfügbar"
+    }
+  },
+  "chat": {
+    "title": "Dokument-Chat",
+    "no_readable_text_message": "Das Bild scheint keinen lesbaren Text zu enthalten. Versuche es erneut mit einem schärferen Bild.",
+    "error_message": "Etwas ist schiefgelaufen. Überprüfe deine Internetverbindung und stelle sicher, dass dein API-Schlüssel korrekt eingerichtet ist.",
+    "input_hint": "Frage zum Dokument stellen...",
+    "intro_message": "Stelle Fragen zum Inhalt dieses Dokuments.\n\nZum Beispiel:\n- Worum geht es in diesem Dokument?\n- Was sind die wichtigsten Punkte des Dokuments?\n\nHinweis: Verwende diesen Chat nicht für Dokumente mit vertraulichen personenbezogenen Daten.",
+    "setup_required": {
+      "title": "Künstliche Intelligenz ist nicht eingerichtet",
+      "open_settings_btn": "Einstellungen öffnen"
+    }
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "general": {
+      "title": "Allgemein",
+      "subtitle": "Sprache und App-Einstellungen"
+    },
+    "ai": {
+      "title": "Künstliche Intelligenz",
+      "subtitle": "Verbindung"
+    },
+    "privacy": {
+      "title": "Datenschutzerklärung",
+      "subtitle": "Datenerfassung und -nutzung"
+    },
+    "language": "Sprache",
+    "theme": {
+      "title": "Design",
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "Wie im System"
+    },
+    "api_key_label": "API-Schlüssel",
+    "api_key_hint": "API-Schlüssel eingeben",
+    "api_key_note": "Dein Schlüssel wird sicher auf diesem Gerät gespeichert.",
+    "save_btn": "Speichern",
+    "test_btn": "Verbindung testen",
+    "connection_success_message": "Verbindung erfolgreich",
+    "connection_error_message": "Verbindung fehlgeschlagen. Überprüfe deinen API-Schlüssel und stelle sicher, dass du dein Nutzungslimit nicht überschritten hast.",
+    "ai_provider_label": "KI-Anbieter",
+    "ai_providers": {
+      "groq": "Groq",
+      "openai": "OpenAI"
+    },
+    "api_key": {
+      "no_key_saved_message": "Kein API-Schlüssel gespeichert",
+      "empty_message": "Der API-Schlüssel darf nicht leer sein",
+      "success_message": "Erfolgreich gespeichert",
+      "error_message": "Der Schlüssel konnte nicht gespeichert werden",
+      "add_btn": "Hinzufügen",
+      "update_btn": "Aktualisieren",
+      "cancel_btn": "Abbrechen"
+    },
+    "ai_provider_platforms": {
+      "groq": "Groq-Konsole",
+      "openai": "OpenAI-Plattform"
+    },
+    "provider_instructions": {
+      "title": "So erhältst du einen API-Schlüssel",
+      "step1": "1. Melde dich an oder erstelle ein Konto bei ",
+      "step2": "\n2. Erstelle einen neuen API-Schlüssel und füge ihn unten ein",
+      "step3_part1": "\n3. Sieh dir die ",
+      "step3_part2": "Preispläne",
+      "step3_part3": " an und hinterlege bei Bedarf Zahlungsdaten"
+    }
+  },
+  "scan_document": {
+    "title": "Dokument scannen",
+    "camera_permission_error": "Die App hat keine Berechtigung, auf die Kamera zuzugreifen",
+    "grant_permission_btn": "Berechtigung erteilen"
+  },
+  "privacy_policy": {
+    "title": "Datenschutzerklärung",
+    "accept_btn": "Weiter",
+    "accept_checkbox": "Ich habe die Datenschutzerklärung gelesen und stimme ihr zu",
+    "section_1": {
+      "title": "Einleitung",
+      "text": "DocScanner respektiert deine Privatsphäre und wurde so entwickelt, dass die Datenerfassung nach Möglichkeit minimiert wird. Diese Datenschutzerklärung erläutert, auf welche Informationen beim Verwenden der App zugegriffen werden kann, welche Informationen verarbeitet oder übertragen werden können."
+    },
+    "section_2": {
+      "title": "Auf deinem Gerät gespeicherte Informationen",
+      "text": "Gescannte Dokumente, extrahierter Text und App-Einstellungen werden lokal auf deinem Gerät gespeichert. Die App lädt deine Dokumente nicht auf Server des Entwicklers hoch und synchronisiert sie auch nicht mit solchen Servern."
+    },
+    "section_3": {
+      "title": "Zugriff auf Kamera und Fotogalerie",
+      "text": "DocScanner benötigt Zugriff auf die Kamera und die Fotogalerie deines Geräts, um Dokumente mit der Kamera zu scannen und Bilder aus der Galerie zu importieren. Diese Berechtigungen werden ausschließlich für die vom Nutzer angeforderten Funktionen verwendet."
+    },
+    "section_4": {
+      "title": "OCR-Verarbeitung",
+      "text": "Die App verwendet optische Zeichenerkennung (OCR), um Text aus Dokumentbildern zu extrahieren. Die OCR-Verarbeitung erfolgt lokal auf dem Gerät. Dokumentbilder werden zur OCR-Verarbeitung nicht auf Server des Entwicklers hochgeladen."
+    },
+    "section_5": {
+      "title": "KI-Chat-Funktion",
+      "text": "DocScanner bietet eine KI-Chat-Funktion, mit der Nutzer Fragen zum Inhalt ihrer Dokumente stellen können. Bei Verwendung dieser Funktion:\n - Kann der aus dem ausgewählten Dokument extrahierte Text an den vom Nutzer ausgewählten KI-Dienst gesendet werden.\n - Können auch die Chat-Nachrichten des Nutzers an diesen KI-Dienst übertragen werden.\n - Der Entwickler empfängt, speichert und verarbeitet diese Informationen nicht auf eigenen Servern.\nNutzer müssen ihren eigenen API-Schlüssel für unterstützte KI-Anbieter wie OpenAI oder Groq bereitstellen. Die Nutzung dieser KI-Dienste unterliegt den Datenschutzrichtlinien und Nutzungsbedingungen des jeweiligen Anbieters."
+    },
+    "section_6": {
+      "title": "Dokumente teilen",
+      "text": "DocScanner ermöglicht es Nutzern, gescannte Dokumente über auf ihren Geräten installierte Apps zu teilen. Das Teilen wird ausschließlich vom Nutzer initiiert. Beim Teilen eines Dokuments können die ausgewählten Inhalte an die vom Nutzer gewählte Ziel-App übertragen werden. Der Entwickler empfängt oder speichert keine geteilten Dokumente."
+    },
+    "section_7": {
+      "title": "Informationen zum SIM-Kartenland",
+      "text": "Die App kann den Ländercode der SIM-Karte des Geräts auslesen, um die Region des Nutzers zu bestimmen und bei Bedarf regionale Funktionen anzuwenden. Dabei wird ausschließlich der Ländercode abgerufen. Die App greift nicht auf Telefonnummern, Kontakte, den Anrufverlauf oder andere Telekommunikationsdaten zu."
+    },
+    "section_8": {
+      "title": "Datenweitergabe",
+      "text": "Der Entwickler verkauft keine Nutzerdaten. Daten können nur dann an externe KI-Anbieter übertragen werden, wenn der Nutzer ausdrücklich die KI-Chat-Funktionen verwendet."
+    },
+    "section_9": {
+      "title": "Datensicherheit",
+      "text": "Dokumente und App-Daten werden lokal auf dem Gerät des Nutzers gespeichert. Die Nutzer sind dafür verantwortlich, ihre Geräte und alle darauf gespeicherten Informationen zu schützen."
+    }
+  }
+}
